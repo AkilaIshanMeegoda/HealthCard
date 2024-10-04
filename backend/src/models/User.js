@@ -32,6 +32,12 @@ const userSchema = new Schema({
   },
   staffJob:{
     type:String
+  },
+  hospitalName:{
+    type:String
+  },
+  hospitalId:{
+    type:String
   }
 });
 
