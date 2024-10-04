@@ -51,7 +51,7 @@ const SideBar = () => {
       </div>
       <ul>
         {Menus.map((menu, index) => (
-          <li key={index} onClick={() => handleClick(menu.href)} className="flex items-center p-4 text-xl font-bold text-gray-300 cursor-pointer rounded-2xl gap-x-4 hover:bg-sidebar-orange">
+          <li key={index} onClick={() => handleClick(menu.href)} className="flex items-center p-4 text-xl font-bold text-gray-300 cursor-pointer rounded-2xl gap-x-4 hover:bg-white hover:text-black">
             {menu.icon}
             <span>{menu.title}</span>
           </li>
