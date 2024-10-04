@@ -9,6 +9,7 @@ import AdminDashboardLayout from "../pages//StaffAdmin/AdminDashboardLayout";
 import AdminDashboard from "../pages/StaffAdmin/Dashboard";
 import DoctorDashboardLayout from "../pages/Doctor/DoctorDashboardLayout";
 import DoctorDashboard from "../pages/Doctor/Dashboard";
+import Patients from "../pages/StaffMember/Patients";
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -39,6 +40,10 @@ function CreateRouter() {
         {
           path: "/staffMember/staffDashboard",
           element: <StaffMemberDashboard />,
+        },
+        {
+          path: "/staffMember/patients",
+          element: <Patients />,
         },
       ],
     },
