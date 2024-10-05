@@ -15,7 +15,7 @@ import PatientHome from "../pages/Patient/PatientHome";
 import PatientAppointments from "../pages/Patient/PatientAppointments";
 import PatientReports from "../pages/Patient/PatientReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
-import PatientDetails from "../pages/Patient/PatientDetails";
+import PatientDetailsUser from "../pages/Patient/PatientDetails";
 
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
@@ -123,7 +123,7 @@ function CreateRouter() {
       path: '/patient/patientreports', element: <PatientReports />
     },
     {
-      path: '/patient/mydetails', element: <PatientDetails />
+      path: '/patient/mydetails', element: <PatientDetailsUser />
     },
   ]);
 }
