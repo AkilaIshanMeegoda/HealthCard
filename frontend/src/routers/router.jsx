@@ -75,22 +75,13 @@ function CreateRouter() {
     },
 
     {
-      path: "/patient",
-      element: <PatientHome />,
-      children: [
-        {
-          path: "/patient/appointments",
-          element: <PatientAppointments />,
-        },
-        {
-          path: "/patient/patienthospitals",
-          element: <PatientHospitals />,
-        },
-        {
-          path: "/patient/patientreports",
-          element: <PatientReports />,
-        },
-      ],
+      path: '/patient/appointments', element: <PatientAppointments />
+    },
+    {
+      path: '/patient/patienthospitals', element: <PatientHospitals />
+    },
+    {
+      path: '/patient/patientreports', element: <PatientReports />
     },
   ]);
 }
