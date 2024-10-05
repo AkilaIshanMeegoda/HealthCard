@@ -29,8 +29,8 @@ const PatientDetails = () => {
     }
   }, [user, id]);
 
-  const handleViewClick = (appointmentId) => {
-    navigate(`/staffMember/view-appointment/${appointmentId}`);
+  const handleViewClick = (patientId) => {
+    navigate(`/staffMember/view-reports/${patientId}`);
   };
 
   return (
@@ -70,7 +70,7 @@ const PatientDetails = () => {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleViewClick(appointment._id); 
+              handleViewClick(patient._id); 
             }}
             className="relative z-20 px-4 py-1 mt-12 text-xl font-medium text-white bg-green-500 rounded-lg opacity-100"
           >
