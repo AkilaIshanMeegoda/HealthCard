@@ -14,6 +14,7 @@ import PatientHome from "../pages/Patient/PatientHome";
 import PatientAppointments from "../pages/Patient/PatientAppointments";
 import PatientReports from "../pages/Patient/PatientReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
+import PatientDetails from "../pages/Patient/PatientDetails";
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -82,6 +83,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/patientreports', element: <PatientReports />
+    },
+    {
+      path: '/patient/mydetails', element: <PatientDetails />
     },
   ]);
 }

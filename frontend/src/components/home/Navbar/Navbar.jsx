@@ -162,6 +162,12 @@ const Navbar = () => {
                   Reports
                 </a>
                 <a
+                  href="/patient/mydetails"
+                  className="text-lg font-bold text-client-brown nav-link"
+                >
+                  My Details
+                </a>
+                <a
                   href="/"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
