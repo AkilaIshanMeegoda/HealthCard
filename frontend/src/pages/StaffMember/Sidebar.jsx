@@ -16,9 +16,9 @@ const SideBar = () => {
   
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/admin/feedback/dashboard" },
-    { title: "Add Report", icon: <MdAddToPhotos />,href:"/admin/dashboard" },
+    { title: "Patients", icon: <FaUser />,href:"/staffMember/patients" },
     { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/admin/reservation/dashboard/manage" },
-    { title: "Patients", icon: <FaUser />,href:"/admin/reservation/dashboard/manage" },
+    { title: "Add Report", icon: <MdAddToPhotos />,href:"/admin/dashboard" },
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
   ];
 
@@ -40,20 +40,20 @@ const SideBar = () => {
   };
 
   return (
-    <div className="pr-16 bg-black shadow-2xl h-full-screen w-72" >
+    <div className="pr-16 bg-[#87ceeb] shadow-2xl h-full-screen w-72" >
       <div className="flex items-center mb-8">
         <img
           src={logo}
           alt="Logo"
           className="w-24 m-auto mt-4 duration-500 cursor-pointer rounded-xl"
         />
-        <h1 className="mr-6 text-2xl font-bold text-white duration-300 origin-left ">
+        <h1 className="ml-4 text-2xl font-bold text-[#00135F] duration-300 origin-left ">
           HealthCard
         </h1>
       </div>
       <ul>
         {Menus.map((menu, index) => (
-          <li key={index} onClick={() => handleClick(menu.href)} className="flex items-center p-4 text-xl font-bold text-gray-300 cursor-pointer rounded-2xl gap-x-4 hover:bg-white hover:text-black">
+          <li key={index} onClick={() => handleClick(menu.href)} className="flex items-center p-4 text-xl font-bold text-black cursor-pointer rounded-2xl gap-x-4 hover:bg-blue-500 hover:shadow-xl hover:text-white">
             {menu.icon}
             <span>{menu.title}</span>
           </li>
