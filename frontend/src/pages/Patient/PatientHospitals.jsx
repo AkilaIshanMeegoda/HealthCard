@@ -1,8 +1,12 @@
 import React from 'react'
-
+import AppointmentCard from '../../components/patient/AppointmentCard'
+import Navbar from '../../components/home/Navbar/Navbar'
 const PatientHospitals = () => {
   return (
-    <div>PatientHospitals</div>
+    <div>
+      <Navbar />
+      <AppointmentCard />
+    </div>
   )
 }
 
