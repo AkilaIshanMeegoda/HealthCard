@@ -6,6 +6,7 @@ const app = express();
 const userRouter = require("./src/routes/user");
 const requireAuth = require("./src/middleware/requireAuth");
 const appointmentRouter = require("./src/routes/appointment");
+const reportRouter = require("./src/routes/report");
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
@@ -36,3 +37,4 @@ mongoose
 
 app.use("/user", userRouter);
 app.use("/appointment", requireAuth, appointmentRouter);
+app.use("/report", requireAuth, reportRouter);

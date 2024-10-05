@@ -97,6 +97,9 @@ const Appointments = () => {
                 Email Address
               </th>
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Date
+              </th>
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Contact
               </th>
               <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
@@ -108,7 +111,7 @@ const Appointments = () => {
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Doctor
               </th>
-              <th className="w-2/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-right text-white uppercase">
                 Action
               </th>
             </tr>
@@ -131,6 +134,9 @@ const Appointments = () => {
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {appointment.email}
+                  </td>
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
+                    {appointment.date}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {appointment.contact}

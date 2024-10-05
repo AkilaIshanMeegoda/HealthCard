@@ -75,8 +75,23 @@ const searchUsers = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  const {id} =req.params
+  try {
+    const patient = await User.findById(id); 
+
+    if (!patient) {
+      return res.status(404).send("No user with that id");
+    }
+    res.status(200).json(patient);  
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   signupUser,
+  searchUser,
   loginUser,
   searchDoctors,
   searchStaffMembers,
