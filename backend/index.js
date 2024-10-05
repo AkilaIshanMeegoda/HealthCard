@@ -6,6 +6,11 @@ const app = express();
 const userRouter = require("./src/routes/user");
 const requireAuth = require("./src/middleware/requireAuth");
 require("dotenv").config();
+const doctorRoutes = require("./src/routes/doctorRoutes");
+const serviceRoutes = require("./src/routes/serviceRoutes");
+const hospitalRoutes = require("./src/routes/hospitalRoutes")
+
+
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
@@ -34,3 +39,6 @@ mongoose
   });
 
 app.use("/user", userRouter);
+app.use("/api/doctors", doctorRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/hospital", hospitalRoutes);
