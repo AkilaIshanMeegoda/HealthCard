@@ -7,6 +7,7 @@ const {
   searchStaffMembers,
   searchStaffAdmins,
   searchUsers,
+  searchAppointments
 } = require("../controller/userController");
 
 const router = express.Router();
@@ -22,5 +23,7 @@ router.get("/staffMembers", searchStaffMembers);
 router.get("/staffAdmins", searchStaffAdmins);
 
 router.get("/users", searchUsers);
+
+router.get("/appointments",searchAppointments)
 
 module.exports = router;
