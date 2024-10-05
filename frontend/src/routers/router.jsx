@@ -10,11 +10,21 @@ import AdminDashboard from "../pages/StaffAdmin/Dashboard";
 import DoctorDashboardLayout from "../pages/Doctor/DoctorDashboardLayout";
 import DoctorDashboard from "../pages/Doctor/Dashboard";
 import Patients from "../pages/StaffMember/Patients";
+
 import PatientHome from "../pages/Patient/PatientHome";
 import PatientAppointments from "../pages/Patient/PatientAppointments";
 import PatientReports from "../pages/Patient/PatientReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
 import PatientDetails from "../pages/Patient/PatientDetails";
+
+import Appointments from "../pages/StaffMember/Appointments";
+import ViewAppointment from "../pages/StaffMember/ViewAppointment";
+import PatientDetails from "../pages/StaffMember/PatientDetails";
+import Reports from "../pages/StaffMember/Reports";
+import AddReport from "../pages/StaffMember/AddReport";
+import ViewReports from "../pages/StaffMember/ViewReports";
+import ReportDetails from "../pages/StaffMember/ReportDetails";
+
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -43,12 +53,40 @@ function CreateRouter() {
       element: <StaffMemberDashboardLayout />,
       children: [
         {
-          path: "/staffMember/staffDashboard",
+          path: "/staffMember/dashboard",
           element: <StaffMemberDashboard />,
         },
         {
           path: "/staffMember/patients",
           element: <Patients />,
+        },
+        {
+          path: "/staffMember/appointments",
+          element: <Appointments />,
+        },
+        {
+          path: "/staffMember/view-appointment/:id",
+          element: <ViewAppointment />,
+        },
+        {
+          path: "/staffMember/view-patient/:id",
+          element: <PatientDetails />,
+        },
+        {
+          path: "/staffMember/reports",
+          element: <Reports />,
+        },
+        {
+          path: "/staffMember/add-report/:id",
+          element: <AddReport />,
+        },
+        {
+          path: "/staffMember/view-reports/:id",
+          element: <ViewReports />,
+        },
+        {
+          path: "/staffMember/view-report/:id",
+          element: <ReportDetails />,
         },
       ],
     },
