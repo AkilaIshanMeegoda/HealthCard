@@ -7,7 +7,9 @@ const {
   searchStaffMembers,
   searchStaffAdmins,
   searchUsers,
+  searchAppointments
 } = require("../controller/userController");
+const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
