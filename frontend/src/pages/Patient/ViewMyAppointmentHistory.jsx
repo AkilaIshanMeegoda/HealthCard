@@ -1,14 +1,7 @@
 import React from "react";
 import Navbar from "../../components/home/Navbar/Navbar";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const PatientAppointments = () => {
-  const navigate = useNavigate();
-
-  const handleAppointmentHistory = () => {
-    navigate('/patient/myappointmenthistory'); // Navigate to the discount items page
-  };
-
+const ViewMyAppointmentHistory = () => {
   return (
     <div>
       <Navbar />
@@ -16,19 +9,9 @@ const PatientAppointments = () => {
         className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
         style={{ fontSize: "2rem", marginTop: "30px", marginLeft: "20px" }}
       >
-        My Appointments 
+        My Appointments History
       </h1>
 
-      <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAppointmentHistory();
-          }}
-          type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 ml-4 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          View Appointment History
-        </button>
       <div className="mx-4 overflow-hidden rounded-lg shadow-lg md:mx-10">
       <div className="overflow-x-auto">
         <table className="w-full table-fixed">
@@ -126,4 +109,4 @@ const PatientAppointments = () => {
   );
 };
 
-export default PatientAppointments;
+export default ViewMyAppointmentHistory;
