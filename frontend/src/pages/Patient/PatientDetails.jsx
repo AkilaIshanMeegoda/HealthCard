@@ -1,13 +1,14 @@
 import React from "react";
 import Navbar from "../../components/home/Navbar/Navbar";
+import PatientIdentification from "../../components/patient/PatientIdentification";
 
 const PatientDetails = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex w-full h-screen items-center justify-center"> {/* Centering the form */}
+      <div className="flex w-full h-screen items-center"> {/* Centering the form */}
         {/* Left Half - Patient Details Form */}
-        <div className="w-1/2 bg-white p-5 rounded-lg shadow-lg">
+        <div className="w-1/2 bg-white p-5 rounded-lg shadow-lg ml-10">
           <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-5">
             Enter Patient Details
           </h1>
@@ -60,6 +61,37 @@ const PatientDetails = () => {
                   required
                 />
               </div>
+              {/* Address */}
+              <div>
+                <label
+                  htmlFor="address"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  required
+                />
+              </div>
+
+              {/* Telephone */}
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Telephone No
+                </label>
+                <input
+                  type="telephone"
+                  id="telephone"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  required
+                />
+              </div>
 
               {/* Important Notes */}
               <div className="col-span-2">
@@ -91,7 +123,7 @@ const PatientDetails = () => {
         </div>
 
         {/* Right Half - Other Component */}
-
+        <PatientIdentification />
       </div>
     </div>
   );
