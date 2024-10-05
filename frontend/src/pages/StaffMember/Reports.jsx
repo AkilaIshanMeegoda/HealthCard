@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const Patients = () => {
+const Reports = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -28,7 +28,7 @@ const Patients = () => {
   };
 
   const handleViewClick = (patientId) =>{
-    navigate(`/staffMember/view-patient/${patientId}`);
+    navigate(`/staffMember/add-report/${patientId}`);
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Patients = () => {
           className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           style={{ fontSize: "2rem", marginLeft: "20px" }}
         >
-          All Patients <br />
+          Add Report <br />
         </h1>
         <div className="relative hidden mt-8 group sm:block">
           <div className="relative text-gray-600 ">
@@ -90,7 +90,7 @@ const Patients = () => {
         <table className="w-full table-fixed">
           <thead>
             <tr className="bg-[#00135F]">
-              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Patient Name
               </th>
               <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
@@ -105,7 +105,7 @@ const Patients = () => {
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Contact Number
               </th>
-              <th className="w-2/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
+              <th className="w-3/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
                 Action
               </th>
             </tr>
@@ -143,8 +143,8 @@ const Patients = () => {
                     <button onClick={(e) => {
                         e.stopPropagation();
                         handleViewClick(patient._id);
-                      }} className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg">
-                      View
+                      }} className="px-4 py-1 mx-2 text-sm font-medium text-white bg-blue-500 rounded-lg">
+                      Add Report
                     </button>
                   </td>
                 </tr>
@@ -157,4 +157,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default Reports;

@@ -7,7 +7,7 @@ const {
   searchStaffMembers,
   searchStaffAdmins,
   searchUsers,
-  searchAppointments
+  searchUser,
 } = require("../controller/userController");
 const requireAuth = require("../middleware/requireAuth");
 
@@ -24,5 +24,7 @@ router.get("/staffMembers", searchStaffMembers);
 router.get("/staffAdmins", searchStaffAdmins);
 
 router.get("/users", searchUsers);
+
+router.get("/user/:id", searchUser);
 
 module.exports = router;

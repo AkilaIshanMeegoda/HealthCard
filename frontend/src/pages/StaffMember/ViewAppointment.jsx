@@ -37,7 +37,7 @@ const ViewAppointment = () => {
           toast.error("Failed to fetch item details");
         });
     }
-  }, [user, id]); // Add dependencies here
+  }, [user, id]); 
 
   return (
     <div className="w-full min-h-screen">

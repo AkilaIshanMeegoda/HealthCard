@@ -12,6 +12,9 @@ import DoctorDashboard from "../pages/Doctor/Dashboard";
 import Patients from "../pages/StaffMember/Patients";
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
+import PatientDetails from "../pages/StaffMember/PatientDetails";
+import Reports from "../pages/StaffMember/Reports";
+import AddReport from "../pages/StaffMember/AddReport";
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -40,7 +43,7 @@ function CreateRouter() {
       element: <StaffMemberDashboardLayout />,
       children: [
         {
-          path: "/staffMember/staffDashboard",
+          path: "/staffMember/dashboard",
           element: <StaffMemberDashboard />,
         },
         {
@@ -54,6 +57,18 @@ function CreateRouter() {
         {
           path: "/staffMember/view-appointment/:id",
           element: <ViewAppointment />,
+        },
+        {
+          path: "/staffMember/view-patient/:id",
+          element: <PatientDetails />,
+        },
+        {
+          path: "/staffMember/reports",
+          element: <Reports />,
+        },
+        {
+          path: "/staffMember/add-report/:id",
+          element: <AddReport />,
         },
       ],
     },
