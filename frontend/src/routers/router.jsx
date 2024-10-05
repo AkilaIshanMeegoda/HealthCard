@@ -10,6 +10,13 @@ import AdminDashboard from "../pages/StaffAdmin/Dashboard";
 import DoctorDashboardLayout from "../pages/Doctor/DoctorDashboardLayout";
 import DoctorDashboard from "../pages/Doctor/Dashboard";
 import Patients from "../pages/StaffMember/Patients";
+
+import PatientHome from "../pages/Patient/PatientHome";
+import PatientAppointments from "../pages/Patient/PatientAppointments";
+import PatientReports from "../pages/Patient/PatientReports";
+import PatientHospitals from "../pages/Patient/PatientHospitals";
+import PatientDetails from "../pages/Patient/PatientDetails";
+
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
 import PatientDetails from "../pages/StaffMember/PatientDetails";
@@ -17,6 +24,7 @@ import Reports from "../pages/StaffMember/Reports";
 import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
+
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -103,6 +111,19 @@ function CreateRouter() {
           element: <DoctorDashboard />,
         },
       ],
+    },
+
+    {
+      path: '/patient/appointments', element: <PatientAppointments />
+    },
+    {
+      path: '/patient/patienthospitals', element: <PatientHospitals />
+    },
+    {
+      path: '/patient/patientreports', element: <PatientReports />
+    },
+    {
+      path: '/patient/mydetails', element: <PatientDetails />
     },
   ]);
 }
