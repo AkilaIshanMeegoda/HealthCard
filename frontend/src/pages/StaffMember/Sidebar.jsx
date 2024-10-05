@@ -17,7 +17,7 @@ const SideBar = () => {
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/admin/feedback/dashboard" },
     { title: "Patients", icon: <FaUser />,href:"/staffMember/patients" },
-    { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/admin/reservation/dashboard/manage" },
+    { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/staffMember/appointments" },
     { title: "Add Report", icon: <MdAddToPhotos />,href:"/admin/dashboard" },
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
   ];

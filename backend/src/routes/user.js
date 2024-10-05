@@ -9,6 +9,7 @@ const {
   searchUsers,
   searchAppointments
 } = require("../controller/userController");
+const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
@@ -23,7 +24,5 @@ router.get("/staffMembers", searchStaffMembers);
 router.get("/staffAdmins", searchStaffAdmins);
 
 router.get("/users", searchUsers);
-
-router.get("/appointments",searchAppointments)
 
 module.exports = router;
