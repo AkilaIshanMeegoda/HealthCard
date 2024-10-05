@@ -138,25 +138,25 @@ const Navbar = () => {
             {user && user.userType === "user" && (
               <>
                 <a
-                  href="/"
+                  href="/patient"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
                   Home
                 </a>
                 <a
-                  href="/"
+                  href="/patient/appointments"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
                   Appointments
                 </a>
                 <a
-                  href="/"
+                  href="/patient/patienthospitals"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
                   Hospitals
                 </a>
                 <a
-                  href="/"
+                  href="/patient/patientreports"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
                   Reports
