@@ -26,10 +26,6 @@ const addDoctor = async (req, res) => {
 const getDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find({ hospitalId: req.params.hospitalId });
-    // If no doctors found, send a 404 response
-    if (doctors.length === 0) {
-        return res.status(404).json({ message: 'No doctors found for this hospital ID' });
-      }
     res.status(200).json(doctors);
   } catch (error) {
     res.status(400).json({ message: error.message });

@@ -9,6 +9,12 @@ import AdminDashboardLayout from "../pages//StaffAdmin/AdminDashboardLayout";
 import AdminDashboard from "../pages/StaffAdmin/Dashboard";
 import DoctorDashboardLayout from "../pages/Doctor/DoctorDashboardLayout";
 import DoctorDashboard from "../pages/Doctor/Dashboard";
+import AddDashboard from "../pages/StaffAdmin/addDashboard";
+import AddDoctors from "../pages/StaffAdmin/addDoctors";
+import AddServices from "../pages/StaffAdmin/addServices";
+ 
+
+
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -50,6 +56,36 @@ function CreateRouter() {
         {
           path: "/admin/adminDashboard",
           element: <AdminDashboard />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard",
+          element: <AddDashboard />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/add-doctors",
+          element: <AddDoctors />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/add-services",
+          element: <AddServices />,
         },
       ],
     },
