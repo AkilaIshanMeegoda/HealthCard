@@ -9,6 +9,12 @@ import AdminDashboardLayout from "../pages//StaffAdmin/AdminDashboardLayout";
 import AdminDashboard from "../pages/StaffAdmin/Dashboard";
 import DoctorDashboardLayout from "../pages/Doctor/DoctorDashboardLayout";
 import DoctorDashboard from "../pages/Doctor/Dashboard";
+
+import AddDashboard from "../pages/StaffAdmin/addDashboard";
+import AddDoctors from "../pages/StaffAdmin/addDoctors";
+import AddServices from "../pages/StaffAdmin/addServices";
+ 
+
 import Patients from "../pages/StaffMember/Patients";
 
 import PatientHome from "../pages/Patient/PatientHome";
@@ -24,7 +30,13 @@ import Reports from "../pages/StaffMember/Reports";
 import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
+
+import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
+import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
+
 import UpdateReport from "../pages/StaffMember/UpdateReport";
+
+
 
 
 function CreateRouter() {
@@ -108,6 +120,36 @@ function CreateRouter() {
     },
 
     {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard",
+          element: <AddDashboard />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/add-doctors",
+          element: <AddDoctors />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/add-services",
+          element: <AddServices />,
+        },
+      ],
+    },
+
+    {
       path: "/doctor",
       element: <DoctorDashboardLayout />,
       children: [
@@ -129,6 +171,12 @@ function CreateRouter() {
     },
     {
       path: '/patient/mydetails', element: <PatientDetailsUser />
+    },
+    {
+      path: '/patient/myappointmenthistory', element: <ViewMyAppointmentHistory />
+    },
+    {
+      path: '/patient/viewmydetails', element: <MaanagePatientProfile />
     },
   ]);
 }
