@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import HospitalDetails from '../../../src/components/adminStaff/HospitalDetails';
 import { AuthContext } from '../../../src/context/AuthContext'; // Adjust the path as necessary
+import DoctorList from '../../components/adminStaff/DoctorList';
 
 
 const Dashboard = () => {
@@ -14,7 +15,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#D3E6FF] w-full">
       <h1>Welcome StaffAdmin!</h1>
-      <HospitalDetails hospitalId={hospitalId} />
+      <h1>Doctors</h1>
+      <DoctorList />
     </div>
   );
 }

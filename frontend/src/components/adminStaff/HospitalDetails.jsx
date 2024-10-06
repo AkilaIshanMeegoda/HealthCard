@@ -12,7 +12,7 @@ const HospitalDetails = ({ hospitalId }) => {
       try {
         setLoading(true); // Start loading
         const response = await axios.get(
-          `http://localhost:5173/api/hospital/${hospitalId}`,
+          `http://localhost:3000/api/hospital/${hospitalId}`,
           {
             headers: { Accept: "application/json" },
           }
