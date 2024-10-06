@@ -54,13 +54,6 @@ const createAppointment = async (req, res) => {
   } = req.body;
 
   try {
-    // const existingProfile = await Appointment.findOne({ email: email });
-    // if (existingProfile) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "Profile Details set already for this account." });
-    // }
-
     const profiles = await Appointment.create({
       userId: req.user._id,
       userName,
@@ -128,10 +121,30 @@ const updateAppointment = async (req, res) => {
   }
 };
 
+const getAppointmentsByEmail = async (req, res) => {
+  const { email } = req.params; // Get email from query parameters
+  if (!email) {
+    return res.status(400).send("Email query parameter is required");
+  }
+
+  try {
+    // Find promotion by email
+    const appointments = await Appointment.find({ email: email });
+
+    if (!appointments || appointments.length === 0) {
+      return res.status(404).send("No appointments found for this email");
+    }
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   searchAppointments,
   getAppointment,
   createAppointment,
   updateAppointment,
   deleteAppointment,
+  getAppointmentsByEmail
 };

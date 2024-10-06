@@ -12,7 +12,7 @@ const PatientAddAppointment = () => {
   // State to hold each input field separately
   const [userName, setUserName] = useState("");
   const [contact, setContactNumber] = useState("");
-  const [note, setImportantNotes] = useState("");
+  const [notes, setImportantNotes] = useState("");
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
   const [hospitalName, setHospitalName] = useState("");
@@ -35,7 +35,7 @@ const PatientAddAppointment = () => {
     if (
       !userName ||
       !contact ||
-      !note ||
+      !notes ||
       !date ||
       !time ||
       !hospitalName ||
@@ -53,7 +53,7 @@ const PatientAddAppointment = () => {
       const formData = {
         userName,
         contact,
-        note,
+        note: notes,
         date,
         time,
         hospitalName,
@@ -127,7 +127,7 @@ const PatientAddAppointment = () => {
           <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-5">
             Make Appointment
           </h1>
-          <form className="space-y-6" noValidate>
+          <form className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* User Name */}
               <div>
@@ -322,7 +322,7 @@ const PatientAddAppointment = () => {
                 id="importantNotes"
                 rows="4"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                value={note}
+                value={notes}
                 onChange={(e) => setImportantNotes(e.target.value)}
               ></textarea>
             </div>
