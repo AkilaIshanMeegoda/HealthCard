@@ -24,8 +24,12 @@ import Reports from "../pages/StaffMember/Reports";
 import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
+
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
 import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
+=======
+import UpdateReport from "../pages/StaffMember/UpdateReport";
+
 
 
 function CreateRouter() {
@@ -89,6 +93,10 @@ function CreateRouter() {
         {
           path: "/staffMember/view-report/:id",
           element: <ReportDetails />,
+        },
+        {
+          path: "/staffMember/update-report/:id",
+          element: <UpdateReport />,
         },
       ],
     },

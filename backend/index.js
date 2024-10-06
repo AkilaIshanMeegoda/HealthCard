@@ -7,7 +7,11 @@ const userRouter = require("./src/routes/user");
 const requireAuth = require("./src/middleware/requireAuth");
 const appointmentRouter = require("./src/routes/appointment");
 const reportRouter = require("./src/routes/report");
+
 const profileRouter = require("./src/routes/patientProfileRoute");
+
+const paymentRouter = require("./src/routes/payment");
+
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
@@ -39,4 +43,8 @@ mongoose
 app.use("/user", userRouter);
 app.use("/appointment", requireAuth, appointmentRouter);
 app.use("/report", requireAuth, reportRouter);
+
 app.use("/patientprofile", requireAuth, profileRouter);
+
+app.use("/api/payment", requireAuth, paymentRouter);
+
