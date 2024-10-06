@@ -36,7 +36,7 @@ import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
 
-
+import EditDoctor from "../pages/StaffAdmin/editDoctor";
 
 
 function CreateRouter() {
@@ -145,6 +145,16 @@ function CreateRouter() {
         {
           path: "/admin/addDashboard/add-services",
           element: <AddServices />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/edit-doctor/:id",
+          element: <EditDoctor />,
         },
       ],
     },
