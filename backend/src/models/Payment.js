@@ -6,7 +6,11 @@ const paymentSchema = new mongoose.Schema({
     ref: 'Appointment',
     required: true
   },
-  patientId: {
+  hospitalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
+  },
+  userId: {
     type: String,
     required: true
   },
@@ -16,7 +20,7 @@ const paymentSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['insurance', 'credit_card', 'debit_card', 'bank_transfer'],
+    enum: ['insurance', 'debit_card', 'bank_transfer'],
     required: true
   },
   paymentStatus: {
