@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 
 const ViewReports = () => {
+  const { id } = useParams();
   const { user } = useAuthContext();
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const ViewReports = () => {
 
   const fetchReports = () => {
     user &&
-      fetch(`http://localhost:3000/report/hospitalReports`, {
+      fetch(`http://localhost:3000/report/viewReports/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -29,41 +30,12 @@ const ViewReports = () => {
   };
 
   const handleViewClick = (reportId) => {
-    navigate(`/staffMember/view-report/${reportId}`);
-  };
-
-  const handleUpdateClick = (reportId) => {
-    navigate(`/staffMember/update-report/${reportId}`);
-  };
-
-  const handleDeleteClick = async (reportId) => {
-    if (window.confirm("Are you sure you want to delete this report?")) {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/report/deleteReport/${reportId}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-        toast.success("Report deleted successfully");
-
-        if (!response.ok) {
-          throw new Error("Failed to delete report");
-        }
-      } catch (error) {
-        console.error("Error deleting Report", error);
-        toast.error("Failed to delete Report");
-      }
-    }
+    navigate(`/doctor/viewReport/${reportId}`);
   };
 
   useEffect(() => {
     fetchReports();
-  }, [user, handleDeleteClick]);
+  }, [user, id]);
 
   return (
     <div className="w-full min-h-screen">
@@ -173,24 +145,7 @@ const ViewReports = () => {
                     >
                       View
                     </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleUpdateClick(report._id);
-                      }}
-                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-blue-500 rounded-lg"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteClick(report._id);
-                      }}
-                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-red-500 rounded-lg"
-                    >
-                      Delete
-                    </button>
+                   
                   </td>
                 </tr>
               ))

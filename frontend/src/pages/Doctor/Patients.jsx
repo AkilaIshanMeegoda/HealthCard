@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
-const ViewReports = () => {
+const Patients = () => {
   const { user } = useAuthContext();
-  const [query, setQuery] = useState("");
   const navigate = useNavigate();
-  const [reports, setReports] = useState([]);
+  const [query, setQuery] = useState("");
+  const [patients, setPatients] = useState([]);
 
-  const fetchReports = () => {
+  const fetchPatients = () => {
     user &&
-      fetch(`http://localhost:3000/report/hospitalReports`, {
+      fetch("http://localhost:3000/user/users", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +19,7 @@ const ViewReports = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setReports(Array.isArray(data) ? data : []);
+          setPatients(Array.isArray(data) ? data : []);
         })
         .catch((error) => {
           console.error("Error fetching items", error);
@@ -28,42 +27,13 @@ const ViewReports = () => {
         });
   };
 
-  const handleViewClick = (reportId) => {
-    navigate(`/staffMember/view-report/${reportId}`);
-  };
-
-  const handleUpdateClick = (reportId) => {
-    navigate(`/staffMember/update-report/${reportId}`);
-  };
-
-  const handleDeleteClick = async (reportId) => {
-    if (window.confirm("Are you sure you want to delete this report?")) {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/report/deleteReport/${reportId}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-        toast.success("Report deleted successfully");
-
-        if (!response.ok) {
-          throw new Error("Failed to delete report");
-        }
-      } catch (error) {
-        console.error("Error deleting Report", error);
-        toast.error("Failed to delete Report");
-      }
-    }
-  };
+  const handleViewClick = (patientId) =>{
+    navigate(`/doctor/patientDetails/${patientId}`);
+  }
 
   useEffect(() => {
-    fetchReports();
-  }, [user, handleDeleteClick]);
+    fetchPatients();
+  }, [user]);
 
   return (
     <div className="w-full min-h-screen">
@@ -80,7 +50,7 @@ const ViewReports = () => {
           className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           style={{ fontSize: "2rem", marginLeft: "20px" }}
         >
-          All Reports <br />
+          All Patients <br />
         </h1>
         <div className="relative hidden mt-8 group sm:block">
           <div className="relative text-gray-600 ">
@@ -90,7 +60,7 @@ const ViewReports = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               name="search"
-              placeholder="Search by report name"
+              placeholder="Search by patient name"
             />
             <button
               type="submit"
@@ -121,75 +91,60 @@ const ViewReports = () => {
           <thead>
             <tr className="bg-[#00135F]">
               <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Title Name
-              </th>
-              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Patient Name
               </th>
-              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Date
+              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Email Address
+              </th>
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Gender
+              </th>
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Age
               </th>
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Category
+                Contact Number
               </th>
-              <th className="w-3/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className="bg-white">
-            {reports.length === 0 ? (
+            {patients.length === 0 ? (
               <tr>
                 <td
                   colSpan="6"
                   className="px-4 py-2 text-sm font-medium text-center text-gray-600"
                 >
-                  No reports found.
+                  No patients found.
                 </td>
               </tr>
             ) : (
-              reports.map((report) => (
-                <tr key={report._id}>
+              patients.map((patient) => (
+                <tr key={patient._id}>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {report.titleName}
+                    {patient.name}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {report.patientName}
+                    {patient.email}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {report.date}
+                    {patient.gender}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {report.category}
+                    {patient.age}
+                  </td>
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
+                    {patient.contact}
                   </td>
 
                   <td className="flex items-center justify-center px-16 py-2 border-b border-gray-200">
-                    <button
-                      onClick={(e) => {
+                    <button onClick={(e) => {
                         e.stopPropagation();
-                        handleViewClick(report._id);
-                      }}
-                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg"
-                    >
+                        handleViewClick(patient._id);
+                      }} className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg">
                       View
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleUpdateClick(report._id);
-                      }}
-                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-blue-500 rounded-lg"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteClick(report._id);
-                      }}
-                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-red-500 rounded-lg"
-                    >
-                      Delete
                     </button>
                   </td>
                 </tr>
@@ -202,4 +157,4 @@ const ViewReports = () => {
   );
 };
 
-export default ViewReports;
+export default Patients;
