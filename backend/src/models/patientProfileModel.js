@@ -14,7 +14,11 @@ const profileSchema = mongoose.Schema({
     required: true,
   },
   age: {
-    type: Date,
+    type: Number,
+    required: true,
+  },
+  telephone: {
+    type: Number,
     required: true,
   },
   description: {

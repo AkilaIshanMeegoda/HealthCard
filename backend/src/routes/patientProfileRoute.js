@@ -15,7 +15,7 @@ const router = express.Router();
 router.get('/:email', getProfileByEmail);
 
 // POST a new discount
-router.post('/',createProfile);
+router.post('/add',createProfile);
 
 // DELETE a new blog
 router.delete('/:id', deleteProfile);

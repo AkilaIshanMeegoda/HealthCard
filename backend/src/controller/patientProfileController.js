@@ -24,7 +24,7 @@ const getProfileByEmail = async (req, res) => {
 
 // Create a discount
 const createProfile = async (req, res) => {
-  const { email, name, address, age, description } = req.body;
+  const { email, name, address, age, telephone, description } = req.body;
 
   try {
 
@@ -33,6 +33,7 @@ const createProfile = async (req, res) => {
         name, 
         address, 
         age, 
+        telephone,
         description
     });
     res.status(200).json(profiles);  
