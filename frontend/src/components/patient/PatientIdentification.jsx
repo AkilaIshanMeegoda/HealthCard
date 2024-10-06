@@ -1,29 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { QRCode } from 'react-qr-code';
 
-const PatientIdentification = () => {
+const PatientIdentification = ({ email, qrCodeSize = 256, componentSize = 'max-w-lg' }) => {
+  // Generate a unique ID from the email
+  const uniqueId = email ? btoa(email) : ''; // Example of generating a unique ID
+
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 max-w-xs ml-10">
-      <a href="#">
-        <img className="rounded-t-lg" src="" alt="" />
-      </a>
-      <div className="p-4">
-        <a href="#">
-          <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Rs 100
-          </h5>
-          <h3 style={{ color: '#3b82f6', fontSize: '18px', fontWeight: '500' }}>
-            chalana
-          </h3>
-          <h3 style={{ color: '#705227', fontSize: '18px', fontWeight: '500' }}>
-            specializations
-          </h3>
-        </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">
-          description
-        </p>
+    <div className={`bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ${componentSize} ml-40 p-6`}>
+      <h5 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        Patient QR Code
+      </h5>
+      <div className="flex justify-center">
+        <QRCode value={uniqueId} size={qrCodeSize} /> {/* Display the QR code with specified size */}
       </div>
+      <p className="mt-4 font-normal text-gray-700 dark:text-gray-400 text-sm">
+        Scan the QR code to identify the patient.
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default PatientIdentification
+export default PatientIdentification;

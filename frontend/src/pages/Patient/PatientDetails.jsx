@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../components/home/Navbar/Navbar";
-import PatientIdentification from "../../components/patient/PatientIdentification";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom"; 
+import PatientIdentification from "../../components/patient/PatientIdentification";
 
 const PatientDetails = () => {
   const navigate = useNavigate();
@@ -99,11 +99,11 @@ const PatientDetails = () => {
             </div>
             <div className="flex justify-center mt-4">
               <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full sm:w-auto px-6 py-3 text-center mr">Submit Details</button>
-              <button onClick={(e) => { e.stopPropagation(); handleViewDetails(); }} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full sm:w-auto px-6 py-3 text-center">View My Details</button>
+              <button onClick={(e) => { e.stopPropagation(); handleViewDetails(); }} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full sm:w-auto px-6 py-3 text-center ml-4">View My Details</button>
             </div>
           </form>
         </div>
-        <PatientIdentification />
+        <PatientIdentification qrCodeSize={300} componentSize="max-w-3xl" email={user? user.email : email} />
       </div>
     </div>
   );
