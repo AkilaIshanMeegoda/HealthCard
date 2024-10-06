@@ -103,7 +103,7 @@ const updateAppointment = async (req, res) => {
   }
 
   try {
-    const promotion = await Promotion.findByIdAndUpdate(
+    const appointment = await Appointment.findByIdAndUpdate(
       id, // Corrected to use id directly
       {
         ...req.body,
@@ -111,11 +111,11 @@ const updateAppointment = async (req, res) => {
       { new: true } // This option returns the updated document
     );
 
-    if (!promotion) {
-      return res.status(404).send("No promotion with that id");
+    if (!appointment) {
+      return res.status(404).send("No appointment with that id");
     }
 
-    res.status(200).json(promotion);
+    res.status(200).json(appointment);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
