@@ -10,16 +10,16 @@ const PatientAddAppointment = () => {
   const { user } = useAuthContext();
 
   // State to hold each input field separately
-  const [userName, setUserName] = useState("John Doe");
-  const [contact, setContactNumber] = useState("1234567890");
-  const [note, setImportantNotes] = useState("Please ensure timely checkup.");
-  const [date, setAppointmentDate] = useState("2024-10-05");
-  const [time, setAppointmentTime] = useState("10:00");
-  const [hospitalName, setHospitalName] = useState("City Hospital");
-  const [doctorName, setDoctorName] = useState("Dr. John Doe");
-  const [specialization, setSpecialization] = useState("Cardiology");
-  const [wardNo, setWardNo] = useState("Ward 5");
-  const [paymentAmount, setPayment] = useState("2000");
+  const [userName, setUserName] = useState("");
+  const [contact, setContactNumber] = useState("");
+  const [note, setImportantNotes] = useState("");
+  const [date, setAppointmentDate] = useState("");
+  const [time, setAppointmentTime] = useState("");
+  const [hospitalName, setHospitalName] = useState("");
+  const [doctorName, setDoctorName] = useState("");
+  const [specialization, setSpecialization] = useState("");
+  const [wardNo, setWardNo] = useState("");
+  const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
   useEffect(() => {
@@ -232,7 +232,7 @@ const PatientAddAppointment = () => {
                   id="hospitalName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   value={hospitalName}
-                  readOnly
+                  onChange={(e) => setHospitalName(e.target.value)}
                   required
                 />
               </div>
@@ -250,7 +250,7 @@ const PatientAddAppointment = () => {
                   id="doctorName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   value={doctorName}
-                  readOnly
+                  onChange={(e) => setDoctorName(e.target.value)}
                   required
                 />
               </div>
@@ -268,7 +268,7 @@ const PatientAddAppointment = () => {
                   id="specialization"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   value={specialization}
-                  readOnly
+                  onChange={(e) => setSpecialization(e.target.value)}
                   required
                 />
               </div>
@@ -286,7 +286,7 @@ const PatientAddAppointment = () => {
                   id="wardNo"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   value={wardNo}
-                  readOnly
+                  onChange={(e) => setWardNo(e.target.value)}
                   required
                 />
               </div>
@@ -304,7 +304,7 @@ const PatientAddAppointment = () => {
                   id="paymentAmount"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   value={paymentAmount}
-                  readOnly
+                  onChange={(e) => setPayment(e.target.value)}
                   required
                 />
               </div>
