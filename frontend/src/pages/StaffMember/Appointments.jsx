@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useNavigate } from "react-router";
 
-const Patients = () => {
+const Appointments = () => {
   const { user } = useAuthContext();
-  const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [patients, setPatients] = useState([]);
+  const navigate = useNavigate();
+  const [appointments, setAppointments] = useState([]);
 
   const fetchPatients = () => {
     user &&
-      fetch("http://localhost:3000/user/users", {
+      fetch("http://localhost:3000/appointment/hospital-appointments", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -19,7 +19,7 @@ const Patients = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setPatients(Array.isArray(data) ? data : []);
+          setAppointments(Array.isArray(data) ? data : []);
         })
         .catch((error) => {
           console.error("Error fetching items", error);
@@ -27,8 +27,8 @@ const Patients = () => {
         });
   };
 
-  const handleViewClick = (patientId) =>{
-    navigate(`/staffMember/view-patient/${patientId}`);
+  const handleViewClick = (appointmentId) =>{
+    navigate(`/staffMember/view-appointment/${appointmentId}`);
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Patients = () => {
           className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           style={{ fontSize: "2rem", marginLeft: "20px" }}
         >
-          All Patients <br />
+          All Appointments <br />
         </h1>
         <div className="relative hidden mt-8 group sm:block">
           <div className="relative text-gray-600 ">
@@ -90,28 +90,34 @@ const Patients = () => {
         <table className="w-full table-fixed">
           <thead>
             <tr className="bg-[#00135F]">
-              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Patient Name
               </th>
-              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Email Address
               </th>
-              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Gender
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Date
               </th>
               <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Age
+                Contact
+              </th>
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Payment Amount
+              </th>
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Ward No
               </th>
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Contact Number
+                Doctor
               </th>
-              <th className="w-2/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-right text-white uppercase">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className="bg-white">
-            {patients.length === 0 ? (
+            {appointments.length === 0 ? (
               <tr>
                 <td
                   colSpan="6"
@@ -121,29 +127,38 @@ const Patients = () => {
                 </td>
               </tr>
             ) : (
-              patients.map((patient) => (
-                <tr key={patient._id}>
+              appointments.map((appointment) => (
+                <tr key={appointment._id}>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.name}
+                    {appointment.userName}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.email}
+                    {appointment.email}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.gender}
+                    {appointment.date}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.age}
+                    {appointment.contact}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.contact}
+                    {appointment.paymentAmount}
+                  </td>
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
+                    {appointment.wardNo}
+                  </td>
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
+                    {appointment.doctorName}
                   </td>
 
                   <td className="flex items-center justify-center px-16 py-2 border-b border-gray-200">
-                    <button onClick={(e) => {
+                    <button
+                      onClick={(e) => {
                         e.stopPropagation();
-                        handleViewClick(patient._id);
-                      }} className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg">
+                        handleViewClick(appointment._id);
+                      }}
+                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg"
+                    >
                       View
                     </button>
                   </td>
@@ -157,4 +172,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default Appointments;

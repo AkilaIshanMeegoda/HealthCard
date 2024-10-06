@@ -15,10 +15,10 @@ const SideBar = () => {
   const navigate = useNavigate();
   
   const Menus = [
-    { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/admin/feedback/dashboard" },
+    { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/staffMember/dashboard" },
     { title: "Patients", icon: <FaUser />,href:"/staffMember/patients" },
-    { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/admin/reservation/dashboard/manage" },
-    { title: "Add Report", icon: <MdAddToPhotos />,href:"/admin/dashboard" },
+    { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/staffMember/appointments" },
+    { title: "Add Report", icon: <MdAddToPhotos />,href:"/staffMember/reports" },
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
   ];
 
