@@ -56,19 +56,19 @@ const PatientAppointments = () => {
 
   const handleUpdate = (id) => {
     console.log("Update discount item with id:", id);
-    navigate(`/shopOwner/promotion/update-promotion/${id}`);
+    navigate(`/patient/patient-update-appointment/${id}`);
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       axios
-        .delete(`http://localhost:3000/api/promotions/${id}`, {
+        .delete(`http://localhost:3000/appointment/delete/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         })
         .then(() => {
-          setAppointments(promotionItems.filter((item) => item._id !== id));
+          setAppointments(appointments.filter((item) => item._id !== id));
           toast.success("Item deleted successfully");
         })
         .catch((error) => {
@@ -92,12 +92,6 @@ const PatientAppointments = () => {
         <table className="w-full table-fixed">
           <thead>
             <tr className="bg-gray-200">
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              User Name
-              </th>
-              <th className="w-1/4 px-16 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Email
-              </th>
               <th className="w-1/4 py-2 text-sm font-bold text-left text-gray-600 uppercase px-14">
               Contact Number
               </th>
@@ -133,12 +127,6 @@ const PatientAppointments = () => {
           <tbody className="bg-white">
             {appointments.map((apyt) => (
               <tr key={apyt._id}>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.userName}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.email}
-                </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-sm">
                   {apyt.contact}
                 </td>

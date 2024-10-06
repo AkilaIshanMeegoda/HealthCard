@@ -78,17 +78,17 @@ const deleteAppointment = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send("No discount with that id");
+    return res.status(404).send("No appointment with that id");
   }
 
   try {
-    const promotion = await Promotion.findByIdAndDelete(id);
+    const appointment = await Appointment.findByIdAndDelete(id);
 
-    if (!promotion) {
-      return res.status(404).send("No promotion with that id");
+    if (!appointment) {
+      return res.status(404).send("No appointment with that id");
     }
 
-    res.status(200).json({ message: "Promotion deleted successfully" });
+    res.status(200).json({ message: "appointment deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

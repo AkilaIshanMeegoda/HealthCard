@@ -36,6 +36,7 @@ import ManagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
 import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
+import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 
 
 
@@ -181,6 +182,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/patient-add-appointment', element: < PatientAddAppointment/>
+    },
+    {
+      path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
   ]);
 }
