@@ -1,40 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  Button,
-  Datepicker,
-  Label,
-  Select,
-  Textarea,
-  TextInput,
-} from "flowbite-react";
-import "react-toastify/dist/ReactToastify.css";
+import { Button, Datepicker, Label, Select, Textarea, TextInput } from "flowbite-react";
 import { toast } from "react-toastify";
-import { FaBoxArchive } from "react-icons/fa6";
+import "react-toastify/dist/ReactToastify.css";
 import { IconContext } from "react-icons";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { FaBoxArchive } from "react-icons/fa6";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
-import { Spinner } from "flowbite-react"; // Import Spinner
+import { Spinner } from "flowbite-react";
 
-const AddReport = () => {
-  const { id } = useParams();
+const UpdateReport = () => {
   const { user } = useAuthContext();
   const [errors, setErrors] = useState({});
   const [postImage, setPostImage] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [reportDetails, setReportDetails] = useState(null);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const showSuccess = () => {
-    toast.success("Report is added successfully!", {
+    toast.success("Report is updated successfully!", {
       position: "bottom-right",
       theme: "colored",
     });
   };
 
-  const categoryOptions = [
+  const category = [
     "Blood Test Report",
     "Urine Test Report",
     "Biopsy Report",
@@ -51,7 +46,28 @@ const AddReport = () => {
     "Other Report",
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState(categoryOptions[0]);
+  const [selectedCategory, setSelectedCategory] = useState(category[0]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/report/ViewReport/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setReportDetails(data);
+        setSelectedCategory(data.category);
+        setSelectedDate(new Date(data.date));
+        setPostImage(data.image);
+      })
+      .catch((error) => {
+        console.error("Error fetching report details", error);
+        toast.error("Failed to fetch report details");
+      });
+  }, [id, user.token]);
 
   const handleFileUpload = async (e) => {
     const selectedFile = e.target.files[0];
@@ -75,46 +91,47 @@ const AddReport = () => {
     }
   };
 
-  const handleAddReport = async (event) => {
+  const handleUpdateReport = (event) => {
     event.preventDefault();
     if (!user) {
-      setErrors((prev) => ({ ...prev, auth: "You must be logged in" }));
+      toast.error("You must be logged in");
       return;
     }
-
     const form = event.target;
+
     const reportObj = {
       titleName: form.titleName.value.trim(),
       date: form.date.value,
       patientName: form.patientName.value.trim(),
       category: selectedCategory,
       description: form.description.value.trim(),
-      image: postImage,
-      patientId: id,
+      image: postImage
     };
 
-    try {
-      const response = await fetch("http://localhost:3000/report/addReport", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(reportObj),
-      });
-
-      if (response.ok) {
+    fetch(`http://localhost:3000/report/updateReport/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify(reportObj),
+    })
+      .then((res) => res.json())
+      .then((data) => {
         showSuccess();
-        navigate("/staffMember/reports");
-      } else {
-        setErrors((prev) => ({ ...prev, server: "Failed to add report" }));
-      }
-    } catch (error) {
-      setErrors((prev) => ({ ...prev, server: "Server error occurred" }));
-    }
+        navigate("/staffMember/dashboard");
+      })
+      .catch((error) => {
+        console.error("Error updating report", error);
+        toast.error("Failed to update report");
+      });
   };
 
-  // Consolidated Validation Handler
+  if (!reportDetails) {
+    return <div>Loading...</div>;
+  }
+
+  //Validations
   const validateInput = (name, value) => {
     let error = "";
     switch (name) {
@@ -144,9 +161,9 @@ const AddReport = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-100">
-      <div className="px-20 pb-12 mt-12 bg-white shadow-xl rounded-3xl mx-44">
-        <div className="pt-8 mt-8">
-          <Link to={`/staffMember/dashboard`}>
+      <div className="px-20 pb-12 bg-white shadow-xl rounded-3xl mx-44">
+        <div className="w-8 pt-8 mt-8">
+          <Link to={`/staffMember/patients`}>
             <IconContext.Provider value={{ color: "green", size: "40px" }}>
               <IoArrowBackCircleSharp />
             </IconContext.Provider>
@@ -156,11 +173,11 @@ const AddReport = () => {
           <IconContext.Provider value={{ color: "blue", size: "24px" }}>
             <FaBoxArchive className="mt-8 mr-4" />
           </IconContext.Provider>
-          <h2 className="mt-6 text-3xl font-semibold">Add Report</h2>
+          <h2 className="mt-6 text-3xl font-bold">Update Report</h2>
         </div>
 
         <form
-          onSubmit={handleAddReport}
+          onSubmit={handleUpdateReport}
           className="flex flex-col flex-wrap gap-4 m-auto"
         >
           {/* first row */}
@@ -172,6 +189,7 @@ const AddReport = () => {
                 name="titleName"
                 type="text"
                 placeholder="Title Name"
+                defaultValue={reportDetails.titleName}
                 required
                 onChange={(e) => validateInput("name", e.target.value)}
                 minLength={3}
@@ -192,7 +210,8 @@ const AddReport = () => {
                 id="date"
                 name="date"
                 required
-                onChange={(date) => validateInput("date", date)} // Handle date selection
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)} // Handle date selection
                 className="form-input"
               />
             </div>
@@ -207,6 +226,7 @@ const AddReport = () => {
                 name="patientName"
                 type="text"
                 placeholder="Patient Name"
+                defaultValue={reportDetails.patientName}
                 required
                 onChange={(e) => validateInput("name", e.target.value)}
                 minLength={3}
@@ -230,7 +250,7 @@ const AddReport = () => {
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
-                {categoryOptions.map((option) => (
+                {category.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -250,10 +270,11 @@ const AddReport = () => {
               <Textarea
                 id="description"
                 name="description"
+                defaultValue={reportDetails.description}
                 placeholder="Write your report description..."
                 required
                 onChange={(e) => validateInput("description", e.target.value)}
-                rows={5}
+                rows={7}
                 maxLength={1000}
               />
               {errors.description && (
@@ -271,6 +292,15 @@ const AddReport = () => {
                   className="text-lg"
                 />
                 <div>
+                  {postImage && (
+                    <div className="mb-4">
+                      <img
+                        src={postImage}
+                        alt="Current report"
+                        className="object-cover w-20 h-20 rounded-md shadow-lg"
+                      />
+                    </div>
+                  )}
                   <input
                     className="mt-4 bg-black"
                     type="file"
@@ -294,13 +324,12 @@ const AddReport = () => {
           <Button
             type="submit"
             disabled={
-              !fileUploaded ||
               loading ||
               Object.keys(errors).some((key) => errors[key])
             }
-            className="w-40 bg-red-500 shadow-lg"
+            className="mt-2 bg-red-500 shadow-lg w-60"
           >
-            <p className="text-lg font-bold">Add Report</p>
+            <p className="text-lg font-bold">Update Report</p>
           </Button>
         </form>
       </div>
@@ -308,4 +337,4 @@ const AddReport = () => {
   );
 };
 
-export default AddReport;
+export default UpdateReport;
