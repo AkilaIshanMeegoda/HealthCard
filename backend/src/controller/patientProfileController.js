@@ -50,24 +50,21 @@ const createProfile = async (req, res) => {
 
 // Delete a discount
 const deleteProfile = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send("No profile with that id");
-  }
-
-  try {
-    const profile = await Profile.findByIdAndDelete(id);  
-
-    if (!profile) {
-      return res.status(404).send("No profile with that id");
+    const { email } = req.body; // Extract email from request parameters
+  console.log("check pass email to delete section",email);
+    try {
+      // Find the profile by email and delete it
+      const profile = await Profile.findOneAndDelete({ email });
+  
+      if (!profile) {
+        return res.status(404).send("No profile with that email");
+      }
+  
+      res.status(200).json({ message: "Profile deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
-
-    res.status(200).json({ message: "Profile deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+  };  
 
 // Update a discount
 const updateProfile = async (req, res) => {

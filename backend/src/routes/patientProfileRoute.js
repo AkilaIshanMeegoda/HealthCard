@@ -18,7 +18,7 @@ router.get('/:email', getProfileByEmail);
 router.post('/add',createProfile);
 
 // DELETE a new blog
-router.delete('/:id', deleteProfile);
+router.delete('/delete/:id', deleteProfile);
 
 // UPDATE a discount
 router.patch('/update/:id', updateProfile);

@@ -34,14 +34,14 @@ const UpdatePatientDetails = () => {
         .then((data) => {
           console.log("Fetched raw data:", data); // Log raw data
           const jsonData = JSON.parse(data); // Parse to JSON manually
-  
+
           // Since jsonData is an array, extract the first element
           const patientData = jsonData[0];
-  
+
           setName(patientData.name || "");
           setAge(patientData.age || "");
           setEmail(patientData.email || "");
-          setTelephone(patientData.telephone || ""); 
+          setTelephone(patientData.telephone || "");
           setAddress(patientData.address || "");
           setDescription(patientData.description || "");
         })
@@ -51,7 +51,6 @@ const UpdatePatientDetails = () => {
         });
     }
   }, [user]);
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,18 +65,42 @@ const UpdatePatientDetails = () => {
         description,
       };
 
-      await axios.patch(`http://localhost:3000/patientprofile/update/${user.email}`, formData, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.patch(
+        `http://localhost:3000/patientprofile/update/${user.email}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       toast.success("Patient profile updated successfully!");
-      navigate('/patient/viewmydetails');
+      navigate("/patient/viewmydetails");
     } catch (error) {
       console.error("Error updating patient profile:", error);
       toast.error("Failed to update patient profile.");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+        console.log("check pass email to delete section",user.email);
+      await axios.delete(
+        `http://localhost:3000/patientprofile/delete/${user.email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      toast.success("Patient profile deleted successfully!");
+      navigate("/patient/viewmydetails"); // Navigate to the desired page after deletion
+    } catch (error) {
+      console.error("Error deleting patient profile:", error);
+      toast.error("Failed to delete patient profile.");
     }
   };
 
@@ -92,7 +115,10 @@ const UpdatePatientDetails = () => {
           <form className="space-y-6" noValidate onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="userName" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="userName"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   User Name
                 </label>
                 <input
@@ -105,7 +131,10 @@ const UpdatePatientDetails = () => {
                 />
               </div>
               <div>
-                <label htmlFor="age" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="age"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Age
                 </label>
                 <input
@@ -118,7 +147,10 @@ const UpdatePatientDetails = () => {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Email
                 </label>
                 <input
@@ -132,7 +164,10 @@ const UpdatePatientDetails = () => {
                 />
               </div>
               <div>
-                <label htmlFor="address" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="address"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Address
                 </label>
                 <input
@@ -145,7 +180,10 @@ const UpdatePatientDetails = () => {
                 />
               </div>
               <div>
-                <label htmlFor="telephone" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="telephone"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Telephone No
                 </label>
                 <input
@@ -158,7 +196,10 @@ const UpdatePatientDetails = () => {
                 />
               </div>
               <div className="col-span-2">
-                <label htmlFor="importantNotes" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="importantNotes"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Important Notes
                 </label>
                 <textarea
@@ -177,6 +218,13 @@ const UpdatePatientDetails = () => {
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 text-center"
               >
                 Update Details
+              </button>
+              <button
+                type="button" // Prevent default form submission
+                className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-base px-5 py-3 text-center ml-4"
+                onClick={handleDelete} // Call delete handler on click
+              >
+                Delete Profile
               </button>
             </div>
           </form>
