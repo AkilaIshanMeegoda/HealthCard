@@ -21,6 +21,6 @@ router.post('/add',createProfile);
 router.delete('/:id', deleteProfile);
 
 // UPDATE a discount
-router.patch('/:id', updateProfile);
+router.patch('/update/:id', updateProfile);
 
 module.exports = router;

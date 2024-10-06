@@ -25,6 +25,7 @@ import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
+import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 
 
 function CreateRouter() {
@@ -128,6 +129,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/myappointmenthistory', element: <ViewMyAppointmentHistory />
+    },
+    {
+      path: '/patient/viewmydetails', element: <MaanagePatientProfile />
     },
   ]);
 }
