@@ -47,7 +47,7 @@ const UpdatePatientDetails = () => {
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
-          toast.error("Failed to fetch item details");
+          toast.error("Failed to fetch details");
         });
     }
   }, [user]);
