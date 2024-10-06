@@ -27,12 +27,102 @@ const getAppointment = async (req, res) => {
   }
 
   try {
-    const appointment = await Appointment.findById(id); 
+    const appointment = await Appointment.findById(id);
 
     if (!appointment) {
       return res.status(404).send("No appointment with that id");
     }
-    res.status(200).json(appointment);  
+    res.status(200).json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const createAppointment = async (req, res) => {
+  const {
+    userName,
+    contact,
+    note,
+    date,
+    time,
+    hospitalName,
+    doctorName,
+    specialization,
+    wardNo,
+    paymentAmount,
+    email,
+  } = req.body;
+
+  try {
+    // const existingProfile = await Appointment.findOne({ email: email });
+    // if (existingProfile) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Profile Details set already for this account." });
+    // }
+
+    const profiles = await Appointment.create({
+      userId: req.user._id,
+      userName,
+      contact,
+      note,
+      date,
+      time,
+      hospitalName,
+      doctorName,
+      specialization,
+      wardNo,
+      paymentAmount,
+      email,
+    });
+    res.status(200).json(profiles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteAppointment = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send("No discount with that id");
+  }
+
+  try {
+    const promotion = await Promotion.findByIdAndDelete(id);
+
+    if (!promotion) {
+      return res.status(404).send("No promotion with that id");
+    }
+
+    res.status(200).json({ message: "Promotion deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update a promotion
+const updateAppointment = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send("No promotion with that id");
+  }
+
+  try {
+    const promotion = await Promotion.findByIdAndUpdate(
+      id, // Corrected to use id directly
+      {
+        ...req.body,
+      },
+      { new: true } // This option returns the updated document
+    );
+
+    if (!promotion) {
+      return res.status(404).send("No promotion with that id");
+    }
+
+    res.status(200).json(promotion);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -40,5 +130,8 @@ const getAppointment = async (req, res) => {
 
 module.exports = {
   searchAppointments,
-  getAppointment
+  getAppointment,
+  createAppointment,
+  updateAppointment,
+  deleteAppointment,
 };
