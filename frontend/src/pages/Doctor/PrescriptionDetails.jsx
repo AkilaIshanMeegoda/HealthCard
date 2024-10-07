@@ -26,7 +26,6 @@ const PrescriptionDetails = () => {
         })
         .catch((error) => {
           console.error("Error fetching prescription", error);
-          toast.error("Failed to fetch prescription details");
         });
     }
   }, [id, user]);

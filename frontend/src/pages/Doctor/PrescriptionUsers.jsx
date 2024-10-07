@@ -23,7 +23,6 @@ const PrescriptionUsers = () => {
         })
         .catch((error) => {
           console.error("Error fetching items", error);
-          toast.error("Failed to fetch items");
         });
   };
 

@@ -26,7 +26,6 @@ const ReportDetails = () => {
         })
         .catch((error) => {
           console.error("Error fetching item", error);
-          toast.error("Failed to fetch item details");
         });
     }
   }, [id, user]);
