@@ -30,6 +30,7 @@ import Reports from "../pages/StaffMember/Reports";
 import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
+import Payments from "../pages/StaffMember/Payments";
 
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
 import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
@@ -104,6 +105,10 @@ function CreateRouter() {
         {
           path: "/staffMember/update-report/:id",
           element: <UpdateReport />,
+        },
+        {
+          path: "/staffMember/payments",
+          element: <Payments />
         },
       ],
     },

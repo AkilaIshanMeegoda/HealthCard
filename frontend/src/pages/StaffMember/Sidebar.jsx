@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa";
 import { HiDocumentDuplicate } from "react-icons/hi2";
 import { IoLogOut } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
 import React from "react";
 import logo from "../../../src/images/logo.png";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ const SideBar = () => {
     { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/staffMember/dashboard" },
     { title: "Patients", icon: <FaUser />,href:"/staffMember/patients" },
     { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/staffMember/appointments" },
+    { title: "Payments", icon: <FaMoneyCheckDollar />,href:"/staffMember/payments" },
     { title: "Add Report", icon: <MdAddToPhotos />,href:"/staffMember/reports" },
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
   ];
