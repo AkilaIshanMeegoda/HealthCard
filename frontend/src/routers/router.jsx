@@ -8,6 +8,10 @@ import StaffMemberDashboard from "../pages/StaffMember/Dashboard";
 import AdminDashboardLayout from "../pages//StaffAdmin/AdminDashboardLayout";
 import AdminDashboard from "../pages/StaffAdmin/Dashboard";
 import DoctorDashboardLayout from "../pages/Doctor/DoctorDashboardLayout";
+import DoctorPatients from "../pages/Doctor/Patients";
+import DoctorPatientDetails from "../pages/Doctor/PatientDetails";
+import DoctorPatientsViewReports from "../pages/Doctor/ViewReports";
+import DoctorPatientsViewReport from "../pages/Doctor/ReportDetails";
 import DoctorDashboard from "../pages/Doctor/Dashboard";
 
 import AddDashboard from "../pages/StaffAdmin/addDashboard";
@@ -33,9 +37,15 @@ import ReportDetails from "../pages/StaffMember/ReportDetails";
 import Payments from "../pages/StaffMember/Payments";
 
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
-import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
+import ManagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
+import AddPrescription from "../pages/Doctor/AddPrescription";
+import PrescriptionUsers from "../pages/Doctor/PrescriptionUsers";
+import ViewPrescriptions from "../pages/Doctor/ViewPrescriptions";
+import PrescriptionDetails from "../pages/Doctor/PrescriptionDetails";
+import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
+import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 
 
 
@@ -162,6 +172,38 @@ function CreateRouter() {
           path: "/doctor/doctorDashboard",
           element: <DoctorDashboard />,
         },
+        {
+          path: "/doctor/addPrescription/:id",
+          element: <AddPrescription />,
+        },
+        {
+          path: "/doctor/prescriptionUsers",
+          element: <PrescriptionUsers />,
+        },
+        {
+          path: "/doctor/patients",
+          element: <DoctorPatients />,
+        },
+        {
+          path: "/doctor/patientDetails/:id",
+          element: <DoctorPatientDetails/>,
+        },
+        {
+          path: "/doctor/viewReports/:id",
+          element: <DoctorPatientsViewReports />,
+        },
+        {
+          path: "/doctor/viewReport/:id",
+          element: <DoctorPatientsViewReport />,
+        },
+        {
+          path: "/doctor/viewPrescriptions/:id",
+          element: <ViewPrescriptions />,
+        },
+        {
+          path: "/doctor/viewPrescription/:id",
+          element: <PrescriptionDetails />,
+        },
       ],
     },
 
@@ -181,7 +223,13 @@ function CreateRouter() {
       path: '/patient/myappointmenthistory', element: <ViewMyAppointmentHistory />
     },
     {
-      path: '/patient/viewmydetails', element: <MaanagePatientProfile />
+      path: '/patient/viewmydetails', element: <ManagePatientProfile />
+    },
+    {
+      path: '/patient/patient-add-appointment', element: < PatientAddAppointment/>
+    },
+    {
+      path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
   ]);
 }
