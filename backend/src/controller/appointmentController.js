@@ -140,11 +140,34 @@ const getAppointmentsByEmail = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getAppointmentsByDate = async (req, res) => {
+  const { date } = req.params; // Get the date from query parameters
+  console.log("check date in backend ", date);
+  if (!date) {
+    return res.status(400).json({ message: "Date query parameter is required" });
+  }
+
+  try {
+    // Find all appointments that match the specified date
+    const appointments = await Appointment.find({ date: date });
+
+    // if (!appointments || appointments.length === 0) {
+    //   return res.status(404).json({ message: "No appointments found for the specified date" });
+    // }
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   searchAppointments,
   getAppointment,
   createAppointment,
   updateAppointment,
   deleteAppointment,
-  getAppointmentsByEmail
+  getAppointmentsByEmail,
+  getAppointmentsByDate
 };
