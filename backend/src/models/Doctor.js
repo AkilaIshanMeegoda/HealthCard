@@ -38,6 +38,11 @@ const doctorSchema = new Schema({
         default: 'available',
       },
     }],
+    maxAppointmentCount: {
+      type: Number, // Maximum number of appointments the doctor can handle
+      required: true,
+      default: 10, // Default value if needed
+    },
     description: {
       type: String,
       required: false,
