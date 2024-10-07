@@ -1,13 +1,31 @@
 import React from "react";
-import { Card, Button } from "flowbite-react"; // Import Button from flowbite-react
-import { useNavigate } from "react-router-dom"; // Import useNavigate for routing
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
+import { Card, Button } from "flowbite-react"; 
+import { useNavigate } from "react-router-dom"; 
+import { toast } from "react-toastify";
+import axios from "axios";
 
-const DoctorCard = ({ doctor }) => {
-  const navigate = useNavigate(); // Initialize navigate
+const DoctorCard = ({ doctor, onDelete = () => {} }) => { // Provide a default function for onDelete
+  const navigate = useNavigate(); 
 
-  // Function to handle edit button click
   const handleEditClick = () => {
-    navigate(`/admin/addDashboard/edit-doctor/${doctor._id}`); // Redirect to edit page with doctor ID
+    navigate(`/admin/addDashboard/edit-doctor/${doctor._id}`); 
+  };
+
+  const handleDeleteClick = async () => {
+    if (window.confirm("Are you sure you want to delete this doctor?")) {
+      try {
+        await axios.delete(`http://localhost:3000/api/doctors/${doctor._id}`);
+        toast.success("Doctor deleted successfully!", {
+          position: "bottom-right",
+          theme: "colored",
+        });
+        onDelete(doctor._id); // Call onDelete to remove the doctor from the UI
+      } catch (error) {
+        console.error("Error deleting doctor:", error);
+        toast.error("Failed to delete doctor.");
+      }
+    }
   };
 
   return (
@@ -31,28 +49,48 @@ const DoctorCard = ({ doctor }) => {
         <p className="text-gray-700 h-8 overflow-hidden">
           Status: {doctor.status}
         </p>
-        <p className="text-gray-700 font-bold">Availability:</p>
-        <ul className="max-h-60 overflow-y-auto">
-          {doctor.availability.length > 0 ? (
-            doctor.availability.map((slot, index) => (
-              <li key={index} className="h-8 overflow-hidden">
-                {slot.date} - {slot.time} ({slot.status})
-              </li>
-            ))
-          ) : (
-            <li className="h-8 text-gray-500">No availability</li>
-          )}
-        </ul>
-        <p className="text-gray-500 h-24 overflow-hidden">
-          {doctor.description}
-        </p>
-        <Button onClick={handleEditClick} color="blue" className="mt-4">
-          Edit
-        </Button>{" "}
-        {/* Edit button */}
+        
+        <div className="button-container flex justify-between mt-4">
+          <Button
+            onClick={handleEditClick}
+            color="blue"
+            className="flex-1 mr-2"
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={handleDeleteClick}
+            color="red"
+            className="flex-1 ml-2"
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     </Card>
   );
+};
+
+// PropTypes validation
+DoctorCard.propTypes = {
+  doctor: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    doctorName: PropTypes.string.isRequired,
+    specialization: PropTypes.string.isRequired,
+    experience: PropTypes.number.isRequired,
+    ward: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    availability: PropTypes.arrayOf(
+      PropTypes.shape({
+        date: PropTypes.string.isRequired,
+        time: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
+  onDelete: PropTypes.func, // onDelete should be a function
 };
 
 export default DoctorCard;

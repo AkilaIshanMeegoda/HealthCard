@@ -9,15 +9,16 @@ const DoctorList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Fetch doctors when the component mounts
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         if (authLoading) return; // Don't fetch until the auth is done loading
 
         if (!user || !user.email) {
-            setError("User not authenticated");
-            setLoading(false);
-            return;
+          setError("User not authenticated");
+          setLoading(false);
+          return;
         }
 
         const response = await fetch(
@@ -46,6 +47,11 @@ const DoctorList = () => {
     fetchDoctors();
   }, [user, authLoading]); // Also depend on authLoading state
 
+  // Handle doctor deletion
+  const handleDelete = (doctorId) => {
+    setDoctors(doctors.filter((doctor) => doctor._id !== doctorId)); // Remove the deleted doctor from the state
+  };
+
   if (authLoading || loading) {
     return <Spinner color="info" />; // Spinner while waiting for auth or data
   }
@@ -57,7 +63,11 @@ const DoctorList = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {doctors.map((doctor) => (
-        <DoctorCard key={doctor._id} doctor={doctor} />
+        <DoctorCard
+          key={doctor._id}
+          doctor={doctor}
+          onDelete={handleDelete} // Pass onDelete handler
+        />
       ))}
     </div>
   );
