@@ -66,7 +66,8 @@ const getPaymentById = async (req, res) => {
 // Get all payments
 const getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.find()
+    const hospitalId = req.user._id;
+    const payments = await Payment.find({ hospitalId: hospitalId })
       .populate("appointmentId")
       .populate("hospitalId")
       .populate("userId");
