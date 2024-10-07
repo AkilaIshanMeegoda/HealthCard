@@ -18,10 +18,10 @@ import AddServices from "../pages/StaffAdmin/addServices";
 import Patients from "../pages/StaffMember/Patients";
 
 import PatientHome from "../pages/Patient/PatientHome";
-import PatientAppointments from "../pages/Patient/PatientAppointments";
+import PatientAppointments from "../pages/Patient/PatientAppointmentDashBoard";
 import PatientReports from "../pages/Patient/PatientReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
-import PatientDetailsUser from "../pages/Patient/PatientDetails";
+import PatientDetailsUser from "../pages/Patient/PatientDetailsDashBoard";
 
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
@@ -32,14 +32,12 @@ import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
 
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
-import ManagePatientProfile from "../pages/Patient/MaanagePatientProfile";
+import ManagePatientProfile from "../pages/Patient/ManagePatientDetails";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
 import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
-import PatientDoctorTreatments from "../pages/Patient/PatientDoctorTreatments";
-
 
 
 
@@ -189,7 +187,7 @@ function CreateRouter() {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
     {
-      path: '/patient/patient-doctor-treatments', element: < PatientDoctorTreatments/>
+      path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
     },
   ]);
 }
