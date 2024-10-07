@@ -39,6 +39,8 @@ import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 
 import EditDoctor from "../pages/StaffAdmin/editDoctor";
+import DoctorsPage from "../components/patient/DoctorsPage";
+import DoctorDetailsPage from "../components/patient/DoctorDetailsPage";
 
 
 function CreateRouter() {
@@ -195,6 +197,14 @@ function CreateRouter() {
     },
     {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
+    },
+    {
+      path: '/hospital/:hospitalId/doctors', 
+      element: <DoctorsPage />  // This is the page showing doctors of the selected hospital
+    },
+    {
+      path: '/doctors/:doctorId', 
+      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
     },
   ]);
 }
