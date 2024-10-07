@@ -6,10 +6,10 @@ const paymentSchema = new mongoose.Schema({
     ref: 'Appointment',
     required: true
   },
-  hospitalId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  },
+  // hospitalId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true
+  // },
   userId: {
     type: String,
     required: true
