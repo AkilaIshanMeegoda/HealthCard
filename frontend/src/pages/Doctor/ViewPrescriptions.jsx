@@ -25,7 +25,6 @@ const ViewPrescriptions = () => {
         })
         .catch((error) => {
           console.error("Error fetching prescriptions", error);
-          toast.error("Failed to fetch prescriptions");
         });
   };
 
@@ -90,8 +89,8 @@ const ViewPrescriptions = () => {
       </div>
       <div className="flex justify-center w-full">
         <div className="mx-4 mt-8 overflow-hidden rounded-lg shadow-lg md:mx-10 w-[600px]">
-          <table className="table-fixed">
-            <thead>
+          <table className="table-fixed w-[600px]">
+            <thead className="w-[600px]">
               <tr className="bg-[#00135F]">
                 <th className="w-4/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                   Patient Name

@@ -65,7 +65,6 @@ const UpdateReport = () => {
       })
       .catch((error) => {
         console.error("Error fetching report details", error);
-        toast.error("Failed to fetch report details");
       });
   }, [id, user.token]);
 
@@ -123,7 +122,6 @@ const UpdateReport = () => {
       })
       .catch((error) => {
         console.error("Error updating report", error);
-        toast.error("Failed to update report");
       });
   };
 

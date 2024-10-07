@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const PatientAppointments = () => {
+const PatientDoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -184,4 +184,4 @@ const PatientAppointments = () => {
   );
 };
 
-export default PatientAppointments;
+export default PatientDoctorAppointments;
