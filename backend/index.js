@@ -7,6 +7,7 @@ const userRouter = require("./src/routes/user");
 const requireAuth = require("./src/middleware/requireAuth");
 const appointmentRouter = require("./src/routes/appointment");
 const reportRouter = require("./src/routes/report");
+const prescriptionRouter = require("./src/routes/prescriptionRoutes");
 
 const profileRouter = require("./src/routes/patientProfileRoute");
 
@@ -55,6 +56,7 @@ app.use("/appointment", requireAuth, appointmentRouter);
 app.use("/report", requireAuth, reportRouter);
 
 app.use("/patientprofile", requireAuth, profileRouter);
+app.use("/prescription", requireAuth, prescriptionRouter);
 
 app.use("/api/payment", requireAuth, paymentRouter);
 

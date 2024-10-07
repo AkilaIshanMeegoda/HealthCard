@@ -33,6 +33,10 @@ const PatientDetails = () => {
     navigate(`/doctor/viewReports/${patientId}`);
   };
 
+  const handlePrescriptionClick = (patientId) => {
+    navigate(`/doctor/viewPrescriptions/${patientId}`);
+  };
+
   return (
     <div className="relative w-full min-h-screen">
       <img
@@ -66,7 +70,7 @@ const PatientDetails = () => {
           </div>
         </div>
         
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center gap-10 mt-8">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -75,6 +79,15 @@ const PatientDetails = () => {
             className="relative z-20 px-4 py-1 mt-12 text-xl font-medium text-white bg-green-500 rounded-lg opacity-100"
           >
             View Reports
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrescriptionClick(patient._id); 
+            }}
+            className="relative z-20 px-4 py-1 mt-12 text-xl font-medium text-white bg-green-500 rounded-lg opacity-100"
+          >
+            View Prescriptions
           </button>
         </div>
       </div>

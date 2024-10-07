@@ -40,6 +40,9 @@ import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
 import AddPrescription from "../pages/Doctor/AddPrescription";
+import PrescriptionUsers from "../pages/Doctor/PrescriptionUsers";
+import ViewPrescriptions from "../pages/Doctor/ViewPrescriptions";
+import PrescriptionDetails from "../pages/Doctor/PrescriptionDetails";
 
 
 
@@ -163,8 +166,12 @@ function CreateRouter() {
           element: <DoctorDashboard />,
         },
         {
-          path: "/doctor/addPrescription",
+          path: "/doctor/addPrescription/:id",
           element: <AddPrescription />,
+        },
+        {
+          path: "/doctor/prescriptionUsers",
+          element: <PrescriptionUsers />,
         },
         {
           path: "/doctor/patients",
@@ -181,6 +188,14 @@ function CreateRouter() {
         {
           path: "/doctor/viewReport/:id",
           element: <DoctorPatientsViewReport />,
+        },
+        {
+          path: "/doctor/viewPrescriptions/:id",
+          element: <ViewPrescriptions />,
+        },
+        {
+          path: "/doctor/viewPrescription/:id",
+          element: <PrescriptionDetails />,
         },
       ],
     },
