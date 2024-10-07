@@ -48,7 +48,7 @@ export const useLogin = () => {
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);
       if (json.userType == "staffMember") {
-        navigate("/staffMember/staffDashboard");
+        navigate("/staffMember/dashboard");
         showSuccess()
       } else if(json.userType == "doctor") {
         navigate("/doctor/doctorDashboard");

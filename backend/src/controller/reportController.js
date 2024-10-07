@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Report = require("../models/Report.js");
 
 const addReport = async (req, res) => {
+  const hospitalId = req.user._id;
   const {
     titleName,
     date,
@@ -21,6 +22,7 @@ const addReport = async (req, res) => {
       description,
       image,
       patientId,
+      hospitalId:hospitalId
     });
     res.status(200).json(report);
   } catch (error) {
@@ -37,6 +39,23 @@ const getReports = async (req, res) => {
 
   try {
     const reports = await Report.find({ patientId: id });
+
+    if (!reports || reports.length === 0) {
+      return res.status(404).send("No reports found for this patient ID");
+    }
+
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getReportsByHospital = async (req, res) => {
+  const hospitalId = req.user._id; 
+  const { id: patientId } = req.params;
+
+  try {
+    const reports = await Report.find({ hospitalId, patientId });
 
     if (!reports || reports.length === 0) {
       return res.status(404).send("No reports found for this patient ID");
@@ -127,5 +146,6 @@ module.exports = {
   getReport,
   updateReport,
   deleteReport,
+  getReportsByHospital,
   getUserReports
 };
