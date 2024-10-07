@@ -32,9 +32,11 @@ import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
 
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
-import MaanagePatientProfile from "../pages/Patient/MaanagePatientProfile";
+import ManagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
+import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
+import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 
 import EditDoctor from "../pages/StaffAdmin/editDoctor";
 
@@ -186,7 +188,13 @@ function CreateRouter() {
       path: '/patient/myappointmenthistory', element: <ViewMyAppointmentHistory />
     },
     {
-      path: '/patient/viewmydetails', element: <MaanagePatientProfile />
+      path: '/patient/viewmydetails', element: <ManagePatientProfile />
+    },
+    {
+      path: '/patient/patient-add-appointment', element: < PatientAddAppointment/>
+    },
+    {
+      path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
   ]);
 }
