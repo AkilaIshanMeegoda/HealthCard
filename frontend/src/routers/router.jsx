@@ -223,6 +223,15 @@ function CreateRouter() {
           element: <PrescriptionDetails />,
         },
       ],
+    },{
+
+      path: '/hospital/:hospitalId/doctors', 
+      element: <DoctorsPage />  // This is the page showing doctors of the selected hospital
+    },
+    {
+      path: '/doctors/:doctorId', 
+      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
+
     },
 
     {
@@ -249,24 +258,19 @@ function CreateRouter() {
     {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
-    {
-
-      path: '/hospital/:hospitalId/doctors', 
-      element: <DoctorsPage />  // This is the page showing doctors of the selected hospital
-    },
-    {
-      path: '/doctors/:doctorId', 
-      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
-
-      path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
-    },
+    
     {
       path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
+    },
+    {
+      path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
+
     },
     {
       path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
 
     },
+    
   ]);
 }
 export default CreateRouter;
