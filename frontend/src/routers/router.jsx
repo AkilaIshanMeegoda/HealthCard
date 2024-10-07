@@ -47,6 +47,12 @@ import ViewPrescriptions from "../pages/Doctor/ViewPrescriptions";
 import PrescriptionDetails from "../pages/Doctor/PrescriptionDetails";
 import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
+
+
+import EditDoctor from "../pages/StaffAdmin/editDoctor";
+import DoctorsPage from "../components/patient/DoctorsPage";
+import DoctorDetailsPage from "../components/patient/DoctorDetailsPage";
+
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
 import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
 
@@ -167,6 +173,16 @@ function CreateRouter() {
     },
 
     {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/edit-doctor/:id",
+          element: <EditDoctor />,
+        },
+      ],
+    },
+
+    {
       path: "/doctor",
       element: <DoctorDashboardLayout />,
       children: [
@@ -234,6 +250,14 @@ function CreateRouter() {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
     {
+
+      path: '/hospital/:hospitalId/doctors', 
+      element: <DoctorsPage />  // This is the page showing doctors of the selected hospital
+    },
+    {
+      path: '/doctors/:doctorId', 
+      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
+
       path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
     },
     {
@@ -241,6 +265,7 @@ function CreateRouter() {
     },
     {
       path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
+
     },
   ]);
 }

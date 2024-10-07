@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext"; // Ensure this path is correct
-import DoctorCard from "./../adminStaff/DoctorCard"; // Adjust the import path as needed
+import ServiceCard from "./../adminStaff/ServiceCard"; // Adjust the import path as needed
 import { Spinner } from "flowbite-react"; // Optional spinner for loading state
 
-const DoctorList = () => {
+const ServiceList = () => {
   const { user, loading: authLoading } = useContext(AuthContext); // Destructure loading state
-  const [doctors, setDoctors] = useState([]);
+  const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch doctors when the component mounts
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchServices = async () => {
       try {
         if (authLoading) return; // Don't fetch until the auth is done loading
 
@@ -22,7 +21,7 @@ const DoctorList = () => {
         }
 
         const response = await fetch(
-          `http://localhost:3000/api/doctors/${user.email}`, // Adjust the URL if needed
+          `http://localhost:3000/api/services/${user.email}`, // Adjust the URL if needed
           {
             method: "GET",
             headers: {
@@ -32,11 +31,11 @@ const DoctorList = () => {
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch doctors");
+          throw new Error("Failed to fetch services");
         }
 
         const data = await response.json();
-        setDoctors(data);
+        setServices(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -44,13 +43,8 @@ const DoctorList = () => {
       }
     };
 
-    fetchDoctors();
+    fetchServices();
   }, [user, authLoading]); // Also depend on authLoading state
-
-  // Handle doctor deletion
-  const handleDelete = (doctorId) => {
-    setDoctors(doctors.filter((doctor) => doctor._id !== doctorId)); // Remove the deleted doctor from the state
-  };
 
   if (authLoading || loading) {
     return <Spinner color="info" />; // Spinner while waiting for auth or data
@@ -62,15 +56,11 @@ const DoctorList = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {doctors.map((doctor) => (
-        <DoctorCard
-          key={doctor._id}
-          doctor={doctor}
-          onDelete={handleDelete} // Pass onDelete handler
-        />
+      {services.map((service) => (
+        <ServiceCard key={service._id} service={service} />
       ))}
     </div>
   );
 };
 
-export default DoctorList;
+export default ServiceList;

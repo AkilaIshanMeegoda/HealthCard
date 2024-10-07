@@ -8,6 +8,7 @@ const {
   searchStaffAdmins,
   searchUsers,
   searchUser,
+  searchHospitals,
 } = require("../controller/userController");
 const requireAuth = require("../middleware/requireAuth");
 
@@ -26,5 +27,7 @@ router.get("/staffAdmins", searchStaffAdmins);
 router.get("/users", searchUsers);
 
 router.get("/user/:id", searchUser);
+
+router.get("/hospitals", searchHospitals);
 
 module.exports = router;
