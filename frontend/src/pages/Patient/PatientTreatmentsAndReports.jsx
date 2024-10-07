@@ -10,7 +10,7 @@ const PatientReports = () => {
   const navigate = useNavigate();
 
   const handleLabs = () => {
-    navigate("/patient/patient-doctor-treatments");
+    navigate("/patient/patient-treatments");
   };
 
   return (

@@ -19,7 +19,7 @@ import Patients from "../pages/StaffMember/Patients";
 
 import PatientHome from "../pages/Patient/PatientHome";
 import PatientAppointments from "../pages/Patient/PatientAppointmentDashBoard";
-import PatientReports from "../pages/Patient/PatientReports";
+import PatientReports from "../pages/Patient/PatientTreatmentsAndReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
 import PatientDetailsUser from "../pages/Patient/PatientDetailsDashBoard";
 
@@ -38,6 +38,7 @@ import UpdateReport from "../pages/StaffMember/UpdateReport";
 import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
+import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
 
 
 
@@ -188,6 +189,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
+    },
+    {
+      path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
     },
   ]);
 }
