@@ -37,6 +37,8 @@ import ManagePatientProfile from "../pages/Patient/MaanagePatientProfile";
 import UpdateReport from "../pages/StaffMember/UpdateReport";
 import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
+import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
+import PatientDoctorTreatments from "../pages/Patient/PatientDoctorTreatments";
 
 
 
@@ -185,6 +187,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
+    },
+    {
+      path: '/patient/patient-doctor-treatments', element: < PatientDoctorTreatments/>
     },
   ]);
 }

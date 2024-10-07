@@ -7,76 +7,20 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const PatientAppointments = () => {
-  const [appointments, setAppointments] = useState([]);
-  const { user } = useAuthContext();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  const fetchAppointments = () => {
-    if (user && user.token) {
-      axios
-        .get(`http://localhost:3000/appointment/my-appointments/${user.email}`, {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then((res) => {
-          if (res.data.length === 0) {
-            setAppointments([]); // Set items to empty if no discounts are found
-          } else {
-            setAppointments(res.data);
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching items", error);
-          if (error.response && error.response.status === 404) {
-            // Handle 404 error
-            setLoading(false);
-          } else {
-            // Handle other errors
-            toast.error("Failed to fetch items");
-            setLoading(false);
-          }
-        });
-    } else {
-      setLoading(false);
-    }
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
+
+  const handleDoctorsAppointment = () => {
+    navigate("/patient/patient-doctor-appointments");
   };
+  // const handleLabAppointment = () => {
+  //   navigate(`/patient/patient-update-appointment/${id}`);
+  // };
 
-  useEffect(() => {
-    if (user) {
-      fetchAppointments();
-    }
-  }, [user]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  const handleUpdate = (id) => {
-    console.log("Update discount item with id:", id);
-    navigate(`/patient/patient-update-appointment/${id}`);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this item?")) {
-      axios
-        .delete(`http://localhost:3000/appointment/delete/${id}`, {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        })
-        .then(() => {
-          setAppointments(appointments.filter((item) => item._id !== id));
-          toast.success("Item deleted successfully");
-        })
-        .catch((error) => {
-          console.error("Error deleting item", error);
-          toast.error("Failed to delete item");
-        });
-    }
-  };
   return (
     <div>
       <Navbar />
@@ -84,102 +28,48 @@ const PatientAppointments = () => {
         className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
         style={{ fontSize: "2rem", marginTop: "30px", marginLeft: "20px" }}
       >
-        My Appointments History
+        My Appointments 
       </h1>
 
-      <div className="mx-4 overflow-hidden rounded-lg shadow-lg md:mx-10">
-      <div className="overflow-x-auto">
-        <table className="w-full table-fixed">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="w-1/4 py-2 text-sm font-bold text-left text-gray-600 uppercase px-14">
-              Contact Number
-              </th>
-              <th className="w-1/4 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Appointment Date
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Appointment Time
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Hospital Name
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Doctor Name
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Specialization
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Ward No
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Payment Amount
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Important Notes
-              </th>
-              <th className="w-1/4 px-8 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white">
-            {appointments.map((apyt) => (
-              <tr key={apyt._id}>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.contact}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.date}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.time}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.paymentAmount}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.hospitalName}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.doctorName}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.specialization}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.wardNo}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.note}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleUpdate(apyt._id);
-                    }}
-                    className="py-1 px-4 rounded-lg text-xs font-medium bg-blue-500 mx-2 text-white"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(apyt._id);
-                    }}
-                    className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <section className="bg-white dark:bg-gray-900 mt-28">
+        <div className="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+          <div className="mr-auto place-self-center lg:col-span-7">
+            <h1
+              className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
+              style={{ fontSize: "3rem" }}
+            >
+              Manage Appointments
+            </h1>
+
+            {/* <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+              Grow your business with adding promotions to your shops!
+            </p> */}
+
+            <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
+              <button
+                className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                // onClick={handleLabAppointment()}
+              >
+                Lab Appointments 
+              </button>
+
+              <button
+                className="inline-flex items-center justify-center w-full px-5 py-3 mb-2 mr-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:w-auto focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                onClick={handleDoctorsAppointment}
+              >
+                Doctor Appointments
+              </button>
+            </div>
+          </div>
+
+          <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <img
+              src="https://demo.themesberg.com/landwind/images/hero.png"
+              alt="hero"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
