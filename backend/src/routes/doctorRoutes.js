@@ -16,7 +16,7 @@ router.put("/:id", updateDoctor);
 router.delete("/:id", deleteDoctor);
 
 // Route to get a doctor by ID
-router.get("/:id", getDoctorById);
+router.get("/doctor/:id", getDoctorById);
 
 
 module.exports = router;

@@ -10,7 +10,7 @@ const EditDoctor = () => {
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/doctors/${id}`); // Adjust to your API endpoint
+        const response = await axios.get(`http://localhost:3000/api/doctors/doctor/${id}`); // Adjust to your API endpoint
         console.log(response.data);
         setDoctor(response.data);
       } catch (error) {
