@@ -39,10 +39,15 @@ const PatientAddAppointment = () => {
         try {
           console.log("Checking appointments for date:", date);
           const response = await axios.get(
-            `http://localhost:3000/appointment/appointment-date/${date}`,
+            `http://localhost:3000/appointment/appointment-date`, // Updated endpoint
             {
               headers: {
                 Authorization: `Bearer ${user.token}`,
+              },
+              params: {
+                date: date,              // Include date as a query parameter
+                hospitalId: doctor?.hospitalId,  // Include hospitalId as a query parameter
+                doctorId: doctor?._id,   // Include doctorId as a query parameter
               },
             }
           );
@@ -52,7 +57,7 @@ const PatientAddAppointment = () => {
           setAppointmentsCount(count);
 
           // Disable the form and show a message if the appointment limit is reached
-          if (count > maxAppointments) {
+          if (count + 1 > maxAppointments) {
             setIsFormDisabled(true);
             toast.error("Cannot add an appointment for this day, limit reached.");
           } else {

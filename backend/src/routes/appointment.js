@@ -10,6 +10,6 @@ router.post('/add',createAppointment);
 router.delete('/delete/:id', deleteAppointment);
 router.patch('/update/:id', updateAppointment);
 router.get('/my-appointments/:email', getAppointmentsByEmail);
-router.get('/appointment-date/:date', getAppointmentsByDate);
+router.get('/appointment-date', getAppointmentsByDate);
 
 module.exports = router;

@@ -148,9 +148,9 @@ const getAppointmentsByEmail = async (req, res) => {
 };
 
 const getAppointmentsByDate = async (req, res) => {
-  const { date } = req.params; // Get the date from query parameters
-  console.log("check date in backend ", date);
-  if (!date) {
+  const { date, hospitalId, doctorId } = req.query; // Get the date from query parameters
+  console.log("check date in backend ", date, hospitalId, doctorId);
+  if (!date || !hospitalId || !doctorId) {
     return res
       .status(400)
       .json({ message: "Date query parameter is required" });
@@ -158,7 +158,11 @@ const getAppointmentsByDate = async (req, res) => {
 
   try {
     // Find all appointments that match the specified date
-    const appointments = await Appointment.find({ date: date });
+    const appointments = await Appointment.find({ 
+      date: date,
+      hospitalId: hospitalId,
+      doctorId: doctorId 
+    });
 
     // if (!appointments || appointments.length === 0) {
     //   return res.status(404).json({ message: "No appointments found for the specified date" });
