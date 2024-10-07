@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 
 const ViewReports = () => {
-  const { id } = useParams();
+  const {id}=useParams();
   const { user } = useAuthContext();
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const ViewReports = () => {
 
   const fetchReports = () => {
     user &&
-      fetch(`http://localhost:3000/report/viewReports/${id}`, {
+      fetch(`http://localhost:3000/report/hospitalReports/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,6 @@ const ViewReports = () => {
         })
         .catch((error) => {
           console.error("Error fetching items", error);
-          toast.error("Failed to fetch items");
         });
   };
 
@@ -57,17 +56,16 @@ const ViewReports = () => {
         }
       } catch (error) {
         console.error("Error deleting Report", error);
-        toast.error("Failed to delete Report");
       }
     }
   };
 
   useEffect(() => {
     fetchReports();
-  }, [user, id, handleDeleteClick]);
+  }, [user, handleDeleteClick]);
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full min-h-screen">
       <div
         style={{
           marginTop: "24px",
@@ -81,7 +79,7 @@ const ViewReports = () => {
           className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           style={{ fontSize: "2rem", marginLeft: "20px" }}
         >
-          All Reports <br />
+          All Patient Reports <br />
         </h1>
         <div className="relative hidden mt-8 group sm:block">
           <div className="relative text-gray-600 ">

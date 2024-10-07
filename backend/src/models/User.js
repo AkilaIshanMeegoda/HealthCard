@@ -38,7 +38,23 @@ const userSchema = new Schema({
   },
   hospitalId:{
     type:String
-  }
+  },
+  name:{
+    type:String
+  },
+  address:{
+    type:String
+  },
+  age:{
+    type:String
+  },
+  telephone:{
+    type:String
+  },
+  description:{
+    type:String
+  },
+
 });
 
 //static signup method

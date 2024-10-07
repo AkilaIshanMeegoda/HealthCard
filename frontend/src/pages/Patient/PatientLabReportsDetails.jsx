@@ -5,7 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const PatientReports = () => {
+const PatientLabReportsDetails = () => {
   const [reportFiles, setReportsFiles] = useState([]);
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -212,4 +212,4 @@ const PatientReports = () => {
   );
 };
 
-export default PatientReports;
+export default PatientLabReportsDetails;

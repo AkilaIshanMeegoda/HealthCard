@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const PatientAppointments = () => {
+const PatientDoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -77,6 +77,11 @@ const PatientAppointments = () => {
         });
     }
   };
+
+  const handlePayment = (id) => {
+    navigate(`/patient/appointment-payment/${id}`);
+  };
+
   return (
     <div>
       <Navbar />
@@ -173,6 +178,15 @@ const PatientAppointments = () => {
                   >
                     Delete
                   </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePayment(apyt._id);
+                    }}
+                    className="py-1 px-4 rounded-lg text-xs font-medium bg-green-500 text-white"
+                  >
+                    Payment
+                  </button>
                 </td>
               </tr>
             ))}
@@ -184,4 +198,4 @@ const PatientAppointments = () => {
   );
 };
 
-export default PatientAppointments;
+export default PatientDoctorAppointments;

@@ -34,7 +34,6 @@ const ViewAppointment = () => {
         })
         .catch((error) => {
           console.error("Error fetching item", error);
-          toast.error("Failed to fetch item details");
         });
     }
   }, [user, id]); 

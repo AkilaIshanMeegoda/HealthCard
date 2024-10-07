@@ -5,15 +5,15 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Spinner } from "flowbite-react";
 import reportImg from "../../images/report.jpg";
 
-const ReportDetails = () => {
+const PrescriptionDetails = () => {
   const { id } = useParams();
-  const [report, setReport] = useState(null);
+  const [prescription, setPrescription] = useState(null);
   const [imageLoading, setImageLoading] = useState(true); // State to track image loading
   const { user } = useAuthContext();
 
   useEffect(() => {
     if (user && id) {
-      fetch(`http://localhost:3000/report/viewReport/${id}`, {
+      fetch(`http://localhost:3000/prescription/getPrescription/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -22,10 +22,10 @@ const ReportDetails = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setReport(data);
+            setPrescription(data);
         })
         .catch((error) => {
-          console.error("Error fetching item", error);
+          console.error("Error fetching prescription", error);
         });
     }
   }, [id, user]);
@@ -34,19 +34,19 @@ const ReportDetails = () => {
     setImageLoading(false); // Set image loading state to false when the image is loaded
   };
 
-  if (!report) {
+  if (!prescription) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="w-full min-h-screen bg-gray-50">
       <div className="w-full h-20 bg-blue-600">
-        <h1 className="pt-4 ml-16 text-3xl text-white">{report.titleName}</h1>
+        <h1 className="pt-4 ml-16 text-3xl text-white">{prescription.patientName}</h1>
       </div>
       <div className="flex p-8">
-        <div>
-          <img className="mt-16 ml-8 w-[600px]" src={reportImg} />
-        </div>
+        {/* <div>
+          <img className="mt-16 ml-8 w-[600px]" src={prescription.image} />
+        </div> */}
         <div className="relative">
           {imageLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
@@ -54,8 +54,8 @@ const ReportDetails = () => {
             </div>
           )}
           <img
-            src={report.image}
-            alt={report.name}
+            src={prescription.image}
+            alt={prescription.patientName}
             onLoad={handleImageLoaded} // Call this function when the image is loaded
             className={`object-contain pt-8 m-4 h-80 w-96 ${
               imageLoading ? "hidden" : ""
@@ -64,16 +64,13 @@ const ReportDetails = () => {
 
           <div className="flex-1 md:ml-8">
             <p className="mb-2 text-2xl font-bold text-gray-600">
-              Patient Name : {report.patientName}
+              Patient Name : {prescription.patientName}
             </p>
             <p className="mb-2 text-xl font-bold text-blue-600">
-              Report Date : {report.date}
-            </p>
-            <p className="mb-2 text-xl font-bold text-blue-600">
-              Report Category : {report.category}
+              Prescription Date : {prescription.date}
             </p>
             <p className="text-lg text-black">
-              Description: {report.description}
+              Description: {prescription.description}
             </p>
           </div>
         </div>
@@ -82,4 +79,4 @@ const ReportDetails = () => {
   );
 };
 
-export default ReportDetails;
+export default PrescriptionDetails;

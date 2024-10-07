@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const Patients = () => {
+const PrescriptionUsers = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -27,7 +27,7 @@ const Patients = () => {
   };
 
   const handleViewClick = (patientId) =>{
-    navigate(`/staffMember/view-patient/${patientId}`);
+    navigate(`/doctor/addPrescription/${patientId}`);
   }
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Patients = () => {
   }, [user]);
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full min-h-screen">
       <div
         style={{
           marginTop: "24px",
@@ -104,7 +104,7 @@ const Patients = () => {
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Contact Number
               </th>
-              <th className="w-2/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
+              <th className="w-4/12 px-4 py-2 text-sm font-bold text-center text-white uppercase">
                 Action
               </th>
             </tr>
@@ -142,8 +142,8 @@ const Patients = () => {
                     <button onClick={(e) => {
                         e.stopPropagation();
                         handleViewClick(patient._id);
-                      }} className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg">
-                      View
+                      }} className="px-4 py-1 mx-2 text-sm font-medium text-white bg-blue-500 rounded-lg ">
+                      Add Prescription
                     </button>
                   </td>
                 </tr>
@@ -156,4 +156,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default PrescriptionUsers;
