@@ -1,5 +1,5 @@
 const express = require("express");
-const { addDoctor, getDoctors, updateDoctor, deleteDoctor } = require("../controller/DoctorController");
+const { addDoctor, getDoctors, updateDoctor, deleteDoctor, getDoctorById } = require("../controller/DoctorController");
 
 const router = express.Router();
 
@@ -14,5 +14,9 @@ router.put("/:id", updateDoctor);
 
 // Delete a doctor by ID
 router.delete("/:id", deleteDoctor);
+
+// Route to get a doctor by ID
+router.get("/doctor/:id", getDoctorById);
+
 
 module.exports = router;

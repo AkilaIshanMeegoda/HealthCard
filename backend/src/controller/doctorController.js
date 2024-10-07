@@ -1,8 +1,10 @@
 const Doctor = require("../models/Doctor");
+const mongoose = require("mongoose");
+
 
 // Add new doctor
 const addDoctor = async (req, res) => {
-  const { doctorName, specialization, experience, hospitalId, image, availability, description, ward, status } = req.body;
+  const { doctorName, specialization, experience, hospitalId, image, availability, maxAppointmentCount ,description, ward, status } = req.body;
   try {
     const newDoctor = new Doctor({
       doctorName,
@@ -11,6 +13,7 @@ const addDoctor = async (req, res) => {
       hospitalId,
       image,
       availability,
+      maxAppointmentCount,
       description,
       ward,
       status
@@ -52,4 +55,31 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
-module.exports = { addDoctor, getDoctors, updateDoctor, deleteDoctor };
+// Get a doctor by ID
+const getDoctorById = async (req, res) => {
+  const { id } = req.params;
+
+  // Validate ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send("Invalid doctor ID format");
+  }
+
+  try {
+    const doctor = await Doctor.findById(id);
+
+    // Check if doctor is found
+    if (!doctor) {
+      return res.status(404).send("No doctor found for this doctor ID");
+    }
+
+    res.status(200).json(doctor);
+  } catch (error) {
+    console.error("Error retrieving doctor:", error); // Log the error
+    res.status(500).json({ message: error.message }); // Use 500 for server errors
+  }
+};
+
+
+module.exports = { addDoctor, getDoctors, getDoctorById, updateDoctor, deleteDoctor };
+
+

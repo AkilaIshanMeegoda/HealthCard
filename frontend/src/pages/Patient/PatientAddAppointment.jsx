@@ -1,3 +1,4 @@
+// new code for add appointment 
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/home/Navbar/Navbar";
 import { toast } from "react-toastify";
@@ -22,11 +23,49 @@ const PatientAddAppointment = () => {
   const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
+  const [appointmentsCount, setAppointmentsCount] = useState(0);
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const maxAppointments = 4; // Default value for max appointments
+
   useEffect(() => {
     if (user) {
       setEmail(user.email); // Set email when user is available
     }
   }, [user]);
+
+  useEffect(() => {
+    const checkAppointments = async () => {
+      if (date) {
+        try {
+          console.log("Checking appointments for date:", date);
+          const response = await axios.get(
+            `http://localhost:3000/appointment/appointment-date/${date}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+          console.log("Appointments response:", response.data);
+          const count = response.data.length;
+          console.log("Appointments count for date:", count);
+          setAppointmentsCount(count);
+
+          // Disable the form and show a message if the appointment limit is reached
+          if (count > maxAppointments) {
+            setIsFormDisabled(true);
+            toast.error("Cannot add an appointment for this day, limit reached.");
+          } else {
+            setIsFormDisabled(false);
+          }
+        } catch (error) {
+          console.error("Error fetching appointments count:", error);
+          toast.error("Failed to check appointment availability.");
+        }
+      }
+    };
+    checkAppointments();
+  }, [date, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,6 +103,7 @@ const PatientAddAppointment = () => {
         email
       };
       // Make the POST request
+      console.log("Adding appointment with data:", formData);
       await axios.post("http://localhost:3000/appointment/add", formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -85,7 +125,7 @@ const PatientAddAppointment = () => {
       <div className="PatientAddAppointment w-full min-h-screen bg-gray-50 flex items-center justify-center py-5 px-2">
         <form
           className="max-w-md mx-auto mt-[-40.5rem]"
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
         >
           <label
             htmlFor="date-input"
@@ -121,7 +161,7 @@ const PatientAddAppointment = () => {
             />
           </div>
         </form>
-
+        
         <div className="w-full max-w-6xl bg-white p-5 rounded-lg shadow-lg">
           {/* Form Container */}
           <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-5">
@@ -328,13 +368,18 @@ const PatientAddAppointment = () => {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 text-center"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
+            <div className="mt-6 text-center">
+              <button
+                type="submit"
+                className={`w-full py-3 px-5 text-base font-medium text-white rounded-lg focus:ring-4 ${
+                  isFormDisabled ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                disabled={isFormDisabled} // Disable the button when form is disabled
+                onClick={handleSubmit}
+              >
+                Submit Appointment
+              </button>
+            </div>
           </form>
         </div>
       </div>
