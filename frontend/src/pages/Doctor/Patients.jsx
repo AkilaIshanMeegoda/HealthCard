@@ -27,7 +27,7 @@ const Patients = () => {
   };
 
   const handleViewClick = (patientId) =>{
-    navigate(`/staffMember/view-patient/${patientId}`);
+    navigate(`/doctor/patientDetails/${patientId}`);
   }
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Patients = () => {
   }, [user]);
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full min-h-screen">
       <div
         style={{
           marginTop: "24px",

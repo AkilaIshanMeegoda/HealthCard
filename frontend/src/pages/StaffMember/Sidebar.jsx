@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa";
 import { HiDocumentDuplicate } from "react-icons/hi2";
 import { IoLogOut } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
 import React from "react";
 import logo from "../../../src/images/logo.png";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ const SideBar = () => {
     { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/staffMember/dashboard" },
     { title: "Patients", icon: <FaUser />,href:"/staffMember/patients" },
     { title: "Appointments", icon: <HiDocumentDuplicate />,href:"/staffMember/appointments" },
+    { title: "Payments", icon: <FaMoneyCheckDollar />,href:"/staffMember/payments" },
     { title: "Add Report", icon: <MdAddToPhotos />,href:"/staffMember/reports" },
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
   ];
@@ -53,7 +55,7 @@ const SideBar = () => {
       </div>
       <ul>
         {Menus.map((menu, index) => (
-          <li key={index} onClick={() => handleClick(menu.href)} className="flex items-center p-4 text-xl font-bold text-black cursor-pointer rounded-2xl gap-x-4 hover:bg-blue-500 hover:shadow-xl hover:text-white">
+          <li key={index} onClick={() => handleClick(menu.href)} className="flex items-center p-4 text-xl font-bold text-black cursor-pointer gap-x-4 hover:bg-blue-500 hover:shadow-xl hover:text-white">
             {menu.icon}
             <span>{menu.title}</span>
           </li>

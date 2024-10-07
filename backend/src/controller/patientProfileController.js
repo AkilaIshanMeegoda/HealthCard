@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Profile = require("../models/patientProfileModel");
+const User = require("../models/User.js");
 
 // Get profiles by email
 const getProfileByEmail = async (req, res) => {
@@ -11,7 +11,7 @@ const getProfileByEmail = async (req, res) => {
 
   try {
     // Find profiles by email
-    const profiles = await Profile.find({ email: email });
+    const profiles = await User.find({ email: email });
 
     if (!profiles || profiles.length === 0) {
       return res.status(404).send("No profiles found for this email");
@@ -25,24 +25,22 @@ const getProfileByEmail = async (req, res) => {
 
 // Create a discount
 const createProfile = async (req, res) => {
-  const { email, name, address, age, telephone, description } = req.body;
+  const patientId=req.user._id;
 
   try {
+    const profile = await User.findByIdAndUpdate(
+      patientId,
+      {
+        ...req.body,
+      },
+      { new: true }
+    );
 
-    const existingProfile = await Profile.findOne({ email: email });
-    if (existingProfile) {
-      return res.status(400).json({ message: "Profile Details set already for this account." });
+    if (!profile) {
+      return res.status(404).send("No profile with that id");
     }
 
-    const profiles = await Profile.create({
-        email, 
-        name, 
-        address, 
-        age, 
-        telephone,
-        description
-    });
-    res.status(200).json(profiles);  
+    res.status(200).json(profile);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -54,7 +52,7 @@ const deleteProfile = async (req, res) => {
   console.log("check pass email to delete section",email);
     try {
       // Find the profile by email and delete it
-      const profile = await Profile.findOneAndDelete({ email });
+      const profile = await User.findOneAndDelete({ email });
   
       if (!profile) {
         return res.status(404).send("No profile with that email");
@@ -77,7 +75,7 @@ const updateProfile = async (req, res) => {
   
     try {
       // Find the profile by email and update it
-      const profile = await Profile.findOneAndUpdate(
+      const profile = await User.findOneAndUpdate(
         { email: email },  // Use email directly for searching
         {
           ...req.body,  // This should include the fields you want to update
