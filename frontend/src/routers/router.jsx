@@ -55,6 +55,7 @@ import DoctorDetailsPage from "../components/patient/DoctorDetailsPage";
 
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
 import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
+import AddLabAppointment from "../pages/Patient/AddLabAppointment";
 
 
 
@@ -270,7 +271,13 @@ function CreateRouter() {
       path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
 
     },
+
     
+
+    {
+      path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
+    },
+
   ]);
 }
 export default CreateRouter;
