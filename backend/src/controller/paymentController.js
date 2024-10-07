@@ -25,7 +25,7 @@ const addPayment = async (req, res) => {
 
     const paymentData = {
       appointmentId,
-      hospitalId: appointment.hospitalId,
+      // hospitalId: appointment.hospitalId,
       userId: appointment.userId,
       amount: appointment.paymentAmount,
       paymentMethod,
@@ -66,7 +66,8 @@ const getPaymentById = async (req, res) => {
 // Get all payments
 const getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.find()
+    const hospitalId = req.user._id;
+    const payments = await Payment.find({ hospitalId: hospitalId })
       .populate("appointmentId")
       .populate("hospitalId")
       .populate("userId");
