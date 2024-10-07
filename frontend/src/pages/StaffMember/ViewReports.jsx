@@ -25,7 +25,6 @@ const ViewReports = () => {
         })
         .catch((error) => {
           console.error("Error fetching items", error);
-          toast.error("Failed to fetch items");
         });
   };
 
@@ -57,7 +56,6 @@ const ViewReports = () => {
         }
       } catch (error) {
         console.error("Error deleting Report", error);
-        toast.error("Failed to delete Report");
       }
     }
   };
