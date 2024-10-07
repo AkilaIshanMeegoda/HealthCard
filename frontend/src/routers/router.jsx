@@ -22,10 +22,10 @@ import AddServices from "../pages/StaffAdmin/addServices";
 import Patients from "../pages/StaffMember/Patients";
 
 import PatientHome from "../pages/Patient/PatientHome";
-import PatientAppointments from "../pages/Patient/PatientAppointments";
-import PatientReports from "../pages/Patient/PatientReports";
+import PatientAppointments from "../pages/Patient/PatientAppointmentDashBoard";
+import PatientReports from "../pages/Patient/PatientTreatmentsAndReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
-import PatientDetailsUser from "../pages/Patient/PatientDetails";
+import PatientDetailsUser from "../pages/Patient/PatientDetailsDashBoard";
 
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
@@ -37,7 +37,7 @@ import ReportDetails from "../pages/StaffMember/ReportDetails";
 import Payments from "../pages/StaffMember/Payments";
 
 import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
-import ManagePatientProfile from "../pages/Patient/MaanagePatientProfile";
+import ManagePatientProfile from "../pages/Patient/ManagePatientDetails";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
 import AddPrescription from "../pages/Doctor/AddPrescription";
@@ -46,7 +46,8 @@ import ViewPrescriptions from "../pages/Doctor/ViewPrescriptions";
 import PrescriptionDetails from "../pages/Doctor/PrescriptionDetails";
 import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
-
+import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
+import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
 
 
 
@@ -230,6 +231,12 @@ function CreateRouter() {
     },
     {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
+    },
+    {
+      path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
+    },
+    {
+      path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
     },
   ]);
 }
