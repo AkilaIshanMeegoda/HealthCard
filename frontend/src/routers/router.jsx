@@ -48,6 +48,7 @@ import PatientAddAppointment from "../pages/Patient/PatientAddAppointment";
 import PatientUpdateAppointment from "../pages/Patient/PatientUpdateAppointment";
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
 import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
+import AddLabAppointment from "../pages/Patient/AddLabAppointment";
 
 
 
@@ -237,6 +238,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
+    },
+    {
+      path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
     },
   ]);
 }
