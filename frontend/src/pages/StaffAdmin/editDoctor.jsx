@@ -32,6 +32,7 @@ const EditDoctor = () => {
   ]);
   const [availability, setAvailability] = useState([]);
   const [doctorStatus, setDoctorStatus] = useState("active"); // Default status
+  const [maxAppointmentCount, setMaxAppointmentCount] = useState(10); // New state for max appointments
 
   useEffect(() => {
     const fetchDoctor = async () => {
@@ -44,6 +45,8 @@ const EditDoctor = () => {
         setAvailability(response.data.availability || []);
         setDoctorStatus(response.data.status || "active");
         setImageUrl(response.data.image || "");
+        setMaxAppointmentCount(response.data.maxAppointmentCount || 0); // Set maxAppointmentCount
+
       } catch (error) {
         console.error("Error fetching doctor data:", error);
       }
@@ -59,7 +62,8 @@ const EditDoctor = () => {
         ...doctor,
         availability: availability,
         status: doctorStatus,
-        image:imageUrl
+        image:imageUrl,
+        maxAppointmentCount
       };
 
       await axios.put(
@@ -251,7 +255,19 @@ const EditDoctor = () => {
   </Button>
 </div>
 
-
+ {/* Max Appointment Count */}
+ <div className="lg:w-1/2">
+          <Label htmlFor="maxAppointmentCount" value="Max Appointment Count" className="text-lg" />
+          <TextInput
+            id="maxAppointmentCount"
+            name="maxAppointmentCount"
+            type="number"
+            value={maxAppointmentCount || ''}
+            placeholder="Maximum appointments allowed"
+            required
+            onChange={(e) => setMaxAppointmentCount(e.target.value)}
+          />
+          </div>
         {/* Description */}
         <div className="lg:w-full">
           <Label htmlFor="description" value="Description" className="text-lg" />

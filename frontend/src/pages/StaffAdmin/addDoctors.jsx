@@ -16,6 +16,8 @@ const AddDoctors = () => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(""); // New state to store the image URL
   const [image, setImage] = useState(null); // To handle the selected image file
+  const [maxAppointmentCount, setMaxAppointmentCount] = useState(10); // New state for max appointment count
+
 
   const showSuccess = () => {
     toast.success("Doctor added successfully!", {
@@ -103,6 +105,7 @@ const AddDoctors = () => {
       hospitalId: user.email, // Using user email as hospitalId
       image: imageUrl,
       availability: availability,
+      maxAppointmentCount: maxAppointmentCount, // Add max appointment count to the doctor object
       description: form.description.value.trim(),
       ward: ward,
       status: doctorStatus,
@@ -371,6 +374,21 @@ const AddDoctors = () => {
             )}
           </div>
         </div>
+
+{/* max appointment count field */}
+<div className="lg:w-1/2">
+  <Label htmlFor="maxAppointmentCount" value="Max Appointment Count" className="text-lg" />
+  <TextInput
+    id="maxAppointmentCount"
+    name="maxAppointmentCount"
+    type="number"
+    placeholder="Maximum appointments allowed"
+    value={maxAppointmentCount}
+    onChange={(e) => setMaxAppointmentCount(e.target.value)}
+    required
+  />
+</div>
+
 
         {/* last row */}
         <div className="flex gap-8">
