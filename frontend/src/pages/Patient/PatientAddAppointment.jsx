@@ -3,10 +3,13 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/home/Navbar/Navbar";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const PatientAddAppointment = () => {
+  const location = useLocation();
+  const { doctor, hospital } = location.state || {}; // Access the passed doctor object
+  console.log("Doctor details:", doctor, hospital);
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
@@ -16,9 +19,6 @@ const PatientAddAppointment = () => {
   const [notes, setImportantNotes] = useState("");
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
-  const [hospitalName, setHospitalName] = useState("");
-  const [doctorName, setDoctorName] = useState("");
-  const [specialization, setSpecialization] = useState("");
   const [wardNo, setWardNo] = useState("");
   const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
@@ -77,9 +77,6 @@ const PatientAddAppointment = () => {
       !notes ||
       !date ||
       !time ||
-      !hospitalName ||
-      !doctorName ||
-      !specialization ||
       !wardNo ||
       !paymentAmount ||
       !email
@@ -95,9 +92,9 @@ const PatientAddAppointment = () => {
         note: notes,
         date,
         time,
-        hospitalName,
-        doctorName,
-        specialization,
+        hospitalName: hospital,
+        doctorName: doctor?.doctorName,
+        specialization: doctor?.specialization,
         wardNo,
         paymentAmount,
         email
@@ -271,9 +268,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="hospitalName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={hospitalName}
-                  onChange={(e) => setHospitalName(e.target.value)}
+                  value={hospital}
                   required
+                  readOnly
                 />
               </div>
 
@@ -289,9 +286,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="doctorName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={doctorName}
-                  onChange={(e) => setDoctorName(e.target.value)}
+                  value={doctor?.doctorName}
                   required
+                  readOnly
                 />
               </div>
 
@@ -307,9 +304,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="specialization"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={specialization}
-                  onChange={(e) => setSpecialization(e.target.value)}
+                  value={doctor?.specialization}
                   required
+                  readOnly
                 />
               </div>
 

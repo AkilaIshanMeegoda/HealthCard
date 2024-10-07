@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useParams, useNavigate, useLocation  } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 
 const DoctorsPage = () => {
+  const location = useLocation();
   const { hospitalId } = useParams();  // Get hospitalId from the URL
   const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
+  const { hospitalName } = location.state || {};  // Access the passed hospitalName
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -26,9 +28,11 @@ const DoctorsPage = () => {
   };
 
   const handleAppointmentClick = (doctor) => {
-    // Navigate to the new route and pass the doctor object as state
-    navigate('/patient/patient-add-appointment', { state: { doctor } });
+    console.log("Doctor object:", doctor, hospitalName);  // Check the doctor object
+
+    navigate('/patient/patient-add-appointment', { state: { doctor, hospital: hospitalName } });
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
