@@ -3,10 +3,13 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/home/Navbar/Navbar";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const PatientAddAppointment = () => {
+  const location = useLocation();
+  const { doctor, hospital } = location.state || {}; // Access the passed doctor object
+  console.log("Doctor details:", doctor, hospital);
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
@@ -16,17 +19,14 @@ const PatientAddAppointment = () => {
   const [notes, setImportantNotes] = useState("");
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
-  const [hospitalName, setHospitalName] = useState("");
-  const [doctorName, setDoctorName] = useState("");
-  const [specialization, setSpecialization] = useState("");
   const [wardNo, setWardNo] = useState("");
   const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
   const [appointmentsCount, setAppointmentsCount] = useState(0);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
-  const maxAppointments = 4; // Default value for max appointments
-
+  const maxAppointments = doctor?.maxAppointmentCount || 2; // Default to 2 if maxCount is not available
+  console.log("Max appointments for doctor:", maxAppointments);
   useEffect(() => {
     if (user) {
       setEmail(user.email); // Set email when user is available
@@ -39,10 +39,15 @@ const PatientAddAppointment = () => {
         try {
           console.log("Checking appointments for date:", date);
           const response = await axios.get(
-            `http://localhost:3000/appointment/appointment-date/${date}`,
+            `http://localhost:3000/appointment/appointment-date`, // Updated endpoint
             {
               headers: {
                 Authorization: `Bearer ${user.token}`,
+              },
+              params: {
+                date: date,              // Include date as a query parameter
+                hospitalId: doctor?.hospitalId,  // Include hospitalId as a query parameter
+                doctorId: doctor?._id,   // Include doctorId as a query parameter
               },
             }
           );
@@ -52,7 +57,7 @@ const PatientAddAppointment = () => {
           setAppointmentsCount(count);
 
           // Disable the form and show a message if the appointment limit is reached
-          if (count > maxAppointments) {
+          if (count + 1 > maxAppointments) {
             setIsFormDisabled(true);
             toast.error("Cannot add an appointment for this day, limit reached.");
           } else {
@@ -77,9 +82,6 @@ const PatientAddAppointment = () => {
       !notes ||
       !date ||
       !time ||
-      !hospitalName ||
-      !doctorName ||
-      !specialization ||
       !wardNo ||
       !paymentAmount ||
       !email
@@ -95,12 +97,14 @@ const PatientAddAppointment = () => {
         note: notes,
         date,
         time,
-        hospitalName,
-        doctorName,
-        specialization,
+        hospitalName: hospital,
+        doctorName: doctor?.doctorName,
+        specialization: doctor?.specialization,
         wardNo,
         paymentAmount,
-        email
+        email,
+        doctorId: doctor?._id,
+        hospitalId: doctor?.hospitalId,
       };
       // Make the POST request
       console.log("Adding appointment with data:", formData);
@@ -271,9 +275,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="hospitalName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={hospitalName}
-                  onChange={(e) => setHospitalName(e.target.value)}
+                  value={hospital}
                   required
+                  readOnly
                 />
               </div>
 
@@ -289,9 +293,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="doctorName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={doctorName}
-                  onChange={(e) => setDoctorName(e.target.value)}
+                  value={doctor?.doctorName}
                   required
+                  readOnly
                 />
               </div>
 
@@ -307,9 +311,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="specialization"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={specialization}
-                  onChange={(e) => setSpecialization(e.target.value)}
+                  value={doctor?.specialization}
                   required
+                  readOnly
                 />
               </div>
 
