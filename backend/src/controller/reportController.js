@@ -123,6 +123,22 @@ const deleteReport = async (req,res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getUserReports = async (req, res) => {
+  const id  = req.user._id;
+  console.log("user id",id);
+
+  try {
+    const reports = await Report.find({ patientId: id });
+
+    if (!reports || reports.length === 0) {
+      return res.status(404).send("No reports found for this patient ID");
+    }
+
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+ }
+};
 
 module.exports = {
   addReport,
@@ -130,5 +146,6 @@ module.exports = {
   getReport,
   updateReport,
   deleteReport,
-  getReportsByHospital
+  getReportsByHospital,
+  getUserReports
 };
