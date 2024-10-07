@@ -77,6 +77,11 @@ const PatientDoctorAppointments = () => {
         });
     }
   };
+
+  const handlePayment = (id) => {
+    navigate(`/patient/appointment-payment/${id}`);
+  };
+
   return (
     <div>
       <Navbar />
@@ -172,6 +177,15 @@ const PatientDoctorAppointments = () => {
                     className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
                   >
                     Delete
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePayment(apyt._id);
+                    }}
+                    className="py-1 px-4 rounded-lg text-xs font-medium bg-green-500 text-white"
+                  >
+                    Payment
                   </button>
                 </td>
               </tr>

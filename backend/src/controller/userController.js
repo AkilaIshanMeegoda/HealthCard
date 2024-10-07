@@ -89,6 +89,21 @@ const searchUser = async (req, res) => {
   }
 };
 
+
+const searchHospitals = async (req, res) => {
+  try {
+    // Find staffAdmin users and select both email and hospitalName fields
+    const hospitals = await User.find({ userType: "staffAdmin" }).select("email hospitalName");
+    console.log(hospitals);
+
+    // Send the list of hospital names and emails
+    res.send(hospitals);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+};
+
 module.exports = {
   signupUser,
   searchUser,
@@ -96,5 +111,6 @@ module.exports = {
   searchDoctors,
   searchStaffMembers,
   searchStaffAdmins,
-  searchUsers
+  searchUsers,
+  searchHospitals
 };
