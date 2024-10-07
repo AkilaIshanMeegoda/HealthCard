@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 
 const ViewReports = () => {
+  const {id}=useParams();
   const { user } = useAuthContext();
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const ViewReports = () => {
 
   const fetchReports = () => {
     user &&
-      fetch(`http://localhost:3000/report/hospitalReports`, {
+      fetch(`http://localhost:3000/report/hospitalReports/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +81,7 @@ const ViewReports = () => {
           className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           style={{ fontSize: "2rem", marginLeft: "20px" }}
         >
-          All Reports <br />
+          All Patient Reports <br />
         </h1>
         <div className="relative hidden mt-8 group sm:block">
           <div className="relative text-gray-600 ">

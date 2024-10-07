@@ -9,6 +9,6 @@ router.get('/viewReports/:id',getReports);
 router.get('/viewReport/:id',getReport);
 router.patch('/updateReport/:id',updateReport);
 router.delete('/deleteReport/:id',deleteReport);
-router.get('/hospitalReports',getReportsByHospital);
+router.get('/hospitalReports/:id',getReportsByHospital);
 
 module.exports = router;

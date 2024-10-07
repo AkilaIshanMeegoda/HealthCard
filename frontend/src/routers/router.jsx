@@ -102,7 +102,7 @@ function CreateRouter() {
           element: <AddReport />,
         },
         {
-          path: "/staffMember/view-reports",
+          path: "/staffMember/view-reports/:id",
           element: <ViewReports />,
         },
         {

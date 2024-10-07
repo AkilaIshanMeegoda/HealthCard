@@ -30,7 +30,7 @@ const PatientDetails = () => {
   }, [user, id]);
 
   const handleViewClick = (patientId) => {
-    navigate(`/staffMember/view-reports`);
+    navigate(`/staffMember/view-reports/${patientId}`);
   };
 
   return (

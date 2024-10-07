@@ -51,10 +51,11 @@ const getReports = async (req, res) => {
 };
 
 const getReportsByHospital = async (req, res) => {
-  const hospitalId = req.user._id;
+  const hospitalId = req.user._id; 
+  const { id: patientId } = req.params;
 
   try {
-    const reports = await Report.find({ hospitalId: hospitalId });
+    const reports = await Report.find({ hospitalId, patientId });
 
     if (!reports || reports.length === 0) {
       return res.status(404).send("No reports found for this patient ID");
