@@ -51,6 +51,9 @@ const createAppointment = async (req, res) => {
     wardNo,
     paymentAmount,
     email,
+    doctorId,
+    hospitalId,
+    status,
   } = req.body;
 
   try {
@@ -67,6 +70,9 @@ const createAppointment = async (req, res) => {
       wardNo,
       paymentAmount,
       email,
+      doctorId,
+      hospitalId,
+      status,
     });
     res.status(200).json(profiles);
   } catch (error) {
@@ -145,7 +151,9 @@ const getAppointmentsByDate = async (req, res) => {
   const { date } = req.params; // Get the date from query parameters
   console.log("check date in backend ", date);
   if (!date) {
-    return res.status(400).json({ message: "Date query parameter is required" });
+    return res
+      .status(400)
+      .json({ message: "Date query parameter is required" });
   }
 
   try {
@@ -169,5 +177,5 @@ module.exports = {
   updateAppointment,
   deleteAppointment,
   getAppointmentsByEmail,
-  getAppointmentsByDate
+  getAppointmentsByDate,
 };

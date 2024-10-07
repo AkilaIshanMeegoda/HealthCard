@@ -25,7 +25,7 @@ const PatientAddAppointment = () => {
 
   const [appointmentsCount, setAppointmentsCount] = useState(0);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
-  const maxAppointments = 4; // Default value for max appointments
+  const maxAppointments = 2; // Default value for max appointments
 
   useEffect(() => {
     if (user) {
@@ -97,7 +97,9 @@ const PatientAddAppointment = () => {
         specialization: doctor?.specialization,
         wardNo,
         paymentAmount,
-        email
+        email,
+        doctorId: doctor?._id,
+        hospitalId: doctor?.hospitalId,
       };
       // Make the POST request
       console.log("Adding appointment with data:", formData);
