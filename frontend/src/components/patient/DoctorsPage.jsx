@@ -25,6 +25,11 @@ const DoctorsPage = () => {
     navigate(`/doctors/${doctorId}`); // Redirect to the doctor details page
   };
 
+  const handleAppointmentClick = (doctor) => {
+    // Navigate to the new route and pass the doctor object as state
+    navigate('/patient/patient-add-appointment', { state: { doctor } });
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Doctors</h1>
@@ -36,18 +41,26 @@ const DoctorsPage = () => {
             <div 
               key={doctor._id} 
               className="bg-white border border-gray-200 shadow-md rounded-lg p-6 w-64 cursor-pointer" 
-              onClick={() => handleDoctorClick(doctor._id)} // Add click handler
             >
               {doctor.image && (
                 <img 
                   src={doctor.image} 
                   alt={doctor.doctorName} 
                   className="w-full h-50 object-cover rounded-t-lg mb-4" 
+                  onClick={() => handleDoctorClick(doctor._id)}
                 />
               )}
-              <h3 className="text-xl font-semibold text-blue-600 mb-2">{doctor.doctorName}</h3>
+              <h3 className="text-xl font-semibold text-blue-600 mb-2" onClick={() => handleDoctorClick(doctor._id)}>{doctor.doctorName}</h3>
               <p className="text-gray-600">{doctor.specialization}</p>
               <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}
+
+               {/* Button to book an appointment */}
+               <button 
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                onClick={() => handleAppointmentClick(doctor)} // Add appointment button handler
+              >
+                Book Appointment
+              </button>
             </div>
           ))
         ) : (
