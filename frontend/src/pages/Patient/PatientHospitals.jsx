@@ -20,8 +20,8 @@ const PatientHospitals = () => {
   }, []);
 
   // Function to handle card click and navigate to the doctors page
-  const handleCardClick = (hospitalEmail) => {
-    navigate(`/hospital/${hospitalEmail}/doctors`);  // Navigate to the doctors page
+  const handleCardClick = (hospitalEmail, hospitalName) => {
+    navigate(`/hospital/${hospitalEmail}/doctors`, { state: { hospitalName } });  // Pass hospitalName as state
   };
 
   return (
@@ -36,7 +36,7 @@ const PatientHospitals = () => {
             <div 
               key={hospital.email} 
               className="bg-white border border-gray-200 shadow-md rounded-lg p-20 w-64 hover:scale-105 transform transition duration-300 ease-in-out cursor-pointer"
-              onClick={() => handleCardClick(hospital.email)}  // Handle card click
+              onClick={() => handleCardClick(hospital.email, hospital.hospitalName)}  // Handle card click
             >
               <h3 className="text-xl font-semibold text-blue-600 mb-2">{hospital.hospitalName}</h3> {/* Display hospital name */}
             </div>
