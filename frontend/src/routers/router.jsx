@@ -36,6 +36,7 @@ import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
 import Payments from "../pages/StaffMember/Payments";
+import AppointmentsDisplay from "../pages/StaffMember/AppointmentsDisplay";
 
 // import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
 import ManagePatientProfile from "../pages/Patient/ManagePatientDetails";
@@ -95,7 +96,8 @@ function CreateRouter() {
         },
         {
           path: "/staffMember/appointments",
-          element: <Appointments />,
+          // element: <Appointments />,
+          element: <AppointmentsDisplay />,
         },
         {
           path: "/staffMember/view-appointment/:id",
