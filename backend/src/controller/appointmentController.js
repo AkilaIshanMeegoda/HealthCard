@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const Appointment = require("../models/Appointment.js");
+const User = require("../models/User.js");
 
 const searchAppointments = async (req, res) => {
   try {
-    const hospitalId = req.user._id;
+    // const hospitalId = req.user._id;
+    const userId = req.user._id;
+    const user = await User.findById(userId);
 
     // Fetch all users of type "user" from the database
-    const appointments = await Appointment.find({ hospitalId: hospitalId });
+    const appointments = await Appointment.find({ hospitalId: user.hospitalId });
 
     if (!appointments || appointments.length === 0) {
       return res.status(404).json({ message: "No appointments found" });
@@ -112,7 +115,7 @@ const updateAppointment = async (req, res) => {
     const appointment = await Appointment.findByIdAndUpdate(
       id, // Corrected to use id directly
       {
-        ...req.body,
+        ...req.body, 
       },
       { new: true } // This option returns the updated document
     );

@@ -33,6 +33,8 @@ const EditDoctor = () => {
   const [availability, setAvailability] = useState([]);
   const [doctorStatus, setDoctorStatus] = useState("active"); // Default status
   const [maxAppointmentCount, setMaxAppointmentCount] = useState(10); // New state for max appointments
+  const [ward, setWard] = useState(""); // New state for Ward
+  const [paymentAmount, setPaymentAmount] = useState(""); // New state for Payment Amount
 
   useEffect(() => {
     const fetchDoctor = async () => {
@@ -46,6 +48,8 @@ const EditDoctor = () => {
         setDoctorStatus(response.data.status || "active");
         setImageUrl(response.data.image || "");
         setMaxAppointmentCount(response.data.maxAppointmentCount || 0); // Set maxAppointmentCount
+        setWard(response.data.ward || ""); // Set Ward
+        setPaymentAmount(response.data.paymentAmount || ""); // Set Payment Amount
 
       } catch (error) {
         console.error("Error fetching doctor data:", error);
@@ -63,7 +67,9 @@ const EditDoctor = () => {
         availability: availability,
         status: doctorStatus,
         image:imageUrl,
-        maxAppointmentCount
+        maxAppointmentCount,
+        ward, // Include ward
+        paymentAmount, // Include paymentAmount
       };
 
       await axios.put(
@@ -281,6 +287,31 @@ const EditDoctor = () => {
           />
         </div>
 
+
+ {/* Ward */}
+ <div className="lg:w-1/2">
+          <Label htmlFor="ward" value="Ward" className="text-lg" />
+          <TextInput
+            id="ward"
+            type="number"
+            value={ward}
+            onChange={(e) => setWard(Number(e.target.value))} // Convert to number
+            required
+          />
+        </div>
+
+        {/* Payment Amount */}
+        <div className="lg:w-1/2">
+          <Label htmlFor="paymentAmount" value="Payment Amount" className="text-lg" />
+          <TextInput
+            id="paymentAmount"
+            type="number"
+            value={paymentAmount}
+            onChange={(e) => setPaymentAmount(Number(e.target.value))} // Convert to number
+            required
+          />
+        </div>
+        
         <Button type="submit" color="success" className="mt-4">
           Update Doctor
         </Button>
