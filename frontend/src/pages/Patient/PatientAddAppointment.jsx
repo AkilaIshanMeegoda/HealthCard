@@ -1,11 +1,15 @@
+// new code for add appointment 
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/home/Navbar/Navbar";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const PatientAddAppointment = () => {
+  const location = useLocation();
+  const { doctor, hospital } = location.state || {}; // Access the passed doctor object
+  console.log("Doctor details:", doctor, hospital);
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
@@ -15,18 +19,58 @@ const PatientAddAppointment = () => {
   const [notes, setImportantNotes] = useState("");
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
-  const [hospitalName, setHospitalName] = useState("");
-  const [doctorName, setDoctorName] = useState("");
-  const [specialization, setSpecialization] = useState("");
   const [wardNo, setWardNo] = useState("");
   const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
+  const [appointmentsCount, setAppointmentsCount] = useState(0);
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const maxAppointments = doctor?.maxAppointmentCount || 2; // Default to 2 if maxCount is not available
+  console.log("Max appointments for doctor:", maxAppointments);
   useEffect(() => {
     if (user) {
       setEmail(user.email); // Set email when user is available
     }
   }, [user]);
+
+  useEffect(() => {
+    const checkAppointments = async () => {
+      if (date) {
+        try {
+          console.log("Checking appointments for date:", date);
+          const response = await axios.get(
+            `http://localhost:3000/appointment/appointment-date`, // Updated endpoint
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+              params: {
+                date: date,              // Include date as a query parameter
+                hospitalId: doctor?.hospitalId,  // Include hospitalId as a query parameter
+                doctorId: doctor?._id,   // Include doctorId as a query parameter
+              },
+            }
+          );
+          console.log("Appointments response:", response.data);
+          const count = response.data.length;
+          console.log("Appointments count for date:", count);
+          setAppointmentsCount(count);
+
+          // Disable the form and show a message if the appointment limit is reached
+          if (count + 1 > maxAppointments) {
+            setIsFormDisabled(true);
+            toast.error("Cannot add an appointment for this day, limit reached.");
+          } else {
+            setIsFormDisabled(false);
+          }
+        } catch (error) {
+          console.error("Error fetching appointments count:", error);
+          toast.error("Failed to check appointment availability.");
+        }
+      }
+    };
+    checkAppointments();
+  }, [date, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,9 +82,6 @@ const PatientAddAppointment = () => {
       !notes ||
       !date ||
       !time ||
-      !hospitalName ||
-      !doctorName ||
-      !specialization ||
       !wardNo ||
       !paymentAmount ||
       !email
@@ -56,14 +97,17 @@ const PatientAddAppointment = () => {
         note: notes,
         date,
         time,
-        hospitalName,
-        doctorName,
-        specialization,
+        hospitalName: hospital,
+        doctorName: doctor?.doctorName,
+        specialization: doctor?.specialization,
         wardNo,
         paymentAmount,
-        email
+        email,
+        doctorId: doctor?._id,
+        hospitalId: doctor?.hospitalId,
       };
       // Make the POST request
+      console.log("Adding appointment with data:", formData);
       await axios.post("http://localhost:3000/appointment/add", formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -85,7 +129,7 @@ const PatientAddAppointment = () => {
       <div className="PatientAddAppointment w-full min-h-screen bg-gray-50 flex items-center justify-center py-5 px-2">
         <form
           className="max-w-md mx-auto mt-[-40.5rem]"
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
         >
           <label
             htmlFor="date-input"
@@ -121,7 +165,7 @@ const PatientAddAppointment = () => {
             />
           </div>
         </form>
-
+        
         <div className="w-full max-w-6xl bg-white p-5 rounded-lg shadow-lg">
           {/* Form Container */}
           <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-5">
@@ -231,9 +275,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="hospitalName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={hospitalName}
-                  onChange={(e) => setHospitalName(e.target.value)}
+                  value={hospital}
                   required
+                  readOnly
                 />
               </div>
 
@@ -249,9 +293,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="doctorName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={doctorName}
-                  onChange={(e) => setDoctorName(e.target.value)}
+                  value={doctor?.doctorName}
                   required
+                  readOnly
                 />
               </div>
 
@@ -267,9 +311,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="specialization"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={specialization}
-                  onChange={(e) => setSpecialization(e.target.value)}
+                  value={doctor?.specialization}
                   required
+                  readOnly
                 />
               </div>
 
@@ -328,13 +372,18 @@ const PatientAddAppointment = () => {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 text-center"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
+            <div className="mt-6 text-center">
+              <button
+                type="submit"
+                className={`w-full py-3 px-5 text-base font-medium text-white rounded-lg focus:ring-4 ${
+                  isFormDisabled ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                disabled={isFormDisabled} // Disable the button when form is disabled
+                onClick={handleSubmit}
+              >
+                Submit Appointment
+              </button>
+            </div>
           </form>
         </div>
       </div>

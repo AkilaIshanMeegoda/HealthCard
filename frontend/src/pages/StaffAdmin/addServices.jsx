@@ -6,12 +6,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { FaConciergeBell } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 
 const AddServices = () => {
   const { user } = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState(""); // New state to store the image URL
+  const [image, setImage] = useState(null); // To handle the selected image file
 
   const showSuccess = () => {
     toast.success("Service added successfully!", {
@@ -23,8 +27,52 @@ const AddServices = () => {
   const [serviceName, setServiceName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
 
+
+  const handleImageUpload = async (file) => {
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(file.name);
+    try {
+      await fileRef.put(file); // Upload the file to Firebase
+      const uploadedImageUrl = await fileRef.getDownloadURL(); // Get the image URL after upload
+      setImageUrl(uploadedImageUrl); // Store the image URL in state
+      toast.success("Image uploaded successfully!", {
+        position: "bottom-right",
+        theme: "colored",
+      });
+    } catch (error) {
+      setErrors((prev) => ({ ...prev, image: "Image upload failed" }));
+      console.error("Image upload error: ", error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file size (limit example: 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "File size exceeds 5MB limit",
+        }));
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "Only image files are allowed",
+        }));
+        return;
+      }
+
+      setImage(file);
+      handleImageUpload(file);
+    }
+  };
+
+  
   const handleAddService = async (event) => {
     event.preventDefault();
     if (!user) {
@@ -38,7 +86,7 @@ const AddServices = () => {
       description: form.description.value.trim(),
       price: price,
       hospitalId: user.email, // Using user email as hospitalId
-      image: image, // Assuming you will handle the image upload separately
+      image: imageUrl, // Assuming you will handle the image upload separately
     };
 
     try {
@@ -168,36 +216,30 @@ const AddServices = () => {
           )}
         </div>
 
-        {/* Image Upload */}
-        <div className="lg:w-full">
-          <Label htmlFor="image" value="Upload Image" className="text-lg" />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file) {
-                const reader = new FileReader();
+        <div className="lg:w-1/2">
+            <Label htmlFor="image" value="Upload Image" className="text-lg" />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange} // Handle file selection
+              required
+            />
+            {errors.image && (
+              <div className="font-semibold text-red-600">{errors.image}</div>
+            )}
+          </div>
+    
 
-                reader.onloadend = () => {
-                  const base64String = reader.result;
-                  setImage(base64String);
-                };
-
-                reader.readAsDataURL(file);
-              }
-            }}
-            required
-          />
-        </div>
-
-        <Button
+          <Button
           type="submit"
-          disabled={loading || Object.keys(errors).some((key) => errors[key])}
-          className="w-40 bg-red-500 shadow-lg"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-6"
+          disabled={loading}
         >
-          <p className="text-lg font-bold">Add Service</p>
+          {loading ? "Submitting..." : "Add Service"}
         </Button>
+        {errors.server && (
+          <div className="font-semibold text-red-600 mt-4">{errors.server}</div>
+        )}
       </form>
     </div>
   );

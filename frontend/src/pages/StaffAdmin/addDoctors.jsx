@@ -6,12 +6,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { FaUserMd } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 
 const AddDoctors = () => {
   const { user } = useContext(AuthContext); // Updated context
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState(""); // New state to store the image URL
+  const [image, setImage] = useState(null); // To handle the selected image file
+  const [maxAppointmentCount, setMaxAppointmentCount] = useState(10); // New state for max appointment count
+
 
   const showSuccess = () => {
     toast.success("Doctor added successfully!", {
@@ -39,8 +45,50 @@ const AddDoctors = () => {
   const [availability, setAvailability] = useState([
     { date: "", time: "", status: "available" },
   ]);
-  const [image, setImage] = useState("");
   const [doctorStatus, setDoctorStatus] = useState("active"); // Default status
+
+  const handleImageUpload = async (file) => {
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(file.name);
+    try {
+      await fileRef.put(file); // Upload the file to Firebase
+      const uploadedImageUrl = await fileRef.getDownloadURL(); // Get the image URL after upload
+      setImageUrl(uploadedImageUrl); // Store the image URL in state
+      toast.success("Image uploaded successfully!", {
+        position: "bottom-right",
+        theme: "colored",
+      });
+    } catch (error) {
+      setErrors((prev) => ({ ...prev, image: "Image upload failed" }));
+      console.error("Image upload error: ", error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file size (limit example: 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "File size exceeds 5MB limit",
+        }));
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "Only image files are allowed",
+        }));
+        return;
+      }
+
+      setImage(file);
+      handleImageUpload(file);
+    }
+  };
 
   const handleAddDoctor = async (event) => {
     event.preventDefault();
@@ -55,8 +103,9 @@ const AddDoctors = () => {
       specialization: selectedSpecialty,
       experience: experience,
       hospitalId: user.email, // Using user email as hospitalId
-      image: image, // Assuming you will handle the image upload separately
+      image: imageUrl,
       availability: availability,
+      maxAppointmentCount: maxAppointmentCount, // Add max appointment count to the doctor object
       description: form.description.value.trim(),
       ward: ward,
       status: doctorStatus,
@@ -317,23 +366,29 @@ const AddDoctors = () => {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0]; // Get the selected file
-                if (file) {
-                  const reader = new FileReader(); // Create a new FileReader instance
-
-                  reader.onloadend = () => {
-                    const base64String = reader.result; // Get the base64 string
-                    setImage(base64String); // Store the base64 string in state
-                  };
-
-                  reader.readAsDataURL(file); // Convert the file to a base64-encoded string
-                }
-              }} // Handle image upload and conversion to base64
+              onChange={handleFileChange} // Handle file selection
               required
             />
+            {errors.image && (
+              <div className="font-semibold text-red-600">{errors.image}</div>
+            )}
           </div>
         </div>
+
+{/* max appointment count field */}
+<div className="lg:w-1/2">
+  <Label htmlFor="maxAppointmentCount" value="Max Appointment Count" className="text-lg" />
+  <TextInput
+    id="maxAppointmentCount"
+    name="maxAppointmentCount"
+    type="number"
+    placeholder="Maximum appointments allowed"
+    value={maxAppointmentCount}
+    onChange={(e) => setMaxAppointmentCount(e.target.value)}
+    required
+  />
+</div>
+
 
         {/* last row */}
         <div className="flex gap-8">
@@ -362,11 +417,14 @@ const AddDoctors = () => {
 
         <Button
           type="submit"
-          disabled={loading || Object.keys(errors).some((key) => errors[key])}
-          className="w-40 bg-red-500 shadow-lg"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-6"
+          disabled={loading}
         >
-          <p className="text-lg font-bold">Add Doctor</p>
+          {loading ? "Submitting..." : "Add Doctor"}
         </Button>
+        {errors.server && (
+          <div className="font-semibold text-red-600 mt-4">{errors.server}</div>
+        )}
       </form>
     </div>
   );

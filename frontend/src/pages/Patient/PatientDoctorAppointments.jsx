@@ -77,6 +77,11 @@ const PatientDoctorAppointments = () => {
         });
     }
   };
+
+  const handlePayment = (id) => {
+    navigate(`/patient/appointment-payment/${id}`);
+  };
+
   return (
     <div>
       <Navbar />
@@ -92,14 +97,8 @@ const PatientDoctorAppointments = () => {
         <table className="w-full table-fixed">
           <thead>
             <tr className="bg-gray-200">
-              <th className="w-1/4 py-2 text-sm font-bold text-left text-gray-600 uppercase px-14">
-              Contact Number
-              </th>
               <th className="w-1/4 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
               Appointment Date
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Appointment Time
               </th>
               <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
               Hospital Name
@@ -108,16 +107,10 @@ const PatientDoctorAppointments = () => {
               Doctor Name
               </th>
               <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Specialization
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Ward No
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
               Payment Amount
               </th>
               <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Important Notes
+              Payment Status
               </th>
               <th className="w-1/4 px-8 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                 Action
@@ -128,16 +121,7 @@ const PatientDoctorAppointments = () => {
             {appointments.map((apyt) => (
               <tr key={apyt._id}>
                 <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.contact}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
                   {apyt.date}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.time}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.paymentAmount}
                 </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-sm">
                   {apyt.hospitalName}
@@ -146,13 +130,10 @@ const PatientDoctorAppointments = () => {
                   {apyt.doctorName}
                 </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.specialization}
+                  {apyt.paymentAmount}
                 </td>
                 <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.wardNo}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.note}
+                  {apyt.status}
                 </td>
                 <td className="py-2 px-4 border-b border-gray-200">
                   <button
@@ -172,6 +153,15 @@ const PatientDoctorAppointments = () => {
                     className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
                   >
                     Delete
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePayment(apyt._id);
+                    }}
+                    className="py-1 px-4 rounded-lg text-xs font-medium bg-green-500 text-white"
+                  >
+                    Payment
                   </button>
                 </td>
               </tr>
