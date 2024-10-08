@@ -55,7 +55,11 @@ import DoctorDetailsPage from "../components/patient/DoctorDetailsPage";
 
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
 import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
+
+import UpdateService from "../pages/StaffAdmin/editService";
+
 import AddLabAppointment from "../pages/Patient/AddLabAppointment";
+
 
 
 
@@ -184,6 +188,16 @@ function CreateRouter() {
     },
 
     {
+      path: "/admin",
+      children: [
+        {
+          path: "/admin/addDashboard/edit-service/:id",
+          element: <UpdateService />,
+        },
+      ],
+    },
+
+    {
       path: "/doctor",
       element: <DoctorDashboardLayout />,
       children: [
@@ -264,6 +278,13 @@ function CreateRouter() {
       path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
     },
     {
+
+      path: '/doctors/:doctorId', 
+      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
+    },
+    {
+
+
       path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
 
     },

@@ -48,8 +48,8 @@ const doctorSchema = new Schema({
       required: false,
     },
     ward: {
-      type: String,
-      required: false,
+      type: Number,
+      required: true,
     },
     status: {
       type: String,
@@ -57,6 +57,10 @@ const doctorSchema = new Schema({
       enum: ['active', 'inactive', 'on leave', 'retired'],
       default: 'active',
     },
+    paymentAmount: {
+      type: Number,
+      required: true,
+    }
   });
   
   module.exports = mongoose.model("Doctor", doctorSchema);
