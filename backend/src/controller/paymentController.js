@@ -25,7 +25,7 @@ const addPayment = async (req, res) => {
 
     const paymentData = {
       appointmentId,
-      // hospitalId: appointment.hospitalId,
+      hospitalId: appointment.hospitalId,
       userId: appointment.userId,
       amount: appointment.paymentAmount,
       paymentMethod,
