@@ -7,7 +7,7 @@ const paymentSchema = new mongoose.Schema({
     required: true
   },
   hospitalId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true
   },
   userId: {

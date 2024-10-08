@@ -37,7 +37,7 @@ import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
 import Payments from "../pages/StaffMember/Payments";
 
-import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
+// import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
 import ManagePatientProfile from "../pages/Patient/ManagePatientDetails";
 
 import UpdateReport from "../pages/StaffMember/UpdateReport";
@@ -55,7 +55,11 @@ import DoctorDetailsPage from "../components/patient/DoctorDetailsPage";
 
 import PatientDoctorAppointments from "../pages/Patient/PatientDoctorAppointments";
 import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails";
+
 import UpdateService from "../pages/StaffAdmin/editService";
+
+import AddLabAppointment from "../pages/Patient/AddLabAppointment";
+
 
 
 
@@ -234,6 +238,15 @@ function CreateRouter() {
           element: <PrescriptionDetails />,
         },
       ],
+    },{
+
+      path: '/hospital/:hospitalId/doctors', 
+      element: <DoctorsPage />  // This is the page showing doctors of the selected hospital
+    },
+    {
+      path: '/doctors/:doctorId', 
+      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
+
     },
 
     {
@@ -248,9 +261,9 @@ function CreateRouter() {
     {
       path: '/patient/mydetails', element: <PatientDetailsUser />
     },
-    {
-      path: '/patient/myappointmenthistory', element: <ViewMyAppointmentHistory />
-    },
+    // {
+    //   path: '/patient/myappointmenthistory', element: <ViewMyAppointmentHistory />
+    // },
     {
       path: '/patient/viewmydetails', element: <ManagePatientProfile />
     },
@@ -260,25 +273,32 @@ function CreateRouter() {
     {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
+    
     {
-
-      path: '/hospital/:hospitalId/doctors', 
-      element: <DoctorsPage />  // This is the page showing doctors of the selected hospital
+      path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
     },
     {
+
       path: '/doctors/:doctorId', 
       element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
     },
     {
+
+
       path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
-    },
-    {
-      path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
+
     },
     {
       path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
 
     },
+
+    
+
+    {
+      path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
+    },
+
   ]);
 }
 export default CreateRouter;
