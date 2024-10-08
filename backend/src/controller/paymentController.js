@@ -44,6 +44,13 @@ const addPayment = async (req, res) => {
     };
 
     const newPayment = await Payment.create(paymentData);
+
+    // Update the appointment status and save it
+    if(newPayment) {
+      appointment.status = "Paid";
+      await appointment.save();
+    }
+
     res.status(201).json(newPayment);
     console.log("New payment successfully created");
   } catch (error) {
