@@ -22,6 +22,11 @@ const PatientUpdateAppointment = () => {
   const [wardNo, setWardNo] = useState("");
   const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
+  const [appointmentDetails, setAppointmentDetails] = useState({});
+  const [appointmentsCount, setAppointmentsCount] = useState(0);
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+
+  const maxAppointments = 2; // Default value for max appointments
 
   useEffect(() => {
     if (user) {
@@ -41,7 +46,7 @@ const PatientUpdateAppointment = () => {
         .then((data) => {
           console.log("Fetched raw data:", data); // Log raw data
           const appointmentData = JSON.parse(data); // Parse to JSON manually
-
+          setAppointmentDetails(appointmentData);
           // Since jsonData is an array, extract the first element
         //   const appointmentData = jsonData[0];
 
@@ -68,6 +73,45 @@ const PatientUpdateAppointment = () => {
       setEmail(user.email); // Set email when user is available
     }
   }, [user]);
+
+  useEffect(() => {
+    const checkAppointments = async () => {
+      if (date) {
+        try {
+          console.log("Checking appointments for date:", date);
+          const response = await axios.get(
+            `http://localhost:3000/appointment/appointment-date`, // Updated endpoint
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+              params: {
+                date: date,              // Include date as a query parameter
+                hospitalId: appointmentDetails.hospitalId,  // Include hospitalId as a query parameter
+                doctorId: appointmentDetails.doctorId,   // Include doctorId as a query parameter
+              },
+            }
+          );
+          console.log("Appointments response:", response.data);
+          const count = response.data.length;
+          console.log("Appointments count for date:", count);
+          setAppointmentsCount(count);
+
+          // Disable the form and show a message if the appointment limit is reached
+          if (count + 1 > maxAppointments) {
+            setIsFormDisabled(true);
+            toast.error("Cannot add an appointment for this day, limit reached.");
+          } else {
+            setIsFormDisabled(false);
+          }
+        } catch (error) {
+          console.error("Error fetching appointments count:", error);
+          toast.error("Failed to check appointment availability.");
+        }
+      }
+    };
+    checkAppointments();
+  }, [date, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,7 +170,6 @@ const PatientUpdateAppointment = () => {
       <div className="PatientAddAppointment w-full min-h-screen bg-gray-50 flex items-center justify-center py-5 px-2">
         <form
           className="max-w-md mx-auto mt-[-40.5rem]"
-          onSubmit={handleSubmit}
         >
           <label
             htmlFor="date-input"
@@ -256,6 +299,7 @@ const PatientUpdateAppointment = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   required
                   value={time}
+                  readOnly
                   onChange={(e) => setAppointmentTime(e.target.value)}
                 />
               </div>
@@ -275,6 +319,7 @@ const PatientUpdateAppointment = () => {
                   value={hospitalName}
                   onChange={(e) => setHospitalName(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
 
@@ -293,6 +338,7 @@ const PatientUpdateAppointment = () => {
                   value={doctorName}
                   onChange={(e) => setDoctorName(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
 
@@ -311,6 +357,7 @@ const PatientUpdateAppointment = () => {
                   value={specialization}
                   onChange={(e) => setSpecialization(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
 
@@ -329,6 +376,7 @@ const PatientUpdateAppointment = () => {
                   value={wardNo}
                   onChange={(e) => setWardNo(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
 
@@ -347,6 +395,7 @@ const PatientUpdateAppointment = () => {
                   value={paymentAmount}
                   onChange={(e) => setPayment(e.target.value)}
                   required
+                  readOnly
                 />
               </div>
             </div>
@@ -369,13 +418,18 @@ const PatientUpdateAppointment = () => {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 text-center"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
+            <div className="mt-6 text-center">
+              <button
+                type="submit"
+                className={`w-full py-3 px-5 text-base font-medium text-white rounded-lg focus:ring-4 ${
+                  isFormDisabled ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                disabled={isFormDisabled} // Disable the button when form is disabled
+                onClick={handleSubmit}
+              >
+                Submit Appointment
+              </button>
+            </div>
           </form>
         </div>
       </div>
