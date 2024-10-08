@@ -24,18 +24,33 @@ const addPayment = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    // Set payment status based on payment method
+    let paymentStatus = "pending";
+
+    if (paymentMethod === "debit_card") {
+      paymentStatus = "completed";
+    }
+
     const paymentData = {
       appointmentId,
       hospitalId: appointment.hospitalId,
       userId: appointment.userId,
       amount: appointment.paymentAmount,
       paymentMethod,
+      paymentStatus,
       insuranceDetails: paymentMethod === "insurance" ? insuranceDetails : null,
       cardDetails: paymentMethod === "debit_card" ? cardDetails : null,
       bankSlip: paymentMethod === "bank_transfer" ? bankSlip : null,
     };
 
     const newPayment = await Payment.create(paymentData);
+
+    // Update the appointment status and save it
+    if(newPayment) {
+      appointment.status = "Paid";
+      await appointment.save();
+    }
+
     res.status(201).json(newPayment);
     console.log("New payment successfully created");
   } catch (error) {
@@ -69,7 +84,7 @@ const getAllPayments = async (req, res) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId);
-    
+
     const payments = await Payment.find({ hospitalId: user.hospitalId })
       .populate("appointmentId")
       .populate("hospitalId")

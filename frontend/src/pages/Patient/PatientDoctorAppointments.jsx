@@ -93,83 +93,85 @@ const PatientDoctorAppointments = () => {
       </h1>
 
       <div className="mx-4 overflow-hidden rounded-lg shadow-lg md:mx-10">
-      <div className="overflow-x-auto">
-        <table className="w-full table-fixed">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="w-1/4 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Appointment Date
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Hospital Name
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Doctor Name
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Payment Amount
-              </th>
-              <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-              Payment Status
-              </th>
-              <th className="w-1/4 px-8 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white">
-            {appointments.map((apyt) => (
-              <tr key={apyt._id}>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.date}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.hospitalName}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.doctorName}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.paymentAmount}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                  {apyt.status}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleUpdate(apyt._id);
-                    }}
-                    className="py-1 px-4 rounded-lg text-xs font-medium bg-blue-500 mx-2 text-white"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(apyt._id);
-                    }}
-                    className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePayment(apyt._id);
-                    }}
-                    className="py-1 px-4 rounded-lg text-xs font-medium bg-green-500 text-white"
-                  >
-                    Payment
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full table-fixed">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="w-1/4 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                  Appointment Date
+                </th>
+                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                  Hospital Name
+                </th>
+                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                  Doctor Name
+                </th>
+                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                  Payment Amount
+                </th>
+                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                  Payment Status
+                </th>
+                <th className="w-1/4 px-8 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white">
+              {appointments.map((apyt) => (
+                <tr key={apyt._id}>
+                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                    {apyt.date}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                    {apyt.hospitalName}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                    {apyt.doctorName}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                    {apyt.paymentAmount}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                    {apyt.status}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-200">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleUpdate(apyt._id);
+                      }}
+                      className="py-1 px-4 rounded-lg text-xs font-medium bg-blue-500 mx-2 text-white"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(apyt._id);
+                      }}
+                      className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePayment(apyt._id);
+                      }}
+                      className={`py-1 px-4 rounded-lg text-xs font-medium ${apyt.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
+                        }`}
+                      disabled={apyt.status === "Paid"}
+                    >
+                      Payment
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
