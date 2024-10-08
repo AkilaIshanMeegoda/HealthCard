@@ -47,7 +47,7 @@ const DoctorsPage = () => {
               )}
               <h3 className="text-xl font-semibold text-blue-600 mb-2">{doctor.doctorName}</h3>
               <p className="text-gray-600">{doctor.specialization}</p>
-              <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}
+              <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}             
             </div>
           ))
         ) : (

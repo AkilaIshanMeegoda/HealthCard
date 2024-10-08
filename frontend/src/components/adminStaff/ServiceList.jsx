@@ -46,6 +46,13 @@ const ServiceList = () => {
     fetchServices();
   }, [user, authLoading]); // Also depend on authLoading state
 
+  // Reset error message before fetching
+  useEffect(() => {
+    if (!authLoading && !loading && !error) {
+      setError(""); // Reset error when data is fetched
+    }
+  }, [authLoading, loading, error]);
+
   if (authLoading || loading) {
     return <Spinner color="info" />; // Spinner while waiting for auth or data
   }
@@ -54,10 +61,21 @@ const ServiceList = () => {
     return <div className="text-red-600">{error}</div>;
   }
 
+  // Handle service deletion
+  const handleDeleteService = (id) => {
+    setServices((prevServices) =>
+      prevServices.filter((service) => service._id !== id)
+    ); // Remove the deleted service from the state
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {services.map((service) => (
-        <ServiceCard key={service._id} service={service} />
+        <ServiceCard
+          key={service._id}
+          service={service}
+          onDelete={handleDeleteService} // Pass the delete handler to ServiceCard
+        />
       ))}
     </div>
   );

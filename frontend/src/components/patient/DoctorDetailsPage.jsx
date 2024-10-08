@@ -47,6 +47,7 @@ const DoctorDetailsPage = () => {
             <p className="text-lg font-semibold text-blue-600">{doctor.specialization}</p>
             <p className="text-gray-600">Experience: {doctor.experience} years</p>
             <p className="text-gray-600">Ward: {doctor.ward || 'Not specified'}</p>
+            <p className="text-gray-600">Payment Amount: {doctor.paymentAmount ? `$${doctor.paymentAmount}` : 'Not specified'}</p>
           </div>
         </div>
         <div className="px-6 pb-6">
