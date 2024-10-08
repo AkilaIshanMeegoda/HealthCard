@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Payment = require("../models/Payment");
 const Appointment = require("../models/Appointment");
+const User = require("../models/User");
 
 // Add a new payment
 const addPayment = async (req, res) => {
@@ -25,7 +26,7 @@ const addPayment = async (req, res) => {
 
     const paymentData = {
       appointmentId,
-      // hospitalId: appointment.hospitalId,
+      hospitalId: appointment.hospitalId,
       userId: appointment.userId,
       amount: appointment.paymentAmount,
       paymentMethod,
@@ -66,8 +67,10 @@ const getPaymentById = async (req, res) => {
 // Get all payments
 const getAllPayments = async (req, res) => {
   try {
-    const hospitalId = req.user._id;
-    const payments = await Payment.find({ hospitalId: hospitalId })
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    
+    const payments = await Payment.find({ hospitalId: user.hospitalId })
       .populate("appointmentId")
       .populate("hospitalId")
       .populate("userId");
