@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "apexcharts": "^3.54.0",
     "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
     "firebase": "^10.14.0",
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.10.2",
