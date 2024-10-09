@@ -115,7 +115,7 @@ const updateAppointment = async (req, res) => {
     const appointment = await Appointment.findByIdAndUpdate(
       id, // Corrected to use id directly
       {
-        ...req.body,
+        ...req.body, 
       },
       { new: true } // This option returns the updated document
     );
