@@ -79,7 +79,7 @@ DoctorCard.propTypes = {
     doctorName: PropTypes.string.isRequired,
     specialization: PropTypes.string.isRequired,
     experience: PropTypes.number.isRequired,
-    ward: PropTypes.string.isRequired,
+    ward: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     availability: PropTypes.arrayOf(
       PropTypes.shape({
