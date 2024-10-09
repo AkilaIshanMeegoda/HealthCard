@@ -19,7 +19,6 @@ const AddLabAppointment = () => {
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
   const [testType, setTestType] = useState(""); // New field for test type
-  const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
   useEffect(() => {
@@ -44,16 +43,16 @@ const AddLabAppointment = () => {
         note: notes,
         date,
         time,
-        // hospitalName: hospital,
+        hospitalName: hospital,
         testType: service?.serviceName,
         paymentAmount: service?.price,
         email,
-        // labId: lab?._id,
-        // hospitalId: lab?.hospitalId,
+        labId: service?._id,
+        hospitalId: service?.hospitalId,
       };
       // Make the POST request
       console.log("Adding lab appointment with data:", formData);
-      await axios.post("http://localhost:3000/labappointments/add", formData, {
+      await axios.post("http://localhost:3000/labappointment/add", formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
@@ -61,6 +60,7 @@ const AddLabAppointment = () => {
       });
 
       toast.success("Lab appointment added successfully!");
+      navigate("/patient/patient-lab-appointments");
     } catch (error) {
       console.error("Error adding appointment:", error);
       toast.error("Failed to add appointment.");

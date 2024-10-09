@@ -157,6 +157,7 @@ const PatientUpdateAppointment = () => {
       });
 
       toast.success("Appointment added successfully!");
+      navigate("/patient/patient-doctor-appointments");
     } catch (error) {
       console.error("Error adding appointment:", error);
       toast.error("Failed to add appointment.");
