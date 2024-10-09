@@ -51,11 +51,9 @@ const DoctorsPage = () => {
     navigate('/patient/patient-add-appointment', { state: { doctor, hospital: hospitalName } });
   };
   
-
   return (
     <div className="min-h-screen bg-gray-100">
       <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Doctors</h1>
-      
       {/* Display doctors */}
       <div className="flex flex-wrap justify-center gap-6 mt-8">
         {doctors.length > 0 ? (

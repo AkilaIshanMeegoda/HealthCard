@@ -274,6 +274,9 @@ function CreateRouter() {
       path: '/patient/patient-add-appointment', element: < PatientAddAppointment/>
     },
     {
+      path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
+    },
+    {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
     
@@ -298,6 +301,7 @@ function CreateRouter() {
 
     
 
+
     {
       path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
     },
@@ -306,6 +310,7 @@ function CreateRouter() {
       path: '/services/:serviceId', 
       element: <ServiceDetailsPage />  
     },
+
 
   ]);
 }
