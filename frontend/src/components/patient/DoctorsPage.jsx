@@ -59,7 +59,7 @@ const DoctorsPage = () => {
 
               <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}             
 
-              <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}
+              <p className="text-gray-500">Payment Amount: ${doctor.paymentAmount}</p> {/* Additional info */}
 
                {/* Button to book an appointment */}
                <button 
