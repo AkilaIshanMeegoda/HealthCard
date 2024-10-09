@@ -59,6 +59,7 @@ import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails"
 import UpdateService from "../pages/StaffAdmin/editService";
 
 import AddLabAppointment from "../pages/Patient/AddLabAppointment";
+import ServiceDetailsPage from "../components/patient/ServiceDetailsPage";
 
 
 
@@ -280,7 +281,7 @@ function CreateRouter() {
     {
 
       path: '/doctors/:doctorId', 
-      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
+      element: <DoctorDetailsPage />  
     },
     {
 
@@ -297,6 +298,11 @@ function CreateRouter() {
 
     {
       path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
+    },
+    {
+
+      path: '/services/:serviceId', 
+      element: <ServiceDetailsPage />  
     },
 
   ]);
