@@ -50,6 +50,11 @@ const DoctorsPage = () => {
 
     navigate('/patient/patient-add-appointment', { state: { doctor, hospital: hospitalName } });
   };
+  const handleLabAppointmentClick = (service) => {
+    console.log("Doctor object:", service, hospitalName);  // Check the doctor object
+
+    navigate('/patient/patient-add-lab-appointment', { state: { service, hospital: hospitalName } });
+  };
   
   return (
     <div className="min-h-screen bg-gray-100">
@@ -112,6 +117,14 @@ const DoctorsPage = () => {
         )}
         <h3 className="text-xl font-semibold text-green-600 mb-2" onClick={() => handleServiceClick(service._id)} >{service.serviceName}</h3>
         {service.price && <p className="text-gray-500">Price: ${service.price}</p>}
+
+        {/* Button to book an appointment */}
+        <button 
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                onClick={() => handleLabAppointmentClick(service)} // Add appointment button handler
+              >
+                Book Appointment
+         </button>
       </div>
     ))
   ) : (
