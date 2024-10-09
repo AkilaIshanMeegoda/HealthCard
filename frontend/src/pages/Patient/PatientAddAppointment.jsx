@@ -19,8 +19,6 @@ const PatientAddAppointment = () => {
   const [notes, setImportantNotes] = useState("");
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
-  const [wardNo, setWardNo] = useState("");
-  const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
   const [appointmentsCount, setAppointmentsCount] = useState(0);
@@ -82,8 +80,6 @@ const PatientAddAppointment = () => {
       !notes ||
       !date ||
       !time ||
-      !wardNo ||
-      !paymentAmount ||
       !email
     ) {
       toast.error("Please fill in all fields.");
@@ -100,8 +96,8 @@ const PatientAddAppointment = () => {
         hospitalName: hospital,
         doctorName: doctor?.doctorName,
         specialization: doctor?.specialization,
-        wardNo,
-        paymentAmount,
+        wardNo: doctor?.ward,
+        paymentAmount: doctor?.paymentAmount,
         email,
         doctorId: doctor?._id,
         hospitalId: doctor?.hospitalId,
@@ -329,9 +325,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="wardNo"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={wardNo}
-                  onChange={(e) => setWardNo(e.target.value)}
+                  value={doctor?.ward}
                   required
+                  readOnly
                 />
               </div>
 
@@ -347,9 +343,9 @@ const PatientAddAppointment = () => {
                   type="text"
                   id="paymentAmount"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={paymentAmount}
-                  onChange={(e) => setPayment(e.target.value)}
+                  value={doctor?.paymentAmount}
                   required
+                  readOnly
                 />
               </div>
             </div>
