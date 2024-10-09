@@ -36,6 +36,7 @@ import AddReport from "../pages/StaffMember/AddReport";
 import ViewReports from "../pages/StaffMember/ViewReports";
 import ReportDetails from "../pages/StaffMember/ReportDetails";
 import Payments from "../pages/StaffMember/Payments";
+import AppointmentsDisplay from "../pages/StaffMember/AppointmentsDisplay";
 
 // import ViewMyAppointmentHistory from "../pages/Patient/ViewMyAppointmentHistory";
 import ManagePatientProfile from "../pages/Patient/ManagePatientDetails";
@@ -59,6 +60,7 @@ import PatientLabReportsDetails from "../pages/Patient/PatientLabReportsDetails"
 import UpdateService from "../pages/StaffAdmin/editService";
 
 import AddLabAppointment from "../pages/Patient/AddLabAppointment";
+import ServiceDetailsPage from "../components/patient/ServiceDetailsPage";
 
 
 
@@ -99,7 +101,8 @@ function CreateRouter() {
         },
         {
           path: "/staffMember/appointments",
-          element: <Appointments />,
+          // element: <Appointments />,
+          element: <AppointmentsDisplay />,
         },
         {
           path: "/staffMember/view-appointment/:id",
@@ -283,7 +286,7 @@ function CreateRouter() {
     {
 
       path: '/doctors/:doctorId', 
-      element: <DoctorDetailsPage />  // This is the page showing doctors of the selected hospital
+      element: <DoctorDetailsPage />  
     },
     {
 
@@ -298,7 +301,16 @@ function CreateRouter() {
 
     
 
-    
+
+    {
+      path: '/patient/patient-add-lab-appointment', element: < AddLabAppointment/>
+    },
+    {
+
+      path: '/services/:serviceId', 
+      element: <ServiceDetailsPage />  
+    },
+
 
   ]);
 }
