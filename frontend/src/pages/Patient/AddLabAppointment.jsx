@@ -7,8 +7,8 @@ import axios from "axios";
 
 const AddLabAppointment = () => {
   const location = useLocation();
-  const { lab, hospital } = location.state || {}; // Access the passed lab object
-  console.log("Lab details:", lab, hospital);
+  const { service, hospital } = location.state || {}; // Access the passed service object
+  console.log("service details:", service, hospital);
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
@@ -19,7 +19,6 @@ const AddLabAppointment = () => {
   const [date, setAppointmentDate] = useState("");
   const [time, setAppointmentTime] = useState("");
   const [testType, setTestType] = useState(""); // New field for test type
-  const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const AddLabAppointment = () => {
     e.preventDefault();
 
     // Check for empty fields before proceeding
-    if (!userName || !contact || !notes || !date || !time || !testType || !paymentAmount || !email) {
+    if (!userName || !contact || !notes || !date || !time || !email) {
       toast.error("Please fill in all fields.");
       return; // Exit the function if there are empty fields
     }
@@ -44,16 +43,16 @@ const AddLabAppointment = () => {
         note: notes,
         date,
         time,
-        // hospitalName: hospital,
-        testType,
-        paymentAmount,
+        hospitalName: hospital,
+        testType: service?.serviceName,
+        paymentAmount: service?.price,
         email,
-        // labId: lab?._id,
-        // hospitalId: lab?.hospitalId,
+        labId: service?._id,
+        hospitalId: service?.hospitalId,
       };
       // Make the POST request
       console.log("Adding lab appointment with data:", formData);
-      await axios.post("http://localhost:3000/labappointments/add", formData, {
+      await axios.post("http://localhost:3000/labappointment/add", formData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
@@ -61,6 +60,7 @@ const AddLabAppointment = () => {
       });
 
       toast.success("Lab appointment added successfully!");
+      navigate("/patient/patient-lab-appointments");
     } catch (error) {
       console.error("Error adding appointment:", error);
       toast.error("Failed to add appointment.");
@@ -143,9 +143,9 @@ const AddLabAppointment = () => {
                   type="text"
                   id="testType"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={testType}
-                  onChange={(e) => setTestType(e.target.value)}
+                  value={service?.serviceName}
                   required
+                  readOnly
                 />
               </div>
 
@@ -197,9 +197,9 @@ const AddLabAppointment = () => {
                   type="text"
                   id="paymentAmount"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  value={paymentAmount}
-                  onChange={(e) => setPayment(e.target.value)}
+                  value={service?.price}
                   required
+                  readOnly
                 />
               </div>
             </div>

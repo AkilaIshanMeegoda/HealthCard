@@ -61,6 +61,8 @@ import UpdateService from "../pages/StaffAdmin/editService";
 
 import AddLabAppointment from "../pages/Patient/AddLabAppointment";
 import ServiceDetailsPage from "../components/patient/ServiceDetailsPage";
+import AllLabAppointment from "../pages/Patient/AllLabAppointment";
+import UpdateLabAppointment from "../pages/Patient/UpdateLabAppointment ";
 
 
 
@@ -279,6 +281,9 @@ function CreateRouter() {
     {
       path: '/patient/patient-update-appointment/:id', element: < PatientUpdateAppointment/>
     },
+    {
+      path: '/patient/patient-update-lab-appointment/:id', element: < UpdateLabAppointment/>
+    },
     
     {
       path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
@@ -289,10 +294,10 @@ function CreateRouter() {
       element: <DoctorDetailsPage />  
     },
     {
-
-
       path: '/patient/patient-doctor-appointments', element: < PatientDoctorAppointments/>
-
+    },
+    {
+      path: '/patient/patient-lab-appointments', element: <AllLabAppointment />
     },
     {
       path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
