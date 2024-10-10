@@ -16,9 +16,6 @@ const paymentRouter = require("./src/routes/payment");
 require("dotenv").config();
 const doctorRoutes = require("./src/routes/doctorRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
-
-
-const hospitalRoutes = require("./src/routes/hospitalRoutes")
 const labappointments = require("./src/routes/labappointment");
 
 
