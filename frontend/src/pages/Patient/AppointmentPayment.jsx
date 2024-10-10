@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Navbar from "../../components/home/Navbar/Navbar";
 import { toast } from "react-toastify";
+import jsPDF from "jspdf";
+import logo from "../../images/logo.png";
 
 const AppointmentPayment = () => {
     const { id } = useParams();
@@ -11,6 +13,7 @@ const AppointmentPayment = () => {
     const [paymentAmount, setPaymentAmount] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState("");
     const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+    const [appointmentDetails, setAppointmentDetails] = useState({});
     const [cardDetails, setCardDetails] = useState({
         cardHolderName: "",
         cardNumber: "",
@@ -40,8 +43,8 @@ const AppointmentPayment = () => {
                 .then((data) => {
                     console.log("Fetched raw data:", data);
                     const appointmentData = JSON.parse(data);
-
                     setPaymentAmount(appointmentData.paymentAmount || "");
+                    setAppointmentDetails(appointmentData);
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error);
@@ -88,13 +91,73 @@ const AppointmentPayment = () => {
 
             // Set paymentSuccessful to true when payment is completed
             setPaymentSuccessful(true);
-
-            toast.success("Payment submitted successfully!");
         } catch (error) {
             console.error("Error submitting payment:", error);
             toast.error("Failed to submit payment.");
         }
     };
+
+    const handleDownloadReceipt = async () => {
+        const doc = new jsPDF();
+
+        const loadImage = (src) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+            });
+        };
+
+        // Get the current date
+        const currentDate = new Date().toLocaleDateString();
+
+        try {
+            const logoImage = await loadImage(logo);
+
+            // Add system logo to the PDF
+            doc.addImage(logoImage, "PNG", 15, 10, 50, 50);
+
+            doc.setFontSize(26);
+            doc.text("Payment Receipt", 80, 30);
+
+            const username = appointmentDetails.userName || "N/A";
+            const doctorName = appointmentDetails.doctorName || "N/A";
+            const appointmentDate = appointmentDetails.date || "N/A";
+            const paymentAmount = appointmentDetails.paymentAmount || "N/A";
+            const payMethod = paymentMethod || "N/A";
+
+            // Bold text for labels
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.text("Appointment ID:", 15, 80);
+            doc.text("Patient Name:", 15, 90);
+            doc.text("Doctor Name:", 15, 100);
+            doc.text("Appointment Date:", 15, 110);
+            doc.text("Amount Paid:", 15, 120);
+            doc.text("Payment Method:", 15, 130);
+
+            // Normal text for the values
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(16);
+            doc.text(`${id}`, 60, 80);
+            doc.text(`${username}`, 55, 90);
+            doc.text(`${doctorName}`, 55, 100);
+            doc.text(`${appointmentDate}`, 70, 110);
+            doc.text(`${paymentAmount}`, 55, 120);
+            doc.text(`${payMethod}`, 65, 130);
+            
+            doc.text("Thank you for your appointment and payment.", 15, 150);
+
+            doc.setFontSize(11);
+            doc.text(`Receipt Generated Date: ${currentDate}`, 15, 170);
+
+            doc.save(`payment_receipt_${id}.pdf`);
+        } catch (error) {
+            console.error("Error generating PDF or loading image: ", error);
+            console.log("Error generating PDF or loading image");
+        }
+    }
 
     return (
         <div>
@@ -109,6 +172,12 @@ const AppointmentPayment = () => {
                         <p className="mt-4 text-lg text-gray-700">
                             Your payment of Rs.{paymentAmount} has been successfully processed.
                         </p>
+                        <button
+                            onClick={handleDownloadReceipt}
+                            className="mt-6 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+                        >
+                            Download PDF Receipt
+                        </button>
                     </div>
                 ) : (
                     // Show payment form if paymentSuccessful is false
