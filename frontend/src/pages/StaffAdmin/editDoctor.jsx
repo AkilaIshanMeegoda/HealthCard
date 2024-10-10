@@ -30,11 +30,13 @@ const EditDoctor = () => {
     "Psychiatrist",
     "Other",
   ]);
-  const [availability, setAvailability] = useState([]);
+  const [availability, setAvailability] = useState([{ date: "" }]);
   const [doctorStatus, setDoctorStatus] = useState("active"); // Default status
   const [maxAppointmentCount, setMaxAppointmentCount] = useState(10); // New state for max appointments
   const [ward, setWard] = useState(""); // New state for Ward
   const [paymentAmount, setPaymentAmount] = useState(""); // New state for Payment Amount
+  const [time, setTime] = useState("");
+
 
   useEffect(() => {
     const fetchDoctor = async () => {
@@ -50,6 +52,7 @@ const EditDoctor = () => {
         setMaxAppointmentCount(response.data.maxAppointmentCount || 0); // Set maxAppointmentCount
         setWard(response.data.ward || ""); // Set Ward
         setPaymentAmount(response.data.paymentAmount || ""); // Set Payment Amount
+        setTime(response.data.time || "");
 
       } catch (error) {
         console.error("Error fetching doctor data:", error);
@@ -70,6 +73,8 @@ const EditDoctor = () => {
         maxAppointmentCount,
         ward, // Include ward
         paymentAmount, // Include paymentAmount
+        time,
+
       };
 
       await axios.put(
@@ -101,7 +106,7 @@ const EditDoctor = () => {
   const addAvailabilitySlot = () => {
     setAvailability([
       ...availability,
-      { date: "", time: "", status: "available" },
+      { date: ""},
     ]);
   };
 
@@ -218,38 +223,12 @@ const EditDoctor = () => {
         <Label htmlFor={`date-${index}`} value="Date" className="text-lg" />
         <TextInput
           id={`date-${index}`}
-          type="date"
-          value={slot.date ? slot.date.split("T")[0] : ""} // Ensure date is in YYYY-MM-DD format
+          type="text" // Keep the date input as plain text
+          value={slot.date || ""} // Use the value directly
           onChange={(e) => handleAvailabilityChange(index, "date", e.target.value)}
           required
         />
       </div>
-
-      <div className="lg:w-1/3">
-        <Label htmlFor={`time-${index}`} value="Time Slot" className="text-lg" />
-        <TextInput
-          id={`time-${index}`}
-          type="text"
-          placeholder="e.g., 9:00 AM - 11:00 AM"
-          value={slot.time || ""}
-          onChange={(e) => handleAvailabilityChange(index, "time", e.target.value)}
-          required
-        />
-      </div>
-
-      <div className="lg:w-1/3">
-        <Label htmlFor={`status-${index}`} value="Status" className="text-lg" />
-        <Select
-          id={`status-${index}`}
-          value={slot.status || "available"} // Default to available if no status is set
-          onChange={(e) => handleAvailabilityChange(index, "status", e.target.value)}
-        >
-          <option value="available">Available</option>
-          <option value="unavailable">Unavailable</option>
-          <option value="booked">Booked</option>
-        </Select>
-      </div>
-
       <Button onClick={() => removeAvailabilitySlot(index)} type="button" color="failure">
         Remove
       </Button>
@@ -257,9 +236,22 @@ const EditDoctor = () => {
   ))}
   <Button onClick={addAvailabilitySlot} type="button" color="success">
     Add Availability
-
   </Button>
 </div>
+
+
+<div className="lg:w-1/2">
+          <Label htmlFor="time" value="Time" className="text-lg" />
+          <TextInput
+            id="time"
+            name="time"
+            type="text"
+            value={doctor.time || ''}
+            placeholder="Doctor's available time"
+            required
+            onChange={handleChange}
+          />
+        </div>
 
  {/* Max Appointment Count */}
  <div className="lg:w-1/2">
