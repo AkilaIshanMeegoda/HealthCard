@@ -17,6 +17,11 @@ require("dotenv").config();
 const doctorRoutes = require("./src/routes/doctorRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
 
+
+const hospitalRoutes = require("./src/routes/hospitalRoutes")
+const labappointments = require("./src/routes/labappointment");
+
+
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
@@ -50,6 +55,7 @@ app.use("/api/doctors", doctorRoutes);
 app.use("/api/services", serviceRoutes);
 
 app.use("/appointment", requireAuth, appointmentRouter);
+app.use("/labappointment", requireAuth, labappointments);
 app.use("/report", requireAuth, reportRouter);
 
 app.use("/patientprofile", requireAuth, profileRouter);
