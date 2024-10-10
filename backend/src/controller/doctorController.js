@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 // Add new doctor
 const addDoctor = async (req, res) => {
-  const { doctorName, specialization, experience, hospitalId, image, availability, maxAppointmentCount ,description, ward, status } = req.body;
+  const { doctorName, specialization, experience, hospitalId, image, availability, maxAppointmentCount ,description, ward, status , paymentAmount} = req.body;
   try {
     const newDoctor = new Doctor({
       doctorName,
@@ -16,7 +16,8 @@ const addDoctor = async (req, res) => {
       maxAppointmentCount,
       description,
       ward,
-      status
+      status,
+      paymentAmount
     });
     const savedDoctor = await newDoctor.save();
     res.status(201).json(savedDoctor);

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const PatientDoctorAppointments = () => {
+const AllLabAppointment = () => {
   const [appointments, setAppointments] = useState([]);
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const PatientDoctorAppointments = () => {
   const fetchAppointments = () => {
     if (user && user.token) {
       axios
-        .get(`http://localhost:3000/appointment/my-appointments/${user.email}`, {
+        .get(`http://localhost:3000/labappointment/my-appointments/${user.email}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -56,13 +56,13 @@ const PatientDoctorAppointments = () => {
 
   const handleUpdate = (id) => {
     console.log("Update discount item with id:", id);
-    navigate(`/patient/patient-update-appointment/${id}`);
+    navigate(`/patient/patient-update-lab-appointment/${id}`);
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       axios
-        .delete(`http://localhost:3000/appointment/delete/${id}`, {
+        .delete(`http://localhost:3000/labappointment/delete/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -104,7 +104,7 @@ const PatientDoctorAppointments = () => {
                   Hospital Name
                 </th>
                 <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
-                  Doctor Name
+                  Lab Type
                 </th>
                 <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Payment Amount
@@ -118,28 +118,28 @@ const PatientDoctorAppointments = () => {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {appointments.map((apyt) => (
-                <tr key={apyt._id}>
+              {appointments.map((lab) => (
+                <tr key={lab._id}>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                    {apyt.date}
+                    {lab.date}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                    {apyt.hospitalName}
+                    {lab.hospitalName}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                    {apyt.doctorName}
+                    {lab.testType}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                    {apyt.paymentAmount}
+                    {lab.paymentAmount}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                    {apyt.status}
+                    {lab.status}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-200">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleUpdate(apyt._id);
+                        handleUpdate(lab._id);
                       }}
                       className="py-1 px-4 rounded-lg text-xs font-medium bg-blue-500 mx-2 text-white"
                     >
@@ -148,7 +148,7 @@ const PatientDoctorAppointments = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDelete(apyt._id);
+                        handleDelete(lab._id);
                       }}
                       className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
                     >
@@ -157,11 +157,11 @@ const PatientDoctorAppointments = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handlePayment(apyt._id);
+                        handlePayment(lab._id);
                       }}
-                      className={`py-1 px-4 rounded-lg text-xs font-medium ${apyt.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
+                      className={`py-1 px-4 rounded-lg text-xs font-medium ${lab.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
                         }`}
-                      disabled={apyt.status === "Paid"}
+                      disabled={lab.status === "Paid"}
                     >
                       Payment
                     </button>
@@ -176,4 +176,4 @@ const PatientDoctorAppointments = () => {
   );
 };
 
-export default PatientDoctorAppointments;
+export default AllLabAppointment;

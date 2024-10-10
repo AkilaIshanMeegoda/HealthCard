@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const appointmentSchema = mongoose.Schema({
+const labappointmentSchema = mongoose.Schema({
     userId: {
       type: String,
     },
@@ -13,7 +13,7 @@ const appointmentSchema = mongoose.Schema({
     contact: {
       type: String,
     },
-    doctorId: {
+    labId: {
       type: String,
     },
     date: {
@@ -35,10 +35,7 @@ const appointmentSchema = mongoose.Schema({
     hospitalId: {
         type: String,
     },
-    doctorName: {
-        type: String,
-    },
-    specialization: {
+    testType: {
         type: String,
     },
     wardNo: {
@@ -49,4 +46,4 @@ const appointmentSchema = mongoose.Schema({
     }
   },{timestamps:true});
   
-  module.exports=mongoose.model('Appointment',appointmentSchema)
+  module.exports=mongoose.model('LabAppointment',labappointmentSchema)

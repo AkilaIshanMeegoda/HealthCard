@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
-const Appointment = require("../models/Appointment.js");
+const LabAppointment = require("../models/LabAppointment.js");
 const User = require("../models/User.js");
 
-const searchAppointments = async (req, res) => {
+const searchLabAppointments = async (req, res) => {
   try {
     // const hospitalId = req.user._id;
     const userId = req.user._id;
     const user = await User.findById(userId);
 
     // Fetch all users of type "user" from the database
-    const appointments = await Appointment.find({ hospitalId: user.hospitalId });
+    const appointments = await LabAppointment.find({ hospitalId: user.hospitalId });
 
     if (!appointments || appointments.length === 0) {
       return res.status(404).json({ message: "No appointments found" });
@@ -22,7 +22,7 @@ const searchAppointments = async (req, res) => {
   }
 };
 
-const getAppointment = async (req, res) => {
+const getLabAppointment = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -30,7 +30,7 @@ const getAppointment = async (req, res) => {
   }
 
   try {
-    const appointment = await Appointment.findById(id);
+    const appointment = await LabAppointment.findById(id);
 
     if (!appointment) {
       return res.status(404).send("No appointment with that id");
@@ -41,7 +41,7 @@ const getAppointment = async (req, res) => {
   }
 };
 
-const createAppointment = async (req, res) => {
+const createLabAppointment = async (req, res) => {
   const {
     userName,
     contact,
@@ -49,18 +49,17 @@ const createAppointment = async (req, res) => {
     date,
     time,
     hospitalName,
-    doctorName,
-    specialization,
+    testType,
     wardNo,
     paymentAmount,
     email,
-    doctorId,
+    labId,
     hospitalId,
     status,
   } = req.body;
 
   try {
-    const profiles = await Appointment.create({
+    const profiles = await LabAppointment.create({
       userId: req.user._id,
       userName,
       contact,
@@ -68,12 +67,11 @@ const createAppointment = async (req, res) => {
       date,
       time,
       hospitalName,
-      doctorName,
-      specialization,
+      testType,
       wardNo,
       paymentAmount,
       email,
-      doctorId,
+      labId,
       hospitalId,
       status,
     });
@@ -83,7 +81,7 @@ const createAppointment = async (req, res) => {
   }
 };
 
-const deleteAppointment = async (req, res) => {
+const deleteLabAppointment = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -91,7 +89,7 @@ const deleteAppointment = async (req, res) => {
   }
 
   try {
-    const appointment = await Appointment.findByIdAndDelete(id);
+    const appointment = await LabAppointment.findByIdAndDelete(id);
 
     if (!appointment) {
       return res.status(404).send("No appointment with that id");
@@ -104,7 +102,7 @@ const deleteAppointment = async (req, res) => {
 };
 
 // Update a promotion
-const updateAppointment = async (req, res) => {
+const updateLabAppointment = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -112,7 +110,7 @@ const updateAppointment = async (req, res) => {
   }
 
   try {
-    const appointment = await Appointment.findByIdAndUpdate(
+    const appointment = await LabAppointment.findByIdAndUpdate(
       id, // Corrected to use id directly
       {
         ...req.body, 
@@ -130,7 +128,7 @@ const updateAppointment = async (req, res) => {
   }
 };
 
-const getAppointmentsByEmail = async (req, res) => {
+const getLabAppointmentsByEmail = async (req, res) => {
   const { email } = req.params; // Get email from query parameters
   if (!email) {
     return res.status(400).send("Email query parameter is required");
@@ -138,7 +136,7 @@ const getAppointmentsByEmail = async (req, res) => {
 
   try {
     // Find promotion by email
-    const appointments = await Appointment.find({ email: email });
+    const appointments = await LabAppointment.find({ email: email });
 
     if (!appointments || appointments.length === 0) {
       return res.status(404).send("No appointments found for this email");
@@ -150,7 +148,7 @@ const getAppointmentsByEmail = async (req, res) => {
   }
 };
 
-const getAppointmentsByDate = async (req, res) => {
+const getLabAppointmentsByDate = async (req, res) => {
   const { date, hospitalId, doctorId } = req.query; // Get the date from query parameters
   console.log("check date in backend ", date, hospitalId, doctorId);
   if (!date || !hospitalId || !doctorId) {
@@ -161,7 +159,7 @@ const getAppointmentsByDate = async (req, res) => {
 
   try {
     // Find all appointments that match the specified date
-    const appointments = await Appointment.find({ 
+    const appointments = await LabAppointment.find({ 
       date: date,
       hospitalId: hospitalId,
       doctorId: doctorId 
@@ -178,11 +176,11 @@ const getAppointmentsByDate = async (req, res) => {
 };
 
 module.exports = {
-  searchAppointments,
-  getAppointment,
-  createAppointment,
-  updateAppointment,
-  deleteAppointment,
-  getAppointmentsByEmail,
-  getAppointmentsByDate,
+  searchLabAppointments,
+  getLabAppointment,
+  createLabAppointment,
+  updateLabAppointment,
+  deleteLabAppointment,
+  getLabAppointmentsByEmail,
+  getLabAppointmentsByDate,
 };

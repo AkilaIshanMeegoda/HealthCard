@@ -18,7 +18,6 @@ const AddDoctors = () => {
   const [image, setImage] = useState(null); // To handle the selected image file
   const [maxAppointmentCount, setMaxAppointmentCount] = useState(10); // New state for max appointment count
 
-
   const showSuccess = () => {
     toast.success("Doctor added successfully!", {
       position: "bottom-right",
@@ -46,6 +45,7 @@ const AddDoctors = () => {
     { date: "", time: "", status: "available" },
   ]);
   const [doctorStatus, setDoctorStatus] = useState("active"); // Default status
+  const [paymentAmount, SetPaymentAmount] = useState("");
 
   const handleImageUpload = async (file) => {
     const storageRef = firebase.storage().ref();
@@ -109,6 +109,7 @@ const AddDoctors = () => {
       description: form.description.value.trim(),
       ward: ward,
       status: doctorStatus,
+      paymentAmount: paymentAmount,
     };
 
     try {
@@ -168,7 +169,12 @@ const AddDoctors = () => {
           error = "Enter a valid number of years of experience";
         break;
       case "ward":
-        if (!value.trim()) error = "Ward cannot be empty";
+        if (!value || isNaN(value) || value < 0)
+          error = "Enter a valid number of ward";
+        break;
+      case "paymentAmount":
+        if (!value || isNaN(value) || value < 0)
+          error = "Enter a valid Payment Amount";
         break;
       default:
         break;
@@ -348,7 +354,7 @@ const AddDoctors = () => {
             <TextInput
               id="ward"
               name="ward"
-              type="text"
+              type="number" // Changed from "text" to "number"
               placeholder="Ward"
               required
               onChange={(e) => {
@@ -360,6 +366,8 @@ const AddDoctors = () => {
               <div className="font-semibold text-red-600">{errors.ward}</div>
             )}
           </div>
+
+          
 
           <div className="lg:w-1/2">
             <Label htmlFor="image" value="Upload Image" className="text-lg" />
@@ -375,20 +383,52 @@ const AddDoctors = () => {
           </div>
         </div>
 
-{/* max appointment count field */}
-<div className="lg:w-1/2">
-  <Label htmlFor="maxAppointmentCount" value="Max Appointment Count" className="text-lg" />
-  <TextInput
-    id="maxAppointmentCount"
-    name="maxAppointmentCount"
-    type="number"
-    placeholder="Maximum appointments allowed"
-    value={maxAppointmentCount}
-    onChange={(e) => setMaxAppointmentCount(e.target.value)}
-    required
-  />
-</div>
+        {/* max appointment count field */}
+        <div className="lg:w-1/2">
+          <Label
+            htmlFor="maxAppointmentCount"
+            value="Max Appointment Count"
+            className="text-lg"
+          />
+          <TextInput
+            id="maxAppointmentCount"
+            name="maxAppointmentCount"
+            type="number"
+            placeholder="Maximum appointments allowed"
+            value={maxAppointmentCount}
+            onChange={(e) => setMaxAppointmentCount(e.target.value)}
+            required
+          />
+        </div>
 
+        <div className="flex gap-8">
+            <div className="lg:w-1/2">
+              {" "}
+              {/* Increase to lg:w-3/4 for a wider input */}
+              <Label
+                htmlFor="paymentAmount"
+                value="Payment Amount"
+                className="text-lg"
+              />
+              <TextInput
+                id="paymentAmount"
+                name="paymentAmount"
+                type="number"
+                placeholder="Payment Amount"
+                required
+                className="w-full" // Ensure the input takes full width of the container
+                onChange={(e) => {
+                  SetPaymentAmount(e.target.value);
+                  validateInput("paymentAmount", e.target.value);
+                }}
+              />
+              {errors.paymentAmount && (
+                <div className="font-semibold text-red-600">
+                  {errors.paymentAmount}
+                </div>
+              )}
+            </div>
+          </div>
 
         {/* last row */}
         <div className="flex gap-8">
