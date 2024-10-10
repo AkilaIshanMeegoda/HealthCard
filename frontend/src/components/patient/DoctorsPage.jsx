@@ -58,10 +58,7 @@ const DoctorsPage = () => {
   
   return (
 
-    <div>
-      <h1 className="text-3xl font-bold text-center mt-8 text-gray-800">Doctors</h1>
-      
-
+    <div>      
     <div className="min-h-screen bg-gray-100">
       <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Doctors</h1>
 
@@ -139,7 +136,7 @@ const DoctorsPage = () => {
     <p className="text-gray-600">No services found for this hospital.</p>
   )}
 </div>
-
+</div>
 
     </div>
   );

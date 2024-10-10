@@ -243,14 +243,15 @@ const EditDoctor = () => {
 <div className="lg:w-1/2">
           <Label htmlFor="time" value="Time" className="text-lg" />
           <TextInput
-            id="time"
-            name="time"
-            type="text"
-            value={doctor.time || ''}
-            placeholder="Doctor's available time"
-            required
-            onChange={handleChange}
-          />
+  id="time"
+  name="time"
+  type="text"
+  value={time} // Use time state directly
+  placeholder="Doctor's available time"
+  required
+  onChange={(e) => setTime(e.target.value)} // Update time directly
+/>
+
         </div>
 
  {/* Max Appointment Count */}
