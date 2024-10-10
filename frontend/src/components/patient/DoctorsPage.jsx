@@ -53,8 +53,8 @@ const DoctorsPage = () => {
   
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Doctors</h1>
+    <div>
+      <h1 className="text-3xl font-bold text-center mt-8 text-gray-800">Doctors</h1>
       
       {/* Display doctors */}
       <div className="flex flex-wrap justify-center gap-6 mt-8">
@@ -78,6 +78,8 @@ const DoctorsPage = () => {
               <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}             
 
               <p className="text-gray-500">Payment Amount: ${doctor.paymentAmount}</p> {/* Additional info */}
+              <p className="text-gray-500">Status: {doctor.status}</p>{" "}
+
 
                {/* Button to book an appointment */}
                <button 
