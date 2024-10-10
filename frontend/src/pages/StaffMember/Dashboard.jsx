@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -30,19 +31,29 @@ const Dashboard = () => {
   }, [user]);
 
   const today = dayjs().format("YYYY-MM-DD");
-
   const todayAppointments = appointments.filter(
     (appt) => dayjs(appt.date).format("YYYY-MM-DD") === today
   );
-
   const todayAppointmentsCount = todayAppointments.length;
 
-
   return (
-    <div className="w-full min-h-screen">
-      <h1>Today we have {todayAppointmentsCount} appointments.</h1>
-    </div>
-  )
-}
+    <div className="w-full min-h-screen px-7">
+      {todayAppointmentsCount > 0 && (
+        <div className="w-5/6 bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mt-6" role="alert">
+          <span className="block sm:inline mb-5 font-semibold">
+            Today we have <strong>{todayAppointmentsCount}</strong> appointments.
+          </span>
+          <Link to="/staffMember/appointments">
+            <button className="ml-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+              View Appointments
+            </button>
+          </Link>
+        </div>
+      )}
 
-export default Dashboard
+      {/* Other dashboard content */}
+    </div>
+  );
+};
+
+export default Dashboard;
