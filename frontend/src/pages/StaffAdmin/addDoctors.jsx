@@ -41,11 +41,10 @@ const AddDoctors = () => {
   const [selectedSpecialty, setSelectedSpecialty] = useState(specialties[0]);
   const [experience, setExperience] = useState("");
   const [ward, setWard] = useState("");
-  const [availability, setAvailability] = useState([
-    { date: "", time: "", status: "available" },
-  ]);
+  const [availability, setAvailability] = useState([{ date: "" }]);
   const [doctorStatus, setDoctorStatus] = useState("active"); // Default status
   const [paymentAmount, SetPaymentAmount] = useState("");
+  const [time, setTime] = useState("");
 
   const handleImageUpload = async (file) => {
     const storageRef = firebase.storage().ref();
@@ -105,6 +104,7 @@ const AddDoctors = () => {
       hospitalId: user.email, // Using user email as hospitalId
       image: imageUrl,
       availability: availability,
+      time: time,
       maxAppointmentCount: maxAppointmentCount, // Add max appointment count to the doctor object
       description: form.description.value.trim(),
       ward: ward,
@@ -143,10 +143,7 @@ const AddDoctors = () => {
   };
 
   const addAvailabilitySlot = () => {
-    setAvailability([
-      ...availability,
-      { date: "", time: "", status: "available" },
-    ]);
+    setAvailability([...availability, { date: "" }]);
   };
 
   const removeAvailabilitySlot = (index) => {
@@ -163,6 +160,12 @@ const AddDoctors = () => {
         break;
       case "description":
         if (!value.trim()) error = "Description cannot be empty";
+        break;
+      case "time":
+        if (!value.trim()) error = "Time cannot be empty";
+        break;
+      case "status":
+        if (!value.trim()) error = "Status cannot be empty";
         break;
       case "experience":
         if (!value || isNaN(value) || value < 0)
@@ -280,57 +283,17 @@ const AddDoctors = () => {
           {availability.map((slot, index) => (
             <div key={index} className="flex gap-4">
               <div className="lg:w-1/3">
-                <Label
-                  htmlFor={`date-${index}`}
-                  value="Date"
-                  className="text-lg"
-                />
+                
                 <TextInput
                   id={`date-${index}`}
-                  type="date"
+                  type="text" // Set type to text
+                  placeholder="e.g., Thursday" // Placeholder to indicate format
                   value={slot.date}
                   onChange={(e) =>
                     handleAvailabilityChange(index, "date", e.target.value)
                   }
                   required
                 />
-              </div>
-
-              <div className="lg:w-1/3">
-                <Label
-                  htmlFor={`time-${index}`}
-                  value="Time Slot"
-                  className="text-lg"
-                />
-                <TextInput
-                  id={`time-${index}`}
-                  type="text"
-                  placeholder="e.g., 9:00 AM - 11:00 AM"
-                  value={slot.time}
-                  onChange={(e) =>
-                    handleAvailabilityChange(index, "time", e.target.value)
-                  }
-                  required
-                />
-              </div>
-
-              <div className="lg:w-1/3">
-                <Label
-                  htmlFor={`status-${index}`}
-                  value="Status"
-                  className="text-lg"
-                />
-                <Select
-                  id={`status-${index}`}
-                  value={slot.status}
-                  onChange={(e) =>
-                    handleAvailabilityChange(index, "status", e.target.value)
-                  }
-                >
-                  <option value="available">Available</option>
-                  <option value="unavailable">Unavailable</option>
-                  <option value="booked">Booked</option>
-                </Select>
               </div>
 
               <Button
@@ -345,6 +308,19 @@ const AddDoctors = () => {
           <Button type="button" onClick={addAvailabilitySlot} className="mt-2">
             Add Availability Slot
           </Button>
+        </div>
+
+        {/* Time input field */}
+        <div className="lg:w-1/3">
+          <Label htmlFor={`time`} value="Time" className="text-lg" />
+          <TextInput
+            id={`time`}
+            type="text"
+            value={time} // Replace with your state variable
+            placeholder="e.g., 9 AM"
+            onChange={(e) => setTime(e.target.value)} // Replace with your state setter
+            required
+          />
         </div>
 
         {/* third row */}
@@ -366,8 +342,6 @@ const AddDoctors = () => {
               <div className="font-semibold text-red-600">{errors.ward}</div>
             )}
           </div>
-
-          
 
           <div className="lg:w-1/2">
             <Label htmlFor="image" value="Upload Image" className="text-lg" />
@@ -402,33 +376,33 @@ const AddDoctors = () => {
         </div>
 
         <div className="flex gap-8">
-            <div className="lg:w-1/2">
-              {" "}
-              {/* Increase to lg:w-3/4 for a wider input */}
-              <Label
-                htmlFor="paymentAmount"
-                value="Payment Amount"
-                className="text-lg"
-              />
-              <TextInput
-                id="paymentAmount"
-                name="paymentAmount"
-                type="number"
-                placeholder="Payment Amount"
-                required
-                className="w-full" // Ensure the input takes full width of the container
-                onChange={(e) => {
-                  SetPaymentAmount(e.target.value);
-                  validateInput("paymentAmount", e.target.value);
-                }}
-              />
-              {errors.paymentAmount && (
-                <div className="font-semibold text-red-600">
-                  {errors.paymentAmount}
-                </div>
-              )}
-            </div>
+          <div className="lg:w-1/2">
+            {" "}
+            {/* Increase to lg:w-3/4 for a wider input */}
+            <Label
+              htmlFor="paymentAmount"
+              value="Payment Amount"
+              className="text-lg"
+            />
+            <TextInput
+              id="paymentAmount"
+              name="paymentAmount"
+              type="number"
+              placeholder="Payment Amount"
+              required
+              className="w-full" // Ensure the input takes full width of the container
+              onChange={(e) => {
+                SetPaymentAmount(e.target.value);
+                validateInput("paymentAmount", e.target.value);
+              }}
+            />
+            {errors.paymentAmount && (
+              <div className="font-semibold text-red-600">
+                {errors.paymentAmount}
+              </div>
+            )}
           </div>
+        </div>
 
         {/* last row */}
         <div className="flex gap-8">
