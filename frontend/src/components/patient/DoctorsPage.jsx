@@ -104,6 +104,7 @@ const DoctorsPage = () => {
           <p className="text-gray-600">No doctors found for this hospital.</p>
         )}
       </div>
+    </div>
 {/* Display services */}
 <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Services</h1>
 

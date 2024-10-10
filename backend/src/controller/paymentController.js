@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Payment = require("../models/Payment");
 const Appointment = require("../models/Appointment");
+const Service = require("../models/LabAppointment");
 const User = require("../models/User");
 
 // Add a new payment
@@ -97,8 +98,65 @@ const getAllPayments = async (req, res) => {
   }
 };
 
+// Add new service payment
+const addServicePayment = async (req, res) => {
+  const {
+    appointmentId,
+    paymentMethod,
+    insuranceDetails,
+    cardDetails,
+    bankSlip,
+  } = req.body;
+
+  try {
+    const appointment = await Service.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ error: "Appointment not found" });
+    }
+
+    // Validate that required fields are provided
+    if (!appointmentId || !paymentMethod) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Set payment status based on payment method
+    let paymentStatus = "pending";
+
+    if (paymentMethod === "debit_card") {
+      paymentStatus = "completed";
+    }
+
+    const paymentData = {
+      appointmentId,
+      hospitalId: appointment.hospitalId,
+      userId: appointment.userId,
+      amount: appointment.paymentAmount,
+      paymentMethod,
+      paymentStatus,
+      insuranceDetails: paymentMethod === "insurance" ? insuranceDetails : null,
+      cardDetails: paymentMethod === "debit_card" ? cardDetails : null,
+      bankSlip: paymentMethod === "bank_transfer" ? bankSlip : null,
+    };
+
+    const newPayment = await Payment.create(paymentData);
+
+    // Update the appointment status and save it
+    if(newPayment) {
+      appointment.status = "Paid";
+      await appointment.save();
+    }
+
+    res.status(201).json(newPayment);
+    console.log("New payment successfully created");
+  } catch (error) {
+    res.status(500).json({ error: "Unable to create payment" });
+    console.log("Unable to create payment");
+  }
+};
+
 module.exports = {
   addPayment,
   getPaymentById,
-  getAllPayments
+  getAllPayments,
+  addServicePayment,
 };
