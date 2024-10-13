@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
+import WeeklyAppointmentsChart from '../../components/staffMember/WeeklyAppointmentsChart';
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -51,7 +52,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Other dashboard content */}
+      <WeeklyAppointmentsChart appointments={appointments} />
     </div>
   );
 };
