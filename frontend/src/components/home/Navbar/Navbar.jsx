@@ -138,7 +138,7 @@ const Navbar = () => {
             {user && user.userType === "user" && (
               <>
                 <a
-                  href="/patient"
+                  href="/"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
                   Home

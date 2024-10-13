@@ -97,22 +97,22 @@ const PatientDoctorAppointments = () => {
           <table className="w-full table-fixed">
             <thead>
               <tr className="bg-gray-200">
-                <th className="w-1/4 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Appointment Date
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Hospital Name
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Doctor Name
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Payment Amount
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Payment Status
                 </th>
-                <th className="w-1/4 px-8 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-3/12 px-8 py-2 text-sm font-bold text-center text-gray-600 uppercase">
                   Action
                 </th>
               </tr>
@@ -120,28 +120,28 @@ const PatientDoctorAppointments = () => {
             <tbody className="bg-white">
               {appointments.map((apyt) => (
                 <tr key={apyt._id}>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {apyt.date}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {apyt.hospitalName}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {apyt.doctorName}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {apyt.paymentAmount}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {apyt.status}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200">
+                  <td className="px-4 py-2 border-b border-gray-200">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleUpdate(apyt._id);
                       }}
-                      className="py-1 px-4 rounded-lg text-xs font-medium bg-blue-500 mx-2 text-white"
+                      className="px-4 py-1 mx-2 text-xs font-medium text-white bg-blue-500 rounded-lg"
                     >
                       Edit
                     </button>
@@ -150,7 +150,7 @@ const PatientDoctorAppointments = () => {
                         e.stopPropagation();
                         handleDelete(apyt._id);
                       }}
-                      className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
+                      className="px-4 py-1 text-xs font-medium text-white bg-red-500 rounded-lg"
                     >
                       Delete
                     </button>
@@ -159,7 +159,7 @@ const PatientDoctorAppointments = () => {
                         e.stopPropagation();
                         handlePayment(apyt._id);
                       }}
-                      className={`py-1 px-4 rounded-lg text-xs font-medium ${apyt.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
+                      className={`ml-2 py-1 px-4 rounded-lg text-xs font-medium ${apyt.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
                         }`}
                       disabled={apyt.status === "Paid"}
                     >
