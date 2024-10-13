@@ -75,12 +75,8 @@ const DoctorDetailsPage = () => {
                 : "Not specified"}
             </p>
             {/* Additional info */}
-            {/* Time with blue rounded style */}
-            {doctor.time && (
-              <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full shadow-md inline-block mt-2">
-                <p className="font-semibold">Time: {doctor.time}</p>
-              </div>
-            )}
+            <p className="text-gray-500">Time: {doctor.time}</p>
+
           </div>
         </div>
         <div className="px-6 pb-6">
