@@ -24,85 +24,83 @@ const DoctorDetailsPage = () => {
         setLoading(false);
       }
     };
-
     fetchDoctorDetails();
   }, [doctorId]);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-xl">Loading...</p>
+      <div className="flex justify-center items-center min-h-screen bg-blue-50">
+        <p className="text-2xl font-semibold text-blue-600">Loading...</p>
       </div>
     );
   }
 
   if (!doctor) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-xl">No doctor details available.</p>
+      <div className="flex justify-center items-center min-h-screen bg-blue-50">
+        <p className="text-2xl text-red-600">No doctor details available.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-        <div className="flex items-center p-6">
-          {doctor.image && (
-            <img
-              src={doctor.image}
-              alt={doctor.doctorName}
-              className="w-24 h-24 object-cover rounded-full border-2 border-gray-300 mr-6"
-            />
-          )}
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              {doctor.doctorName}
-            </h1>
-            <p className="text-lg font-semibold text-blue-600">
-              {doctor.specialization}
-            </p>
-            <p className="text-gray-600">
-              Experience: {doctor.experience} years
-            </p>
-            <p className="text-gray-600">
-              Ward: {doctor.ward || "Not specified"}
-            </p>
-            <p className="text-gray-600">
-              Payment Amount:{" "}
-              {doctor.paymentAmount
-                ? `$${doctor.paymentAmount}`
-                : "Not specified"}
-            </p>
-            {/* Additional info */}
-            <p className="text-gray-500">Time: {doctor.time}</p>
+    <div className="min-h-screen bg-blue-50 px-16 py-10">
+      <section className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 bg-white shadow-lg rounded-lg p-6">
+        {/* Doctor Image */}
+        {doctor.image && (
+          <img
+            src={doctor.image}
+            alt={doctor.doctorName}
+            className="w-48 h-48 object-cover rounded-full shadow-md"
+            style={{ objectPosition: "top" }} // Keep face visible
+          />
+        )}
 
-          </div>
-        </div>
-        <div className="px-6 pb-6">
-          <h2 className="text-xl font-bold mb-2">Availability</h2>
-          {doctor.availability && doctor.availability.length > 0 ? (
-            <div className="flex flex-wrap gap-4">
-              {doctor.availability.map((slot) => (
-                <div
-                  key={slot._id}
-                  className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full shadow-md hover:bg-blue-200 transition duration-300"
-                >
-                  <p className="font-semibold">
-                    {slot.date || "Not specified"}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-600">No availability slots available.</p>
-          )}
-          <h2 className="text-xl font-bold mt-4 mb-2">Description</h2>
-          <p className="text-gray-600">
-            {doctor.description || "No description available."}
+        {/* Doctor Info */}
+        <div className="space-y-2">
+          <h2 className="text-4xl font-semibold text-gray-800">{doctor.doctorName}</h2>
+          <p className="text-xl text-blue-700">{doctor.specialization}</p>
+          <p className="text-lg">
+            <strong>Experience:</strong> {doctor.experience} years
+          </p>
+          <p className="text-lg">
+            <strong>Ward:</strong> {doctor.ward || "Not specified"}
+          </p>
+          <p className="text-lg">
+            <strong>Payment:</strong> {doctor.paymentAmount ? `$${doctor.paymentAmount}` : "Not specified"}
+          </p>
+          <p className="text-md italic text-gray-600">
+            <strong>Time:</strong> {doctor.time}
           </p>
         </div>
-      </div>
+      </section>
+
+      {/* Availability Section */}
+      <section className="mt-8">
+        <h3 className="text-3xl font-semibold mb-4 text-blue-800">Availability</h3>
+        {doctor.availability && doctor.availability.length > 0 ? (
+          <div className="flex flex-wrap gap-6">
+            {doctor.availability.map((slot) => (
+              <div
+                key={slot._id}
+                className="bg-blue-200 text-blue-700 px-5 py-3 rounded-md shadow-md hover:bg-blue-300 transition ease-in-out duration-300"
+              >
+                <p className="text-lg">{slot.date || "Not specified"}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-lg text-gray-600">No availability slots available.</p>
+        )}
+      </section>
+
+      {/* Description Section */}
+      <section className="mt-8">
+        <h3 className="text-3xl font-semibold mb-4 text-blue-800">Description</h3>
+        <p className="text-lg leading-7 text-gray-700">
+          {doctor.description || "No description available."}
+        </p>
+      </section>
     </div>
   );
 };
