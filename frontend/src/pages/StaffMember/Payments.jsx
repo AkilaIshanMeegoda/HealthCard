@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import dayjs from "dayjs";
 
 const Payments = () => {
   const { user } = useAuthContext();
@@ -60,7 +61,7 @@ const Payments = () => {
             <thead>
               <tr className="bg-gray-200 text-left text-sm font-bold">
                 {/* <th className="p-4">ID</th> */}
-                <th className="p-4">Patient Name</th>
+                {/* <th className="p-4">Patient Name</th> */}
                 <th className="p-4">Date of Payment</th>
                 <th className="p-4">Payment Method</th>
                 <th className="p-4">Payment Amount</th>
@@ -71,11 +72,11 @@ const Payments = () => {
               {paymentData.map((payment, index) => (
                 <tr key={index} className="border-t">
                   {/* <td className="p-4">{payment.id}</td> */}
-                  <td className="p-4">{payment.appointmentId.userName}</td>
-                  <td className="p-4">{payment.createdAt}</td>
+                  {/* <td className="p-4">{payment.appointmentId.userName}</td> */}
+                  <td className="p-4">{dayjs(payment.createdAt).format("YYYY-MM-DD, HH:mm:ss")}</td>
                   <td className="p-4">{payment.paymentMethod}</td>
                   <td className="p-4">{payment.amount}</td>
-                  <td className="p-4">{payment.paymentStatus}</td>
+                  <td className={`p-4 ${payment.paymentStatus === "pending" ? "text-red-500" : "text-green-500"}`}>{payment.paymentStatus}</td>
                 </tr>
               ))}
             </tbody>

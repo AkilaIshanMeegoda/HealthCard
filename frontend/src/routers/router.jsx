@@ -26,7 +26,8 @@ import PatientAppointments from "../pages/Patient/PatientAppointmentDashBoard";
 import PatientReports from "../pages/Patient/PatientTreatmentsAndReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
 import PatientDetailsUser from "../pages/Patient/PatientDetailsDashBoard";
-import AppointmentPayment from "../pages/Patient/AppointmentPayment";
+import ServicePayment from "../pages/Patient/ServicePayment";
+import DoctorAppointmentPayment from "../pages/Patient/DoctorAppointmentPayment";
 
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
@@ -63,10 +64,8 @@ import AddLabAppointment from "../pages/Patient/AddLabAppointment";
 import ServiceDetailsPage from "../components/patient/ServiceDetailsPage";
 import AllLabAppointment from "../pages/Patient/AllLabAppointment";
 import UpdateLabAppointment from "../pages/Patient/UpdateLabAppointment ";
+import LabAppointments from "../pages/StaffMember/LabAppointments";
 import PatientPrescriptions from "../pages/Patient/PatientPrescriptions";
-
-
-
 
 function CreateRouter() {
   return createBrowserRouter([
@@ -106,6 +105,16 @@ function CreateRouter() {
           path: "/staffMember/appointments",
           // element: <Appointments />,
           element: <AppointmentsDisplay />,
+        },
+        {
+          path: "/staffMember/doctorAppointments",
+          // element: <Appointments />,
+          element: <Appointments />,
+        },
+        {
+          path: "/staffMember/labAppointments",
+          // element: <Appointments />,
+          element: <LabAppointments />,
         },
         {
           path: "/staffMember/view-appointment/:id",
@@ -304,8 +313,10 @@ function CreateRouter() {
       path: '/patient/patient-lab-appointments', element: <AllLabAppointment />
     },
     {
-      path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
-
+      path: '/patient/appointment-payment/:id', element: <DoctorAppointmentPayment />
+    },
+    {
+      path: '/patient/service-payment/:id', element: <ServicePayment />
     },
 
     
