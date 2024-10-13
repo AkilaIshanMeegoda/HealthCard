@@ -97,22 +97,22 @@ const AllLabAppointment = () => {
           <table className="w-full table-fixed">
             <thead>
               <tr className="bg-gray-200">
-                <th className="w-1/4 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-1 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Appointment Date
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Hospital Name
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Lab Type
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Payment Amount
                 </th>
-                <th className="w-1/4 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-gray-600 uppercase">
                   Payment Status
                 </th>
-                <th className="w-1/4 px-8 py-2 text-sm font-bold text-left text-gray-600 uppercase">
+                <th className="w-3/12 px-8 font-bold text-gray-600 uppercase py-2text-sm">
                   Action
                 </th>
               </tr>
@@ -120,28 +120,28 @@ const AllLabAppointment = () => {
             <tbody className="bg-white">
               {appointments.map((lab) => (
                 <tr key={lab._id}>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {lab.date}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {lab.hospitalName}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {lab.testType}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {lab.paymentAmount}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200 text-sm">
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {lab.status}
                   </td>
-                  <td className="py-2 px-4 border-b border-gray-200">
+                  <td className="px-4 py-2 border-b border-gray-200">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleUpdate(lab._id);
                       }}
-                      className="py-1 px-4 rounded-lg text-xs font-medium bg-blue-500 mx-2 text-white"
+                      className="px-4 py-1 mx-2 text-xs font-medium text-white bg-blue-500 rounded-lg"
                     >
                       Edit
                     </button>
@@ -150,7 +150,7 @@ const AllLabAppointment = () => {
                         e.stopPropagation();
                         handleDelete(lab._id);
                       }}
-                      className="py-1 px-4 rounded-lg text-xs font-medium bg-red-500 text-white"
+                      className="px-4 py-1 text-xs font-medium text-white bg-red-500 rounded-lg"
                     >
                       Delete
                     </button>
@@ -159,7 +159,7 @@ const AllLabAppointment = () => {
                         e.stopPropagation();
                         handlePayment(lab._id);
                       }}
-                      className={`py-1 px-4 rounded-lg text-xs font-medium ${lab.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
+                      className={`py-1 px-4 ml-2 rounded-lg text-xs font-medium ${lab.status === "Paid" ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 text-white"
                         }`}
                       disabled={lab.status === "Paid"}
                     >
