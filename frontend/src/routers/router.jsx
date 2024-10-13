@@ -27,6 +27,7 @@ import PatientReports from "../pages/Patient/PatientTreatmentsAndReports";
 import PatientHospitals from "../pages/Patient/PatientHospitals";
 import PatientDetailsUser from "../pages/Patient/PatientDetailsDashBoard";
 import AppointmentPayment from "../pages/Patient/AppointmentPayment";
+import ServicePayment from "../pages/Patient/ServicePayment";
 
 import Appointments from "../pages/StaffMember/Appointments";
 import ViewAppointment from "../pages/StaffMember/ViewAppointment";
@@ -301,7 +302,9 @@ function CreateRouter() {
     },
     {
       path: '/patient/appointment-payment/:id', element: <AppointmentPayment />
-
+    },
+    {
+      path: '/patient/service-payment/:id', element: <ServicePayment />
     },
 
     

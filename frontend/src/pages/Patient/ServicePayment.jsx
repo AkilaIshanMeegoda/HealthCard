@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import logo from "../../images/logo.png";
 
-const AppointmentPayment = () => {
+const ServicePayment = () => {
     const { id } = useParams();
     const { user } = useAuthContext();
 
@@ -27,7 +27,7 @@ const AppointmentPayment = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:3000/appointment/hospital-appointment/${id}`, {
+            fetch(`http://localhost:3000/labappointment/hospital-appointment/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,9 +42,9 @@ const AppointmentPayment = () => {
                 })
                 .then((data) => {
                     console.log("Fetched raw data:", data);
-                    const appointmentData = JSON.parse(data);
-                    setPaymentAmount(appointmentData.paymentAmount || "");
-                    setAppointmentDetails(appointmentData);
+                    const serviceData = JSON.parse(data);
+                    setPaymentAmount(serviceData.paymentAmount || "");
+                    setAppointmentDetails(serviceData);
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error);
@@ -62,7 +62,7 @@ const AppointmentPayment = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:3000/api/payment/add", {
+            const response = await fetch("http://localhost:3000/api/payment/add-service", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -332,4 +332,4 @@ const AppointmentPayment = () => {
     );
 };
 
-export default AppointmentPayment;
+export default ServicePayment;
