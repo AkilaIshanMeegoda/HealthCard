@@ -25,6 +25,7 @@ const PatientUpdateAppointment = () => {
   const [appointmentDetails, setAppointmentDetails] = useState({});
   const [appointmentsCount, setAppointmentsCount] = useState(0);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const [doctor, setDoctor] = useState({});
 
   const maxAppointments = 2; // Default value for max appointments
 
@@ -67,6 +68,22 @@ const PatientUpdateAppointment = () => {
         });
     }
   }, [user]);
+
+  useEffect(() => {
+    if (appointmentDetails.doctorId) {
+      axios
+        .get(`http://localhost:3000/api/doctors/doctor/${appointmentDetails.doctorId}`)
+        .then((response) => {
+          setDoctor(response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch doctor details:", error);
+          toast.error("Error fetching doctor details.");
+        });
+    }
+  }, [appointmentDetails.doctorId]);
+
+console.log("Doctor details with days :", doctor);
 
   useEffect(() => {
     if (user) {
