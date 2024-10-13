@@ -12,7 +12,8 @@ const PatientAddAppointment = () => {
   console.log("Doctor details:", doctor, hospital);
   const navigate = useNavigate();
   const { user } = useAuthContext();
-
+  const today = new Date().toISOString().split('T')[0];
+  
   // State to hold each input field separately
   const [userName, setUserName] = useState("");
   const [contact, setContactNumber] = useState("");
@@ -84,9 +85,29 @@ const PatientAddAppointment = () => {
     e.preventDefault();
 
     // Check for empty fields before proceeding
-    if (!userName || !contact || !notes || !date || !email) {
-      toast.error("Please fill in all fields.");
-      return; // Exit the function if there are empty fields
+    if (!userName) {
+      toast.error("Please fill in your name.");
+      return;
+    }
+  
+    if (!contact) {
+      toast.error("Please fill in your contact number.");
+      return;
+    }
+  
+    if (!notes) {
+      toast.error("Please fill in any important notes.");
+      return;
+    }
+  
+    if (!date) {
+      toast.error("Please select an appointment date.");
+      return;
+    }
+  
+    if (!email) {
+      toast.error("Please provide your email address.");
+      return;
     }
 
     try {
@@ -180,6 +201,7 @@ const PatientAddAppointment = () => {
                 type="date"
                 id="date-input"
                 className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                min={today} // Disable previous dates
                 required
                 value={date}
                 onChange={(e) => {
