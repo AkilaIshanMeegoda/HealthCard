@@ -283,7 +283,6 @@ const AddDoctors = () => {
           {availability.map((slot, index) => (
             <div key={index} className="flex gap-4">
               <div className="lg:w-1/3">
-                
                 <TextInput
                   id={`date-${index}`}
                   type="text" // Set type to text
@@ -305,7 +304,11 @@ const AddDoctors = () => {
               </Button>
             </div>
           ))}
-          <Button type="button" onClick={addAvailabilitySlot} className="mt-2">
+          <Button
+            type="button"
+            onClick={addAvailabilitySlot}
+            className="mt-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+          >
             Add Availability Slot
           </Button>
         </div>
