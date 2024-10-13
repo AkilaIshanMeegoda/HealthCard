@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Button, Label, Textarea, TextInput } from "flowbite-react";
@@ -74,11 +74,38 @@ const UpdateService = () => {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!service.serviceName || service.serviceName.length < 3 || service.serviceName.length > 50) {
+      newErrors.serviceName = "Service name must be between 3 and 50 characters long.";
+    }
+
+    if (!service.price || service.price <= 0) {
+      newErrors.price = "Price must be a positive number.";
+    }
+
+    if (!service.description || service.description.length > 1000) {
+      newErrors.description = "Description cannot exceed 1000 characters.";
+    }
+
+    if (!image && !imageUrl) {
+      newErrors.image = "You must upload a new image or keep the existing one.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Returns true if there are no errors
+  };
+
   const handleUpdateService = async (event) => {
     event.preventDefault();
     if (!user) {
       setErrors((prev) => ({ ...prev, auth: "You must be logged in" }));
       return;
+    }
+
+    if (!validateForm()) {
+      return; // If validation fails, exit early
     }
 
     const updatedService = {
@@ -133,8 +160,6 @@ const UpdateService = () => {
             value={service.serviceName || ""}
             onChange={handleChange}
             required
-            minLength={3}
-            maxLength={50}
           />
           {errors.serviceName && <div className="font-semibold text-red-600">{errors.serviceName}</div>}
         </div>
@@ -164,21 +189,25 @@ const UpdateService = () => {
             onChange={handleChange}
             required
             rows={5}
-            maxLength={1000}
           />
           {errors.description && <div className="font-semibold text-red-600">{errors.description}</div>}
         </div>
 
+
         {/* Image Upload */}
         <div className="lg:w-1/2">
-          <Label htmlFor="image" value="Upload Image" className="text-lg" />
+          <Label htmlFor="image" value="Upload New Image (optional)" className="text-lg" />
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            required
           />
           {errors.image && <div className="font-semibold text-red-600">{errors.image}</div>}
+        </div>
+        
+        {/* Current Image Display */}
+        <div className="lg:w-1/2">
+          {imageUrl && <img src={imageUrl} alt="Current Service" className="h-40 w-40 object-cover rounded-md mb-2" />}
         </div>
 
         <Button

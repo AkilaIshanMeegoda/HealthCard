@@ -84,10 +84,10 @@ DoctorCard.propTypes = {
     availability: PropTypes.arrayOf(
       PropTypes.shape({
         date: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
       })
     ).isRequired,
+    time: PropTypes.string.isRequired,
+    maxAppointmentCount: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
   onDelete: PropTypes.func, // onDelete should be a function

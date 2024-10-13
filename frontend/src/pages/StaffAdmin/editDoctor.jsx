@@ -37,7 +37,6 @@ const EditDoctor = () => {
   const [paymentAmount, setPaymentAmount] = useState(""); // New state for Payment Amount
   const [time, setTime] = useState("");
 
-
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
@@ -53,7 +52,6 @@ const EditDoctor = () => {
         setWard(response.data.ward || ""); // Set Ward
         setPaymentAmount(response.data.paymentAmount || ""); // Set Payment Amount
         setTime(response.data.time || "");
-
       } catch (error) {
         console.error("Error fetching doctor data:", error);
       }
@@ -62,26 +60,53 @@ const EditDoctor = () => {
     fetchDoctor();
   }, [id]);
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!doctor.doctorName) newErrors.doctorName = "Doctor name is required.";
+    if (!doctor.specialization)
+      newErrors.specialization = "Select a specialization.";
+    if (doctor.experience < 0)
+      newErrors.experience = "Experience cannot be negative.";
+    if (isNaN(maxAppointmentCount) || maxAppointmentCount < 0)
+      newErrors.maxAppointmentCount = "Enter a valid max appointment count.";
+    if (isNaN(ward) || ward < 0)
+      newErrors.ward = "Ward number must be a positive number.";
+    if (isNaN(paymentAmount) || paymentAmount < 0)
+      newErrors.paymentAmount = "Payment amount must be a positive value.";
+    if (availability.length === 0)
+      newErrors.availability = "At least one availability slot is required.";
+    if (!time) newErrors.time = "Time is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error("Please correct the errors in the form.");
+      return;
+    }
     try {
       const doctorObj = {
         ...doctor,
         availability: availability,
         status: doctorStatus,
-        image:imageUrl,
+        image: imageUrl,
         maxAppointmentCount,
         ward, // Include ward
         paymentAmount, // Include paymentAmount
         time,
-
       };
 
       await axios.put(
         `http://localhost:3000/api/doctors/${id}`,
         doctorObj // Adjust to your API endpoint
-      ); 
-      toast.success("Doctor updated successfully!", { // Success message
+      );
+      toast.success("Doctor updated successfully!", {
+        // Success message
         position: "bottom-right",
         theme: "colored",
       });
@@ -104,10 +129,7 @@ const EditDoctor = () => {
   };
 
   const addAvailabilitySlot = () => {
-    setAvailability([
-      ...availability,
-      { date: ""},
-    ]);
+    setAvailability([...availability, { date: "" }]);
   };
 
   const removeAvailabilitySlot = (index) => {
@@ -139,7 +161,7 @@ const EditDoctor = () => {
       console.error("Image upload error: ", error);
     }
   };
-  
+
   return (
     <div className="px-20 pb-12 mt-16 bg-white shadow-xl rounded-3xl mx-44">
       <div className="flex p-6 pt-0 rounded-xl">
@@ -149,7 +171,10 @@ const EditDoctor = () => {
         <h2 className="mt-6 text-3xl font-semibold">Edit Doctor</h2>
       </div>
 
-      <form onSubmit={handleUpdate} className="flex flex-col flex-wrap gap-4 m-auto">
+      <form
+        onSubmit={handleUpdate}
+        className="flex flex-col flex-wrap gap-4 m-auto"
+      >
         {/* Doctor Name */}
         <div className="lg:w-1/2">
           <Label htmlFor="doctorName" value="Doctor Name" className="text-lg" />
@@ -157,11 +182,14 @@ const EditDoctor = () => {
             id="doctorName"
             name="doctorName"
             type="text"
-            value={doctor.doctorName || ''}
+            value={doctor.doctorName || ""}
             placeholder="Doctor's name"
             required
             onChange={handleChange}
           />
+          {errors.doctorName && (
+            <p className="text-red-500">{errors.doctorName}</p>
+          )}
         </div>
 
         {/* Specialty */}
@@ -171,7 +199,11 @@ const EditDoctor = () => {
             id="specialty"
             name="specialty"
             value={doctor.specialization || specialties[0]}
-            onChange={(e) => handleChange({ target: { name: 'specialization', value: e.target.value } })}
+            onChange={(e) =>
+              handleChange({
+                target: { name: "specialization", value: e.target.value },
+              })
+            }
           >
             {specialties.map((option) => (
               <option key={option} value={option}>
@@ -179,27 +211,39 @@ const EditDoctor = () => {
               </option>
             ))}
           </Select>
+          {errors.specialization && (
+            <p className="text-red-500">{errors.specialization}</p>
+          )}
         </div>
 
         {/* Experience */}
         <div className="lg:w-1/2">
-          <Label htmlFor="experience" value="Experience (Years)" className="text-lg" />
+          <Label
+            htmlFor="experience"
+            value="Experience (Years)"
+            className="text-lg"
+          />
           <TextInput
             id="experience"
             name="experience"
             type="number"
-            value={doctor.experience || ''}
+            value={doctor.experience || ""}
             placeholder="Years of experience"
             required
             onChange={handleChange}
           />
+          {errors.experience && (
+            <p className="text-red-500">{errors.experience}</p>
+          )}
         </div>
 
         {/* Image Upload */}
         <div className="lg:w-1/2">
           <Label htmlFor="image" value="Upload Image" className="text-lg" />
           <input type="file" accept="image/*" onChange={handleFileChange} />
-          {imageUrl && <img src={imageUrl} alt="Doctor" className="mt-2 w-32 h-32" />}
+          {imageUrl && (
+            <img src={imageUrl} alt="Doctor" className="mt-2 w-32 h-32" />
+          )}
         </div>
 
         {/* Doctor Status */}
@@ -215,73 +259,96 @@ const EditDoctor = () => {
         </div>
 
         {/* Availability Section */}
-<div className="flex flex-col gap-4">
-  <h3 className="text-lg font-semibold">Availability</h3>
-  {availability.map((slot, index) => (
-    <div key={index} className="flex gap-4">
-      <div className="lg:w-1/3">
-        <Label htmlFor={`date-${index}`} value="Date" className="text-lg" />
-        <TextInput
-          id={`date-${index}`}
-          type="text" // Keep the date input as plain text
-          value={slot.date || ""} // Use the value directly
-          onChange={(e) => handleAvailabilityChange(index, "date", e.target.value)}
-          required
-        />
-      </div>
-      <Button onClick={() => removeAvailabilitySlot(index)} type="button" color="failure">
-        Remove
-      </Button>
-    </div>
-  ))}
-  <Button onClick={addAvailabilitySlot} type="button" color="success">
-    Add Availability
-  </Button>
-</div>
+        <div className="flex flex-col gap-4">
+          <h3 className="text-lg font-semibold">Availability</h3>
+          {availability.map((slot, index) => (
+            <div key={index} className="flex gap-4">
+              <div className="lg:w-1/3">
+                <Label
+                  htmlFor={`date-${index}`}
+                  value="Date"
+                  className="text-lg"
+                />
+                <TextInput
+                  id={`date-${index}`}
+                  type="text" // Keep the date input as plain text
+                  value={slot.date || ""} // Use the value directly
+                  onChange={(e) =>
+                    handleAvailabilityChange(index, "date", e.target.value)
+                  }
+                  required
+                />
+              </div>
+              <Button
+                onClick={() => removeAvailabilitySlot(index)}
+                type="button"
+                color="failure"
+                className="py-4"
+              >
+                Remove
+              </Button>
+              {errors.availability && (
+                <p className="text-red-500">{errors.availability}</p>
+              )}
+            </div>
+          ))}
+          <Button onClick={addAvailabilitySlot} type="button" color="success">
+            Add Availability
+          </Button>
+        </div>
 
-
-<div className="lg:w-1/2">
+        <div className="lg:w-1/2">
           <Label htmlFor="time" value="Time" className="text-lg" />
           <TextInput
             id="time"
             name="time"
             type="text"
-            value={doctor.time || ''}
+            value={time} // Use time state directly
             placeholder="Doctor's available time"
             required
-            onChange={handleChange}
+            onChange={(e) => setTime(e.target.value)} // Update time directly
           />
         </div>
 
- {/* Max Appointment Count */}
- <div className="lg:w-1/2">
-          <Label htmlFor="maxAppointmentCount" value="Max Appointment Count" className="text-lg" />
+        {/* Max Appointment Count */}
+        <div className="lg:w-1/2">
+          <Label
+            htmlFor="maxAppointmentCount"
+            value="Max Appointment Count"
+            className="text-lg"
+          />
           <TextInput
             id="maxAppointmentCount"
             name="maxAppointmentCount"
             type="number"
-            value={maxAppointmentCount || ''}
+            value={maxAppointmentCount || ""}
             placeholder="Maximum appointments allowed"
             required
             onChange={(e) => setMaxAppointmentCount(e.target.value)}
           />
-          </div>
+          {errors.maxAppointmentCount && (
+            <p className="text-red-500">{errors.maxAppointmentCount}</p>
+          )}
+        </div>
         {/* Description */}
         <div className="lg:w-full">
-          <Label htmlFor="description" value="Description" className="text-lg" />
+          <Label
+            htmlFor="description"
+            value="Description"
+            className="text-lg"
+          />
           <Textarea
             id="description"
             name="description"
             rows={4}
-            value={doctor.description || ''}
+            value={doctor.description || ""}
             placeholder="Description about the doctor"
             onChange={handleChange}
           />
         </div>
 
-
- {/* Ward */}
- <div className="lg:w-1/2">
+        {/* Ward */}
+        <div className="lg:w-1/2">
           <Label htmlFor="ward" value="Ward" className="text-lg" />
           <TextInput
             id="ward"
@@ -290,11 +357,16 @@ const EditDoctor = () => {
             onChange={(e) => setWard(Number(e.target.value))} // Convert to number
             required
           />
+          {errors.ward && <p className="text-red-500">{errors.ward}</p>}
         </div>
 
         {/* Payment Amount */}
         <div className="lg:w-1/2">
-          <Label htmlFor="paymentAmount" value="Payment Amount" className="text-lg" />
+          <Label
+            htmlFor="paymentAmount"
+            value="Payment Amount"
+            className="text-lg"
+          />
           <TextInput
             id="paymentAmount"
             type="number"
@@ -302,8 +374,11 @@ const EditDoctor = () => {
             onChange={(e) => setPaymentAmount(Number(e.target.value))} // Convert to number
             required
           />
+          {errors.paymentAmount && (
+            <p className="text-red-500">{errors.paymentAmount}</p>
+          )}
         </div>
-        
+
         <Button type="submit" color="success" className="mt-4">
           Update Doctor
         </Button>
