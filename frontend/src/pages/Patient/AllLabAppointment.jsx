@@ -79,7 +79,7 @@ const AllLabAppointment = () => {
   };
 
   const handlePayment = (id) => {
-    navigate(`/patient/appointment-payment/${id}`);
+    navigate(`/patient/service-payment/${id}`);
   };
 
   return (
