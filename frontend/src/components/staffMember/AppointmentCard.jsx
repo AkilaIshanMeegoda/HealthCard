@@ -6,7 +6,7 @@ const AppointmentCard = ({ appointment }) => {
             <div>
                 <h3 className="text-lg font-semibold text-gray-800">Dr.{appointment.doctorName}</h3>
                 <p className="text-sm text-gray-500">Date: {appointment.date}, Time: {appointment.time}</p>
-                <p className="text-sm text-red-500 mt-2">Payment Status: {appointment.status}</p>
+                <p className={`text-sm mt-2 ${appointment.status === "Pending" ? "text-red-500" : "text-green-500"}`}>Payment Status: {appointment.status}</p>
             </div>
         </div>
     );
