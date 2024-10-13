@@ -18,9 +18,8 @@ const PatientAddAppointment = () => {
   const [contact, setContactNumber] = useState("");
   const [notes, setImportantNotes] = useState("");
   const [date, setAppointmentDate] = useState("");
-  const [time, setAppointmentTime] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
-
+  const [enabledDays, setEnabledDays] = useState([]);
   const [appointmentsCount, setAppointmentsCount] = useState(0);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const maxAppointments = doctor?.maxAppointmentCount || 2; // Default to 2 if maxCount is not available
@@ -31,6 +30,15 @@ const PatientAddAppointment = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (doctor) {
+      // Set the enabled days from the doctor's availability
+      const days = doctor.availability.map(item => item.date); // Extract available days
+      setEnabledDays(days);
+    }
+  }, [doctor]);
+
+  console.log("Doctor availability:", enabledDays);
   useEffect(() => {
     const checkAppointments = async () => {
       if (date) {
@@ -79,7 +87,6 @@ const PatientAddAppointment = () => {
       !contact ||
       !notes ||
       !date ||
-      !time ||
       !email
     ) {
       toast.error("Please fill in all fields.");
@@ -92,7 +99,7 @@ const PatientAddAppointment = () => {
         contact,
         note: notes,
         date,
-        time,
+        time: doctor?.time,
         hospitalName: hospital,
         doctorName: doctor?.doctorName,
         specialization: doctor?.specialization,
@@ -119,6 +126,11 @@ const PatientAddAppointment = () => {
     }
   };
 
+  const isDateEnabled = (date) => {
+    const dayName = new Date(date).toLocaleString("en-US", { weekday: "long" });
+    return enabledDays.includes(dayName);
+  };
+  
   return (
     <div>
       <Navbar />
@@ -158,7 +170,14 @@ const PatientAddAppointment = () => {
               className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
               value={date}
-              onChange={(e) => setAppointmentDate(e.target.value)}
+              onChange={(e) => {
+                const selectedDate = e.target.value;
+                if (isDateEnabled(selectedDate)) {
+                  setAppointmentDate(selectedDate);
+                } else {
+                  toast.error("Please select an available day.");
+                }
+              }}
             />
           </div>
         </form>
@@ -251,12 +270,12 @@ const PatientAddAppointment = () => {
                   Appointment Time
                 </label>
                 <input
-                  type="time"
+                  type="text"
                   id="appointmentTime"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   required
-                  value={time}
-                  onChange={(e) => setAppointmentTime(e.target.value)}
+                  value={doctor?.time}
+                  readOnly
                 />
               </div>
 
