@@ -136,8 +136,8 @@ const getUserReports = async (req, res) => {
 
     res.status(200).json(reports);
   } catch (error) {
-    res.status(500).json({ message: error.message });
- }
+    res.status(500).json({ message: error.message});
+}
 };
 
 module.exports = {

@@ -314,9 +314,11 @@ const PatientUpdateAppointment = () => {
 
         <div className="w-full max-w-6xl bg-white p-5 rounded-lg shadow-lg">
           {/* Form Container */}
-          <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-5">
-            Make Appointment
-          </h1>
+          <div className="bg-blue-200 py-2 rounded-lg shadow-md">
+            <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-2">
+              Make Appointment
+            </h1>
+          </div>
           <form className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* User Name */}

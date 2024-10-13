@@ -63,6 +63,7 @@ import AddLabAppointment from "../pages/Patient/AddLabAppointment";
 import ServiceDetailsPage from "../components/patient/ServiceDetailsPage";
 import AllLabAppointment from "../pages/Patient/AllLabAppointment";
 import UpdateLabAppointment from "../pages/Patient/UpdateLabAppointment ";
+import PatientPrescriptions from "../pages/Patient/PatientPrescriptions";
 
 
 
@@ -286,7 +287,10 @@ function CreateRouter() {
     },
     
     {
-      path: '/patient/patient-treatments', element: < PatientLabReportsDetails/>
+      path: '/patient/patient-lab-reports-details', element: < PatientLabReportsDetails/>
+    },
+    {
+      path: '/patient/patient-my-prescriptions', element: < PatientPrescriptions/>
     },
     {
 
