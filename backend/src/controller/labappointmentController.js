@@ -50,7 +50,6 @@ const createLabAppointment = async (req, res) => {
     time,
     hospitalName,
     testType,
-    wardNo,
     paymentAmount,
     email,
     labId,
@@ -68,7 +67,6 @@ const createLabAppointment = async (req, res) => {
       time,
       hospitalName,
       testType,
-      wardNo,
       paymentAmount,
       email,
       labId,
@@ -101,12 +99,12 @@ const deleteLabAppointment = async (req, res) => {
   }
 };
 
-// Update a promotion
+// Update a lab appointment
 const updateLabAppointment = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send("No promotion with that id");
+    return res.status(404).send("No lab appointment with that id");
   }
 
   try {
@@ -135,7 +133,7 @@ const getLabAppointmentsByEmail = async (req, res) => {
   }
 
   try {
-    // Find promotion by email
+    // Find lab appointment by email
     const appointments = await LabAppointment.find({ email: email });
 
     if (!appointments || appointments.length === 0) {
