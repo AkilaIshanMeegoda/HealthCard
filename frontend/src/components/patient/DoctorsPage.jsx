@@ -140,8 +140,6 @@ const DoctorsPage = () => {
     <p className="text-gray-600">No services found for this hospital.</p>
   )}
 </div>
-</div>
-
     </div>
   );
 };
