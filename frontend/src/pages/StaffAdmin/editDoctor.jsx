@@ -283,6 +283,7 @@ const EditDoctor = () => {
                 onClick={() => removeAvailabilitySlot(index)}
                 type="button"
                 color="failure"
+                className="py-4"
               >
                 Remove
               </Button>
