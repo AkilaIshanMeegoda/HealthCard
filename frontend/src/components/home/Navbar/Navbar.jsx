@@ -185,7 +185,7 @@ const Navbar = () => {
                   Home
                 </a>
                 <a
-                  href="/client/dashboard/shops"
+                  href="/patient/patienthospitals"
                   className="text-lg font-bold text-client-brown nav-link"
                 >
                   Hospitals

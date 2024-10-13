@@ -1,7 +1,9 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const Container = () => {
+  const navigate=useNavigate();
   return (
     <div className="w-full min-h-screen bg-[#D3E6FF]">
       <h1 className="font-[poppins] text-center pt-16 text-4xl text-blue-800">
@@ -46,7 +48,7 @@ const Container = () => {
                 <span className="badge bg-[#D3E6FF]">Colombo</span>
               </div>
 
-              <h2 className="product-title">Durdans Hospital</h2>
+              <h2 className="text-center product-title">Durdans Hospital</h2>
 
               <div>
                 <h2 className="px-2 text-sm font-bold text-justify text-gray-500">
@@ -71,7 +73,7 @@ const Container = () => {
                 <span className="badge bg-[#D3E6FF]">Colombo</span>
               </div>
 
-              <h2 className="product-title">Lanka Hospital</h2>
+              <h2 className="text-center product-title">Lanka Hospital</h2>
 
               <div>
                 <h2 className="px-2 text-sm font-bold text-justify text-gray-500">
@@ -96,7 +98,7 @@ const Container = () => {
                 <span className="badge bg-[#D3E6FF]">Colombo</span>
               </div>
 
-              <h2 className="product-title">Asiri Hospital</h2>
+              <h2 className="text-center product-title">Asiri Hospital</h2>
 
               <div>
                 <h2 className="px-2 text-sm font-bold text-justify text-gray-500">
@@ -110,7 +112,7 @@ const Container = () => {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <button className="px-4 py-2 mt-10 text-center text-white bg-blue-700 shadow-xl rounded-2xl">View Hospitals</button>
+        <button onClick={()=>navigate('/patient/patienthospitals')} className="px-4 py-2 mt-10 text-center text-white bg-blue-700 shadow-xl rounded-2xl">View Hospitals</button>
       </div>
     </div>
   );
