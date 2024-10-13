@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router";
 
-const Appointments = () => {
+const LabAppointments = () => {
   const { user } = useAuthContext();
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Appointments = () => {
 
   const fetchPatients = () => {
     user &&
-      fetch("http://localhost:3000/appointment/hospital-appointments", {
+      fetch("http://localhost:3000/labappointment/hospital-appointments", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -26,9 +26,9 @@ const Appointments = () => {
         });
   };
 
-  const handleViewClick = (appointmentId) =>{
+  const handleViewClick = (appointmentId) => {
     navigate(`/staffMember/view-appointment/${appointmentId}`);
-  }
+  };
 
   useEffect(() => {
     fetchPatients();
@@ -49,7 +49,7 @@ const Appointments = () => {
           className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
           style={{ fontSize: "2rem", marginLeft: "20px" }}
         >
-          All Appointments <br />
+          All Lab Appointments <br />
         </h1>
         <div className="relative hidden mt-8 group sm:block">
           <div className="relative text-gray-600 ">
@@ -99,19 +99,16 @@ const Appointments = () => {
                 Date
               </th>
               <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Time
+              </th>
+              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Contact
               </th>
-              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Payment Amount
-              </th>
-              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Ward No
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Test Type
               </th>
               <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Doctor
-              </th>
-              <th className="w-1/12 px-4 py-2 text-sm font-bold text-right text-white uppercase">
-                Action
+                Payment Status
               </th>
             </tr>
           </thead>
@@ -138,28 +135,16 @@ const Appointments = () => {
                     {appointment.date}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
+                    {appointment.time}
+                  </td>
+                  <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {appointment.contact}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {appointment.paymentAmount}
+                    {appointment.testType}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {appointment.wardNo}
-                  </td>
-                  <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {appointment.doctorName}
-                  </td>
-
-                  <td className="flex items-center justify-center px-16 py-2 border-b border-gray-200">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleViewClick(appointment._id);
-                      }}
-                      className="px-4 py-1 mx-2 text-sm font-medium text-white bg-green-500 rounded-lg"
-                    >
-                      View
-                    </button>
+                    {appointment.status}
                   </td>
                 </tr>
               ))
@@ -171,4 +156,4 @@ const Appointments = () => {
   );
 };
 
-export default Appointments;
+export default LabAppointments;
