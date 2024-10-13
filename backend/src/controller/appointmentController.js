@@ -137,7 +137,7 @@ const getAppointmentsByEmail = async (req, res) => {
   }
 
   try {
-    // Find promotion by email
+    // Find appointment by email
     const appointments = await Appointment.find({ email: email });
 
     if (!appointments || appointments.length === 0) {
