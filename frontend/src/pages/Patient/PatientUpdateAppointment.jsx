@@ -28,7 +28,7 @@ const PatientUpdateAppointment = () => {
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState({});
   const [enabledDays, setEnabledDays] = useState([]);
-  const maxAppointments = doctor?.maxAppointmentCount || 2;
+  const maxAppointments = doctorInfo?.maxAppointmentCount || 2;
 
   useEffect(() => {
     if (user) {
