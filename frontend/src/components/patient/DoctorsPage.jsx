@@ -78,6 +78,7 @@ const DoctorsPage = () => {
                 key={doctor._id}
                 className="bg-white border border-gray-200 shadow-md rounded-lg p-6 w-64 cursor-pointer"
               >
+
                 {doctor.image && (
                   <img
                     src={doctor.image}
@@ -141,6 +142,44 @@ const DoctorsPage = () => {
               <div
                 key={service._id}
                 className="bg-white border border-gray-200 shadow-md rounded-lg p-6 w-64 h-80" // Set a fixed height for the card
+
+                Book Appointment
+              </button>
+
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-600">No doctors found for this hospital.</p>
+        )}
+      </div>
+    </div>
+{/* Display services */}
+<h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Services</h1>
+
+<div className="flex flex-wrap justify-center gap-6 mt-8">
+  {services.length > 0 ? (
+    services.map(service => (
+      <div 
+        key={service._id} 
+        className="bg-white border border-gray-200 shadow-md rounded-lg p-6 w-64 h-80" // Set a fixed height for the card
+      >
+        {service.image && (
+          <img 
+            src={service.image} 
+            alt={service.serviceName} 
+            className="w-full h-32 object-cover rounded-t-lg mb-4" // Set fixed height for image with object-cover
+            onClick={() => handleServiceClick(service._id)} // Add click handler for image
+
+          />
+        )}
+        <h3 className="text-xl font-semibold text-green-600 mb-2" onClick={() => handleServiceClick(service._id)} >{service.serviceName}</h3>
+        {service.price && <p className="text-gray-500">Price: ${service.price}</p>}
+
+        {/* Button to book an appointment */}
+        <button 
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                onClick={() => handleLabAppointmentClick(service)} // Add appointment button handler
+
               >
                 {service.image && (
                   <img
@@ -176,6 +215,14 @@ const DoctorsPage = () => {
           )}
         </div>
       </div>
+
+
+    ))
+  ) : (
+    <p className="text-gray-600">No services found for this hospital.</p>
+  )}
+</div>
+
     </div>
   );
 };
