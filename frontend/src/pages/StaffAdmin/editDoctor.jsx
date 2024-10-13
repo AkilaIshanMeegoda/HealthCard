@@ -62,8 +62,34 @@ const EditDoctor = () => {
     fetchDoctor();
   }, [id]);
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!doctor.doctorName) newErrors.doctorName = "Doctor name is required.";
+    if (!doctor.specialization) newErrors.specialization = "Select a specialization.";
+    if (doctor.experience < 0) newErrors.experience = "Experience cannot be negative.";
+    if (isNaN(maxAppointmentCount) || maxAppointmentCount < 0) 
+      newErrors.maxAppointmentCount = "Enter a valid max appointment count.";
+    if (isNaN(ward) || ward < 0) 
+      newErrors.ward = "Ward number must be a positive number.";
+    if (isNaN(paymentAmount) || paymentAmount < 0) 
+      newErrors.paymentAmount = "Payment amount must be a positive value.";
+    if (availability.length === 0) 
+      newErrors.availability = "At least one availability slot is required.";
+    if (!time) newErrors.time = "Time is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error("Please correct the errors in the form.");
+      return;
+    }
     try {
       const doctorObj = {
         ...doctor,
@@ -162,6 +188,8 @@ const EditDoctor = () => {
             required
             onChange={handleChange}
           />
+                  {errors.doctorName && <p className="text-red-500">{errors.doctorName}</p>}
+
         </div>
 
         {/* Specialty */}
@@ -179,6 +207,8 @@ const EditDoctor = () => {
               </option>
             ))}
           </Select>
+          {errors.specialization && <p className="text-red-500">{errors.specialization}</p>}
+
         </div>
 
         {/* Experience */}
@@ -193,6 +223,8 @@ const EditDoctor = () => {
             required
             onChange={handleChange}
           />
+                  {errors.experience && <p className="text-red-500">{errors.experience}</p>}
+
         </div>
 
         {/* Image Upload */}
@@ -212,6 +244,7 @@ const EditDoctor = () => {
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </Select>
+          
         </div>
 
         {/* Availability Section */}
@@ -232,6 +265,8 @@ const EditDoctor = () => {
       <Button onClick={() => removeAvailabilitySlot(index)} type="button" color="failure">
         Remove
       </Button>
+      {errors.availability && <p className="text-red-500">{errors.availability}</p>}
+
     </div>
   ))}
   <Button onClick={addAvailabilitySlot} type="button" color="success">
@@ -266,6 +301,8 @@ const EditDoctor = () => {
             required
             onChange={(e) => setMaxAppointmentCount(e.target.value)}
           />
+                {errors.maxAppointmentCount && <p className="text-red-500">{errors.maxAppointmentCount}</p>}
+
           </div>
         {/* Description */}
         <div className="lg:w-full">
@@ -291,6 +328,8 @@ const EditDoctor = () => {
             onChange={(e) => setWard(Number(e.target.value))} // Convert to number
             required
           />
+                          {errors.ward && <p className="text-red-500">{errors.ward}</p>}
+
         </div>
 
         {/* Payment Amount */}
@@ -303,6 +342,8 @@ const EditDoctor = () => {
             onChange={(e) => setPaymentAmount(Number(e.target.value))} // Convert to number
             required
           />
+                          {errors.paymentAmount && <p className="text-red-500">{errors.paymentAmount}</p>}
+
         </div>
         
         <Button type="submit" color="success" className="mt-4">

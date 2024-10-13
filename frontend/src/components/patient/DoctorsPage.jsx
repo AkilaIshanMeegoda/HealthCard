@@ -111,7 +111,7 @@ const DoctorsPage = () => {
                   <p className="text-gray-600">
                     No availability slots available.
                   </p>
-                )}
+                )} 
                 <p className="text-gray-500 mt-4">
                   Payment Amount: ${doctor.paymentAmount}
                 </p>{" "}
