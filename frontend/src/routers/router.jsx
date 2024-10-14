@@ -17,6 +17,7 @@ import DoctorDashboard from "../pages/Doctor/Dashboard";
 import AddDashboard from "../pages/StaffAdmin/addDashboard";
 import AddDoctors from "../pages/StaffAdmin/addDoctors";
 import AddServices from "../pages/StaffAdmin/addServices";
+import Analyze from "../pages/StaffAdmin/analyze";
  
 
 import Patients from "../pages/StaffMember/Patients";
@@ -158,6 +159,17 @@ function CreateRouter() {
         {
           path: "/admin/adminDashboard",
           element: <AdminDashboard />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      element: <AdminDashboardLayout />,
+      children: [
+        {
+          path: "/admin/analyze",
+          element: <Analyze />,
         },
       ],
     },
