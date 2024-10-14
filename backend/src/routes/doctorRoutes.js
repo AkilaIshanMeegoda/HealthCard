@@ -1,5 +1,5 @@
 const express = require("express");
-const { addDoctor, getDoctors, updateDoctor, deleteDoctor, getDoctorById } = require("../controller/DoctorController");
+const { addDoctor, getDoctorsByHospital, updateDoctor, deleteDoctor, getDoctorById } = require("../controller/doctorController");
 
 const router = express.Router();
 
@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/add", addDoctor);
 
 // Get all doctors by hospitalId
-router.get("/:hospitalId", getDoctors);
+router.get("/:hospitalId", getDoctorsByHospital);
 
 // Update a doctor by ID
 router.put("/:id", updateDoctor);
