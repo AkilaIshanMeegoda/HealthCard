@@ -60,22 +60,20 @@ const Payments = () => {
           <table className="table-auto w-full">
             <thead>
               <tr className="bg-gray-200 text-left text-sm font-bold">
-                {/* <th className="p-4">ID</th> */}
-                {/* <th className="p-4">Patient Name</th> */}
-                <th className="p-4">Date of Payment</th>
-                <th className="p-4">Payment Method</th>
-                <th className="p-4">Payment Amount</th>
-                <th className="p-4">Payment Status</th>
+                <th className="p-4">Date</th>
+                <th className="p-4">Time</th>
+                <th className="p-4">Method</th>
+                <th className="p-4">Amount</th>
+                <th className="p-4">Status</th>
               </tr>
             </thead>
             <tbody>
               {paymentData.map((payment, index) => (
                 <tr key={index} className="border-t">
-                  {/* <td className="p-4">{payment.id}</td> */}
-                  {/* <td className="p-4">{payment.appointmentId.userName}</td> */}
-                  <td className="p-4">{dayjs(payment.createdAt).format("YYYY-MM-DD, HH:mm:ss")}</td>
+                  <td className="p-4">{dayjs(payment.createdAt).format("YYYY-MM-DD")}</td>
+                  <td className="p-4">{dayjs(payment.createdAt).format("HH:mm:ss")}</td>
                   <td className="p-4">{payment.paymentMethod}</td>
-                  <td className="p-4">{payment.amount}</td>
+                  <td className="p-4">Rs. {payment.amount}</td>
                   <td className={`p-4 ${payment.paymentStatus === "pending" ? "text-red-500" : "text-green-500"}`}>{payment.paymentStatus}</td>
                 </tr>
               ))}
