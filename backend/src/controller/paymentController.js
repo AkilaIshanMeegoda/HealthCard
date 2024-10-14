@@ -1,57 +1,13 @@
-const mongoose = require("mongoose");
-const Payment = require("../models/Payment");
-const Appointment = require("../models/Appointment");
-const Service = require("../models/LabAppointment");
-const User = require("../models/User");
+const paymentService = require('../services/paymentService');
 
 // Add a new payment
 const addPayment = async (req, res) => {
-  const {
-    appointmentId,
-    paymentMethod,
-    insuranceDetails,
-    cardDetails,
-    bankSlip,
-  } = req.body;
+  const { appointmentId, paymentMethod, insuranceDetails, cardDetails, bankSlip } = req.body;
 
   try {
-    const appointment = await Appointment.findById(appointmentId);
-    if (!appointment) {
-      return res.status(404).json({ error: "Appointment not found" });
-    }
-
-    // Validate that required fields are provided
-    if (!appointmentId || !paymentMethod) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    // Set payment status based on payment method
-    let paymentStatus = "pending";
-
-    if (paymentMethod === "debit_card") {
-      paymentStatus = "completed";
-    }
-
-    const paymentData = {
-      appointmentId,
-      hospitalId: appointment.hospitalId,
-      userId: appointment.userId,
-      amount: appointment.paymentAmount,
-      paymentMethod,
-      paymentStatus,
-      insuranceDetails: paymentMethod === "insurance" ? insuranceDetails : null,
-      cardDetails: paymentMethod === "debit_card" ? cardDetails : null,
-      bankSlip: paymentMethod === "bank_transfer" ? bankSlip : null,
-    };
-
-    const newPayment = await Payment.create(paymentData);
-
-    // Update the appointment status and save it
-    if(newPayment) {
-      appointment.status = "Paid";
-      await appointment.save();
-    }
-
+    const newPayment = await paymentService.createPayment(
+      appointmentId, paymentMethod, insuranceDetails, cardDetails, bankSlip
+    );
     res.status(201).json(newPayment);
     console.log("New payment successfully created");
   } catch (error) {
@@ -65,10 +21,7 @@ const getPaymentById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const payment = await Payment.findById(id)
-      .populate("appointmentId")
-      .populate("hospitalId")
-      .populate("userId");
+    const payment = await paymentService.findPaymentById(id);
     if (!payment) {
       return res.status(404).json({ error: "Payment not found" });
     }
@@ -84,12 +37,7 @@ const getPaymentById = async (req, res) => {
 const getAllPayments = async (req, res) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId);
-
-    const payments = await Payment.find({ hospitalId: user.hospitalId })
-      .populate("appointmentId")
-      .populate("hospitalId")
-      .populate("userId");
+    const payments = await paymentService.findAllPayments(userId);
     res.status(200).json(payments);
     console.log("Payments fetched successfully");
   } catch (error) {
@@ -100,52 +48,12 @@ const getAllPayments = async (req, res) => {
 
 // Add new service payment
 const addServicePayment = async (req, res) => {
-  const {
-    appointmentId,
-    paymentMethod,
-    insuranceDetails,
-    cardDetails,
-    bankSlip,
-  } = req.body;
+  const { appointmentId, paymentMethod, insuranceDetails, cardDetails, bankSlip } = req.body;
 
   try {
-    const appointment = await Service.findById(appointmentId);
-    if (!appointment) {
-      return res.status(404).json({ error: "Appointment not found" });
-    }
-
-    // Validate that required fields are provided
-    if (!appointmentId || !paymentMethod) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    // Set payment status based on payment method
-    let paymentStatus = "pending";
-
-    if (paymentMethod === "debit_card") {
-      paymentStatus = "completed";
-    }
-
-    const paymentData = {
-      appointmentId,
-      hospitalId: appointment.hospitalId,
-      userId: appointment.userId,
-      amount: appointment.paymentAmount,
-      paymentMethod,
-      paymentStatus,
-      insuranceDetails: paymentMethod === "insurance" ? insuranceDetails : null,
-      cardDetails: paymentMethod === "debit_card" ? cardDetails : null,
-      bankSlip: paymentMethod === "bank_transfer" ? bankSlip : null,
-    };
-
-    const newPayment = await Payment.create(paymentData);
-
-    // Update the appointment status and save it
-    if(newPayment) {
-      appointment.status = "Paid";
-      await appointment.save();
-    }
-
+    const newPayment = await paymentService.createServicePayment(
+      appointmentId, paymentMethod, insuranceDetails, cardDetails, bankSlip
+    );
     res.status(201).json(newPayment);
     console.log("New payment successfully created");
   } catch (error) {
