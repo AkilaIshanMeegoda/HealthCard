@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 import Chart from 'chart.js/auto';
 
-const WeeklyAppointmentsChart = ({ appointments }) => {
+const WeeklyAppointmentsChart = ({ appointments, type }) => {
   const chartRef = useRef(null); // Reference to store the chart instance
 
   // Get the last 7 days
@@ -25,7 +25,7 @@ const WeeklyAppointmentsChart = ({ appointments }) => {
     labels: last7Days.map((date) => dayjs(date).format('ddd - DD')),
     datasets: [
       {
-        label: 'Appointments',
+        label: `${type} Appointments`,
         data: appointmentsCount,
         fill: false,
         borderColor: 'rgba(75,192,192,1)',
@@ -59,7 +59,7 @@ const WeeklyAppointmentsChart = ({ appointments }) => {
 
   return (
     <div className="w-5/6 bg-white p-4 rounded-lg shadow-lg my-6">
-      <h3 className="text-xl font-semibold mb-4">Weekly Appointments Overview</h3>
+      <h3 className="text-xl font-semibold mb-4">Weekly {type} Appointments Overview</h3>
       {data && (
         <Line
           ref={chartRef}

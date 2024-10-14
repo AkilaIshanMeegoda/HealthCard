@@ -6,10 +6,11 @@ import WeeklyAppointmentsChart from '../../components/staffMember/WeeklyAppointm
 
 const Dashboard = () => {
   const { user } = useAuthContext();
-  const [appointments, setAppointments] = useState([]);
+  const [doctorAppointments, setDoctorAppointments] = useState([]);
+  const [labAppointments, setLabAppointments] = useState([]);
 
   useEffect(() => {
-    const fetchAppointments = () => {
+    const fetchDoctorAppointments = () => {
       user &&
         fetch("http://localhost:3000/appointment/hospital-appointments", {
           method: "GET",
@@ -20,19 +21,42 @@ const Dashboard = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            setAppointments(Array.isArray(data) ? data : []);
+            setDoctorAppointments(Array.isArray(data) ? data : []);
           })
           .catch((error) => {
-            console.error("Error fetching items", error);
-            toast.error("Failed to fetch appointments");
+            console.error("Error fetching doctor appointments", error);
+            toast.error("Failed to fetch doctor appointments");
           });
     };
 
-    fetchAppointments();
+    fetchDoctorAppointments();
+  }, [user]);
+
+  useEffect(() => {
+    const fetchLabAppointments = () => {
+      user &&
+        fetch("http://localhost:3000/labappointment/hospital-appointments", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setLabAppointments(Array.isArray(data) ? data : []);
+          })
+          .catch((error) => {
+            console.error("Error fetching lab appointments", error);
+            toast.error("Failed to fetch lab appointments");
+          });
+    };
+
+    fetchLabAppointments();
   }, [user]);
 
   const today = dayjs().format("YYYY-MM-DD");
-  const todayAppointments = appointments.filter(
+  const todayAppointments = doctorAppointments.filter(
     (appt) => dayjs(appt.date).format("YYYY-MM-DD") === today
   );
   const todayAppointmentsCount = todayAppointments.length;
@@ -52,7 +76,8 @@ const Dashboard = () => {
         </div>
       )}
 
-      <WeeklyAppointmentsChart appointments={appointments} />
+      <WeeklyAppointmentsChart appointments={doctorAppointments} type={'Doctor'} />
+      <WeeklyAppointmentsChart appointments={labAppointments} type={'Lab'} />
     </div>
   );
 };
