@@ -48,11 +48,11 @@ const createProfile = async (req, res) => {
 
 // Delete a discount
 const deleteProfile = async (req, res) => {
-    const { email } = req.body; // Extract email from request parameters
-  console.log("check pass email to delete section",email);
+  const patientId=req.user._id; // Extract email from request parameters
+  console.log("check pass email to delete section",patientId);
     try {
       // Find the profile by email and delete it
-      const profile = await User.findOneAndDelete({ email });
+      const profile = await User.findOneAndDelete( patientId );
   
       if (!profile) {
         return res.status(404).send("No profile with that email");
