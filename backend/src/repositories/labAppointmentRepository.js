@@ -1,7 +1,9 @@
 const LabAppointment = require('../models/LabAppointment');
+const User = require("../models/User");
 
 const getAllByHospitalId = async (hospitalId) => {
-  return await LabAppointment.find({ hospitalId });
+  const user = await User.findById(hospitalId);
+  return await LabAppointment.find({ hospitalId: user.hospitalId });
 };
 
 const getById = async (id) => {
