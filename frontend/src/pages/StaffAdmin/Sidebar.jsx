@@ -15,6 +15,7 @@ const SideBar = () => {
   
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/admin/addDashboard" },
+    { title: "Analyze", icon: <MdSpaceDashboard /> ,href:"/admin/analyze"},
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
   ];
 
