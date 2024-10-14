@@ -89,14 +89,14 @@ const PrescriptionUsers = () => {
         <table className="w-full table-fixed">
           <thead>
             <tr className="bg-[#00135F]">
-              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+              <th className="w-2/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Patient Name
               </th>
               <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Email Address
               </th>
-              <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
-                Gender
+              <th className="w-3/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
+                Address
               </th>
               <th className="w-1/12 px-4 py-2 text-sm font-bold text-left text-white uppercase">
                 Age
@@ -129,13 +129,13 @@ const PrescriptionUsers = () => {
                     {patient.email}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.gender}
+                    {patient.address}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
                     {patient.age}
                   </td>
                   <td className="px-4 py-2 text-sm border-b border-gray-200">
-                    {patient.contact}
+                    {patient.telephone}
                   </td>
 
                   <td className="flex items-center justify-center px-16 py-2 border-b border-gray-200">
