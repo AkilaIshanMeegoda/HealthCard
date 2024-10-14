@@ -29,7 +29,8 @@ const PatientUpdateAppointment = () => {
   const [doctorInfo, setDoctorInfo] = useState({});
   const [enabledDays, setEnabledDays] = useState([]);
   const maxAppointments = doctorInfo?.maxAppointmentCount || 2;
-
+  console.log("Max appointments:", maxAppointments);
+  
   useEffect(() => {
     if (user) {
       setEmail(user.email); // Set email when user is available
