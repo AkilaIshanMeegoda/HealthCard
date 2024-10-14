@@ -1,21 +1,11 @@
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-
-const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
-};
+const userService = require("../services/userService");
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.login(email, password);
-
-    const token = createToken(user._id);
-
-    const userType = user.userType;
-
-    res.status(200).json({ email, token, userType });
+    const result = await userService.loginUser(email, password);
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -25,11 +15,8 @@ const signupUser = async (req, res) => {
   const { email, password, userType } = req.body;
 
   try {
-    const user = await User.signup(email, password, userType);
-
-    const token = createToken(user._id);
-
-    res.status(200).json({ email, token, userType });
+    const result = await userService.signupUser(email, password, userType);
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -37,80 +24,67 @@ const signupUser = async (req, res) => {
 
 const searchDoctors = async (req, res) => {
   try {
-    const users = await User.find({ userType: "doctor" });
-    res.send(users);
+    const doctors = await userService.searchDoctors();
+    res.send(doctors);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 };
 
 const searchStaffMembers = async (req, res) => {
   try {
-    const users = await User.find({ userType: "staffMember" });
-    res.send(users);
+    const staffMembers = await userService.searchStaffMembers();
+    res.send(staffMembers);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 };
 
 const searchStaffAdmins = async (req, res) => {
   try {
-    const users = await User.find({ userType: "staffAdmin" });
-    res.send(users);
+    const staffAdmins = await userService.searchStaffAdmins();
+    res.send(staffAdmins);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 };
 
 const searchUsers = async (req, res) => {
   try {
-    const users = await User.find({ userType: "user" });
+    const users = await userService.searchUsers();
     res.send(users);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 };
 
 const searchUser = async (req, res) => {
-  const {id} =req.params
-  try {
-    const patient = await User.findById(id); 
+  const { id } = req.params;
 
-    if (!patient) {
-      return res.status(404).send("No user with that id");
-    }
-    res.status(200).json(patient);  
+  try {
+    const user = await userService.searchUserById(id);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
 const searchHospitals = async (req, res) => {
   try {
-    // Find staffAdmin users and select both email and hospitalName fields
-    const hospitals = await User.find({ userType: "staffAdmin" }).select("email hospitalName");
-    console.log(hospitals);
-
-    // Send the list of hospital names and emails
+    const hospitals = await userService.searchHospitals();
     res.send(hospitals);
   } catch (err) {
-    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 };
 
 module.exports = {
-  signupUser,
-  searchUser,
   loginUser,
+  signupUser,
   searchDoctors,
   searchStaffMembers,
   searchStaffAdmins,
   searchUsers,
-  searchHospitals
+  searchUser,
+  searchHospitals,
 };
