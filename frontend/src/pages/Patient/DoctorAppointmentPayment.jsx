@@ -1,14 +1,43 @@
+/**
+ * DoctorAppointmentPayment.jsx
+ * ---------------------------
+ * This file handles the payment process for doctor appointments.
+ * It allows users to fetch appointment details, submit payments using different payment methods
+ * (debit card, insurance), and generate a PDF receipt for successful payments.
+ *
+ * Main Functionalities:
+ * - Fetches appointment details based on the appointment ID.
+ * - Manages payment states and displays appropriate forms for different payment methods.
+ * - Submits payment details and displays a success message upon completion.
+ * - Generates a downloadable PDF receipt that includes payment details.
+ *
+ * Dependencies:
+ * - React, useEffect, and useState for managing component state and lifecycle.
+ * - useParams from React Router for accessing the appointment ID from the URL.
+ * - useAuthContext for retrieving user authentication information.
+ * - Components: Navbar, PaymentForm, CardDetailsForm, InsuranceDetailsForm, PaymentSuccessMessage.
+ * - toast from react-toastify for displaying notifications.
+ * - jsPDF for generating PDF receipts.
+ * - An image logo is used in the PDF receipt generation.
+ *
+ * Note:
+ * - The component expects the user to be authenticated and authorized.
+ */
+
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { toast } from "react-toastify";
+import jsPDF from "jspdf";
+import logo from "../../images/logo.png";
+
+// Components
 import Navbar from "../../components/home/Navbar/Navbar";
 import PaymentForm from "../../components/patient/PaymentForm";
 import CardDetailsForm from "../../components/patient/CardDetailsForm";
 import InsuranceDetailsForm from "../../components/patient/InsuranceDetailsForm";
 import PaymentSuccessMessage from "../../components/patient/PaymentSuccessMessage";
-import { toast } from "react-toastify";
-import jsPDF from "jspdf";
-import logo from "../../images/logo.png";
 
 const DoctorAppointmentPayment = () => {
     const { id } = useParams();
