@@ -50,7 +50,6 @@ const PatientDetails = () => {
               <h1>Patient Name :</h1>
               <h1>Patient Email :</h1>
               <h1>Patient Address :</h1>
-              <h1>Patient Gender :</h1>
               <h1>Patient Age :</h1>
               <h1>Patient Contact :</h1>
             </div>
@@ -58,9 +57,8 @@ const PatientDetails = () => {
               <p>&nbsp;&nbsp;{patient?.name}</p>
               <p>&nbsp;&nbsp;{patient?.email}</p>
               <p>&nbsp;&nbsp;{patient?.address}</p>
-              <p>&nbsp;&nbsp;{patient?.gender}</p>
               <p>&nbsp;&nbsp;{patient?.age}</p>
-              <p>&nbsp;&nbsp;{patient?.contact}</p>
+              <p>&nbsp;&nbsp;{patient?.telephone}</p>
             </div>
           </div>
         </div>

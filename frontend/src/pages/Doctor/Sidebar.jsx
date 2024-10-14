@@ -15,7 +15,6 @@ const SideBar = () => {
   const navigate = useNavigate();
   
   const Menus = [
-    { title: "Dashboard", icon: <MdSpaceDashboard />,href:"/doctor/doctorDashboard" },
     { title: "Patients", icon: <FaUser />,href:"/doctor/patients" },
     { title: "Prescription", icon: <MdAddToPhotos />,href:"/doctor/prescriptionUsers" },
     { title: "Logout", icon: <IoLogOut /> ,href:"/"},
