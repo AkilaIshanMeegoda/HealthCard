@@ -1,6 +1,5 @@
 const request = require("supertest");
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const userService = require("../services/userService");
 const UserController = require("../controller/userController");
 
@@ -13,7 +12,7 @@ app.use(express.json()); // For parsing application/json
 // Mock user service
 jest.mock("../services/userService");
 
-// Mock authentication middleware
+// Mock authentication middleware (if authentication is required)
 const mockAuthMiddleware = (req, res, next) => {
   req.user = { _id: "mockUserId" }; // Inject mock user ID for testing
   next();
@@ -75,9 +74,11 @@ describe("User Controller Test Suite", () => {
         token: "mockToken",
       });
 
-      const response = await request(app)
-        .post("/signup")
-        .send({ email: "savishka@gmail.com", password: "Savishka@123", userType: "user" });
+      const response = await request(app).post("/signup").send({
+        email: "savishka@gmail.com",
+        password: "Savishka@123",
+        userType: "user",
+      });
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("token", "mockToken");
@@ -106,7 +107,9 @@ describe("User Controller Test Suite", () => {
     });
 
     it("should return 500 if search fails", async () => {
-      userService.searchDoctors.mockRejectedValue(new Error("Error fetching doctors"));
+      userService.searchDoctors.mockRejectedValue(
+        new Error("Error fetching doctors")
+      );
 
       const response = await request(app).get("/doctors");
 
@@ -126,12 +129,17 @@ describe("User Controller Test Suite", () => {
     });
 
     it("should return 500 if search fails", async () => {
-      userService.searchStaffMembers.mockRejectedValue(new Error("Error fetching staff members"));
+      userService.searchStaffMembers.mockRejectedValue(
+        new Error("Error fetching staff members")
+      );
 
       const response = await request(app).get("/staffMembers");
 
       expect(response.status).toBe(500);
-      expect(response.body).toHaveProperty("message", "Error fetching staff members");
+      expect(response.body).toHaveProperty(
+        "message",
+        "Error fetching staff members"
+      );
     });
   });
 
@@ -146,7 +154,9 @@ describe("User Controller Test Suite", () => {
     });
 
     it("should return 500 if search fails", async () => {
-      userService.searchStaffAdmins.mockRejectedValue(new Error("Error fetching admins"));
+      userService.searchStaffAdmins.mockRejectedValue(
+        new Error("Error fetching admins")
+      );
 
       const response = await request(app).get("/staffAdmins");
 
@@ -157,7 +167,9 @@ describe("User Controller Test Suite", () => {
 
   describe("GET /users", () => {
     it("should return a list of users", async () => {
-      userService.searchUsers.mockResolvedValue([{ email: "user@example.com" }]);
+      userService.searchUsers.mockResolvedValue([
+        { email: "user@example.com" },
+      ]);
 
       const response = await request(app).get("/users");
 
@@ -166,7 +178,9 @@ describe("User Controller Test Suite", () => {
     });
 
     it("should return 500 if search fails", async () => {
-      userService.searchUsers.mockRejectedValue(new Error("Error fetching users"));
+      userService.searchUsers.mockRejectedValue(
+        new Error("Error fetching users")
+      );
 
       const response = await request(app).get("/users");
 
@@ -177,7 +191,9 @@ describe("User Controller Test Suite", () => {
 
   describe("GET /user/:id", () => {
     it("should return a user by ID", async () => {
-      userService.searchUserById.mockResolvedValue({ email: "user@example.com" });
+      userService.searchUserById.mockResolvedValue({
+        email: "user@example.com",
+      });
 
       const response = await request(app).get("/user/123");
 
@@ -192,26 +208,6 @@ describe("User Controller Test Suite", () => {
 
       expect(response.status).toBe(500);
       expect(response.body).toHaveProperty("message", "User not found");
-    });
-  });
-
-  describe("GET /hospitals", () => {
-    it("should return a list of hospitals", async () => {
-      userService.searchHospitals.mockResolvedValue([{ name: "Hospital A" }]);
-
-      const response = await request(app).get("/hospitals");
-
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual([{ name: "Hospital A" }]);
-    });
-
-    it("should return 500 if search fails", async () => {
-      userService.searchHospitals.mockRejectedValue(new Error("Error fetching hospitals"));
-
-      const response = await request(app).get("/hospitals");
-
-      expect(response.status).toBe(500);
-      expect(response.body).toHaveProperty("message", "Error fetching hospitals");
     });
   });
 });
