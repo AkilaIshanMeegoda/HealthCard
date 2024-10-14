@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import dayjs from "dayjs";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const Payments = () => {
   const { user } = useAuthContext();
@@ -31,13 +33,44 @@ const Payments = () => {
           setPendingPayments(paymentPendingCount);
         }
       } catch (error) {
-        console.error("Error fetching payments: ", error)
+        console.error("Error fetching payments: ", error);
         console.log("Error fetching payments");
       }
     };
 
     fetchPayments();
   }, [user]);
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text("Payment Transaction History", 14, 22);
+
+    const tableColumn = ["Date", "Time", "Method", "Amount", "Status"];
+    const tableRows = [];
+
+    paymentData.forEach(payment => {
+      const paymentDate = dayjs(payment.createdAt).format("YYYY-MM-DD");
+      const paymentTime = dayjs(payment.createdAt).format("HH:mm:ss");
+      const paymentDetails = [
+        paymentDate,
+        paymentTime,
+        payment.paymentMethod,
+        `Rs. ${payment.amount}`,
+        payment.paymentStatus,
+      ];
+      tableRows.push(paymentDetails);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+
+    doc.save("payment_transactions.pdf");
+  };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen w-full">
@@ -51,6 +84,16 @@ const Payments = () => {
           <h2 className="text-xl font-bold">Total Pending Payment</h2>
           <p className="text-3xl font-bold">{pendingPayments}</p>
         </div>
+      </div>
+
+      {/* Button to generate PDF */}
+      <div className="mb-8">
+        <button
+          onClick={generatePDF}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md"
+        >
+          👉 Get All Payment Transactions as a PDF
+        </button>
       </div>
 
       {/* Payment Transaction History Table */}
