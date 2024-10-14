@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation  } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
+import Navbar from '../home/Navbar/Navbar';
 
 const DoctorsPage = () => {
   const location = useLocation();
@@ -58,12 +59,10 @@ const DoctorsPage = () => {
   
   return (
 
-    <div>
-      <h1 className="text-3xl font-bold text-center mt-8 text-gray-800">Doctors</h1>
-      
-
+    <div>      
     <div className="min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Doctors</h1>
+      <Navbar/>
+      <h1 className="text-3xl font-bold text-center mt-6 text-gray-800">Doctors</h1>
 
       {/* Display doctors */}
       <div className="flex flex-wrap justify-center gap-6 mt-8">
@@ -87,7 +86,6 @@ const DoctorsPage = () => {
               <p className="text-gray-500">Experience: {doctor.experience} years</p> {/* Additional info */}             
 
               <p className="text-gray-500">Payment Amount: ${doctor.paymentAmount}</p> {/* Additional info */}
-              <p className="text-gray-500">Status: {doctor.status}</p>{" "}
 
 
                {/* Button to book an appointment */}
@@ -104,7 +102,6 @@ const DoctorsPage = () => {
           <p className="text-gray-600">No doctors found for this hospital.</p>
         )}
       </div>
-    </div>
 {/* Display services */}
 <h1 className="text-3xl font-bold text-center mt-10 text-gray-800">Services</h1>
 

@@ -11,6 +11,7 @@ const AddLabAppointment = () => {
   console.log("service details:", service, hospital);
   const navigate = useNavigate();
   const { user } = useAuthContext();
+  const today = new Date().toISOString().split("T")[0];
 
   // State to hold each input field separately
   const [userName, setUserName] = useState("");
@@ -31,9 +32,34 @@ const AddLabAppointment = () => {
     e.preventDefault();
 
     // Check for empty fields before proceeding
-    if (!userName || !contact || !notes || !date || !time || !email) {
-      toast.error("Please fill in all fields.");
-      return; // Exit the function if there are empty fields
+    if (!userName) {
+      toast.error("Please fill in your name.");
+      return;
+    }
+
+    if (!contact) {
+      toast.error("Please fill in your contact number.");
+      return;
+    }
+
+    if (!date) {
+      toast.error("Please select an appointment date.");
+      return;
+    }
+
+    if (!time) {
+      toast.error("Please fill in your time field.");
+      return;
+    }
+
+    if (!notes) {
+      toast.error("Please fill in any important notes.");
+      return;
+    }
+
+    if (!email) {
+      toast.error("Please provide your email address.");
+      return;
     }
 
     try {
@@ -72,10 +98,12 @@ const AddLabAppointment = () => {
       <Navbar />
       <div className="PatientAddLabAppointment w-full min-h-screen bg-gray-50 flex items-center justify-center py-5 px-2">
         <div className="w-full max-w-6xl bg-white p-5 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-5">
-            Make Lab Appointment
-          </h1>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="bg-blue-200 py-2 rounded-lg shadow-md">
+            <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-2">
+              Make Lab Appointment
+            </h1>
+          </div>
+          <form className="space-y-6" onSubmit={handleSubmit} noValidate>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* User Name */}
               <div>
@@ -161,6 +189,7 @@ const AddLabAppointment = () => {
                   type="date"
                   id="appointmentDate"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  min={today} // Disable previous dates
                   value={date}
                   onChange={(e) => setAppointmentDate(e.target.value)}
                   required

@@ -22,7 +22,7 @@ const PatientAppointments = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Navbar />
       <h1
         className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
@@ -31,9 +31,9 @@ const PatientAppointments = () => {
         My Appointments 
       </h1>
 
-      <section className="bg-white dark:bg-gray-900 mt-28">
-        <div className="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-          <div className="mr-auto place-self-center lg:col-span-7">
+      <section className="bg-white dark:bg-gray-900">
+        <div className="flex">
+          <div className="flex-1 mr-auto ml-28 mt-52">
             <h1
               className="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white"
               style={{ fontSize: "3rem" }}
@@ -62,8 +62,9 @@ const PatientAppointments = () => {
             </div>
           </div>
 
-          <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+          <div className="flex-1">
             <img
+              className="w-[600px]"
               src="https://demo.themesberg.com/landwind/images/hero.png"
               alt="hero"
             />

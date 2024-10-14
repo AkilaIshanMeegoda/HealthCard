@@ -38,9 +38,6 @@ const labappointmentSchema = mongoose.Schema({
     testType: {
         type: String,
     },
-    wardNo: {
-        type: String,
-    },
     note: {
         type: String,
     }
