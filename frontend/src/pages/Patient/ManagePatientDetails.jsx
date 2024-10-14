@@ -86,9 +86,9 @@ const UpdatePatientDetails = () => {
 
   const handleDelete = async () => {
     try {
-        console.log("check pass email to delete section",user.email);
+        console.log("check pass email to delete section",email);
       await axios.delete(
-        `http://localhost:3000/patientprofile/delete/${user.email}`,
+        "http://localhost:3000/patientprofile/delete",
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

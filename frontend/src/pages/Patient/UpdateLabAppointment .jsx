@@ -9,6 +9,7 @@ const UpdateLabAppointment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuthContext();
+  const today = new Date().toISOString().split("T")[0];
 
   // State to hold each input field separately
   const [userName, setUserName] = useState("");
@@ -20,7 +21,6 @@ const UpdateLabAppointment = () => {
   const [testType, setTestType] = useState("");
   const [paymentAmount, setPayment] = useState("");
   const [email, setEmail] = useState(""); // Initialize as empty
-  const [isFormDisabled, setIsFormDisabled] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -67,28 +67,41 @@ const UpdateLabAppointment = () => {
     e.preventDefault();
 
     // Check for empty fields before proceeding
-    if (
-      !userName ||
-      !contact ||
-      !notes ||
-      !date ||
-      !time ||
-      !hospitalName ||
-      !testType ||
-      !paymentAmount ||
-      !email
-    ) {
-      toast.error("Please fill in all fields.");
+    if (!userName) {
+      toast.error("Please fill in your name.");
       return;
     }
 
-    setIsFormDisabled(true); // Disable the form on submit
+    if (!contact) {
+      toast.error("Please fill in your contact number.");
+      return;
+    }
+
+    if (!date) {
+      toast.error("Please select an appointment date.");
+      return;
+    }
+
+    if (!time) {
+      toast.error("Please fill in your time field.");
+      return;
+    }
+
+    if (!notes) {
+      toast.error("Please fill in any important notes.");
+      return;
+    }
+
+    if (!email) {
+      toast.error("Please provide your email address.");
+      return;
+    }
 
     try {
       const formData = {
         userName,
         contact,
-        notes,
+        note: notes,
         date,
         time,
         hospitalName,
@@ -123,14 +136,19 @@ const UpdateLabAppointment = () => {
       <Navbar />
       <div className="PatientAddAppointment w-full min-h-screen bg-gray-50 flex items-center justify-center py-5 px-2">
         <div className="w-full max-w-6xl bg-white p-5 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-center text-black mb-5">
-            Update Appointment
-          </h1>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="bg-blue-200 py-2 rounded-lg shadow-md">
+            <h1 className="text-3xl font-bold font-[poppins] text-center text-black mb-2">
+              Update Appointment
+            </h1>
+          </div>
+          <form className="space-y-6" onSubmit={handleSubmit} noValidate>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* User Name */}
               <div>
-                <label htmlFor="userName" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="userName"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   User Name
                 </label>
                 <input
@@ -145,7 +163,10 @@ const UpdateLabAppointment = () => {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Email
                 </label>
                 <input
@@ -160,7 +181,10 @@ const UpdateLabAppointment = () => {
 
               {/* Contact Number */}
               <div>
-                <label htmlFor="contactNumber" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="contactNumber"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Contact Number
                 </label>
                 <input
@@ -175,13 +199,17 @@ const UpdateLabAppointment = () => {
 
               {/* Appointment Date */}
               <div>
-                <label htmlFor="appointmentDate" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="appointmentDate"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Appointment Date
                 </label>
                 <input
                   type="date"
                   id="appointmentDate"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  min={today} // Disable previous dates
                   required
                   value={date}
                   onChange={(e) => setAppointmentDate(e.target.value)}
@@ -190,7 +218,10 @@ const UpdateLabAppointment = () => {
 
               {/* Appointment Time */}
               <div>
-                <label htmlFor="appointmentTime" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="appointmentTime"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Appointment Time
                 </label>
                 <input
@@ -200,13 +231,15 @@ const UpdateLabAppointment = () => {
                   required
                   value={time}
                   onChange={(e) => setAppointmentTime(e.target.value)}
-                  readOnly
                 />
               </div>
 
               {/* Hospital Name */}
               <div>
-                <label htmlFor="hospitalName" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="hospitalName"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Hospital Name
                 </label>
                 <input
@@ -222,7 +255,10 @@ const UpdateLabAppointment = () => {
 
               {/* Test Type */}
               <div>
-                <label htmlFor="testType" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="testType"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Test Type
                 </label>
                 <input
@@ -238,7 +274,10 @@ const UpdateLabAppointment = () => {
 
               {/* Payment Amount */}
               <div>
-                <label htmlFor="paymentAmount" className="block mb-1 text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="paymentAmount"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
                   Payment Amount
                 </label>
                 <input
@@ -255,7 +294,10 @@ const UpdateLabAppointment = () => {
 
             {/* Important Notes */}
             <div>
-              <label htmlFor="importantNotes" className="block mb-1 text-sm font-medium text-gray-900">
+              <label
+                htmlFor="importantNotes"
+                className="block mb-1 text-sm font-medium text-gray-900"
+              >
                 Important Notes
               </label>
               <textarea
@@ -271,10 +313,7 @@ const UpdateLabAppointment = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className={`w-full text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ${
-                isFormDisabled ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={isFormDisabled} // Disable button if form is in process
+              className={`w-full text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
             >
               Update Appointment
             </button>
