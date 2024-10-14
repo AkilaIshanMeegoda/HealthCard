@@ -23,7 +23,6 @@ describe("Report Controller", () => {
     it("should return all reports for the given patient ID", async () => {
       const mockReports = [
         {
-          _id: "670cca3e4c97b2a9b4739973",
           titleName: "Blood test report",
           date: "October 14, 2024",
           patientName: "Savishka Dilshan",
