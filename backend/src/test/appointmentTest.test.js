@@ -136,7 +136,7 @@ describe("Appointment Controller Test Suite", () => {
     it("should return 404 if appointment not found", async () => {
       appointmentService.getAppointment.mockRejectedValue(new Error("Appointment not found"));
 
-      const response = await request(app).get("/hospital-appointment/unknown-id");
+      const response = await request(app).get("/hospital-appointment/670d3b88f649bb43b225b087");
 
       expect(response.status).toBe(404);
       expect(response.body).toHaveProperty("message", "Appointment not found");
@@ -174,7 +174,7 @@ describe("Appointment Controller Test Suite", () => {
       appointmentService.updateAppointment.mockRejectedValue(new Error("Failed to update appointment"));
 
       const response = await request(app)
-        .patch("/update/unknown-id")
+        .patch("/update/670d3b88f649bb43b225b087")
         .send({})
         .set("Content-Type", "application/json");
 
@@ -199,7 +199,7 @@ describe("Appointment Controller Test Suite", () => {
       appointmentService.deleteAppointment.mockRejectedValue(new Error("Failed to delete appointment"));
 
       const response = await request(app)
-        .delete("/delete/unknown-id")
+        .delete("/delete/670d3b88f649bb43b225b087")
         .set("Content-Type", "application/json");
 
       expect(response.status).toBe(500);
