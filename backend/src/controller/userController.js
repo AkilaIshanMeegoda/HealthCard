@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const User = require("../models/User"); // Ensure User model is imported for searchHospitals
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -71,9 +72,14 @@ const searchUser = async (req, res) => {
 
 const searchHospitals = async (req, res) => {
   try {
-    const hospitals = await userService.searchHospitals();
+    // Find staffAdmin users and select both email and hospitalName fields
+    const hospitals = await User.find({ userType: "staffAdmin" }).select("email hospitalName");
+    console.log(hospitals);
+
+    // Send the list of hospital names and emails
     res.send(hospitals);
   } catch (err) {
+    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 };
