@@ -1,8 +1,10 @@
 // repositories/appointmentRepository.js
 const Appointment = require("../models/Appointment");
+const User = require("../models/User");
 
 const getAllByHospitalId = async (hospitalId) => {
-  return await Appointment.find({ hospitalId });
+  const user = await User.findById(hospitalId);
+  return await Appointment.find({ hospitalId: user.hospitalId });
 };
 
 const getById = async (id) => {
