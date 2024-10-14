@@ -1,29 +1,11 @@
-const mongoose = require("mongoose");
-const Report = require("../models/Report.js");
+const reportService = require("../services/reportService");
 
 const addReport = async (req, res) => {
   const hospitalId = req.user._id;
-  const {
-    titleName,
-    date,
-    patientName,
-    category,
-    description,
-    image,
-    patientId,
-  } = req.body;
+  const reportData = req.body;
 
   try {
-    const report = await Report.create({
-      titleName,
-      date,
-      patientName,
-      category,
-      description,
-      image,
-      patientId,
-      hospitalId:hospitalId
-    });
+    const report = await reportService.addReport(reportData, hospitalId);
     res.status(200).json(report);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -33,57 +15,37 @@ const addReport = async (req, res) => {
 const getReports = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send("Invalid patient ID format");
-  }
-
   try {
-    const reports = await Report.find({ patientId: id });
-
-    if (!reports || reports.length === 0) {
-      return res.status(404).send("No reports found for this patient ID");
-    }
-
+    const reports = await reportService.getReportsByPatientId(id);
     res.status(200).json(reports);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 
 const getReportsByHospital = async (req, res) => {
-  const hospitalId = req.user._id; 
+  const hospitalId = req.user._id;
   const { id: patientId } = req.params;
 
   try {
-    const reports = await Report.find({ hospitalId, patientId });
-
-    if (!reports || reports.length === 0) {
-      return res.status(404).send("No reports found for this patient ID");
-    }
-
+    const reports = await reportService.getReportsByHospitalAndPatientId(
+      hospitalId,
+      patientId
+    );
     res.status(200).json(reports);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 
 const getReport = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send("Invalid report ID format");
-  }
-
   try {
-    const report = await Report.findById(id);
-
-    if (!report || report.length === 0) {
-      return res.status(404).send("No report found for this report ID");
-    }
-
+    const report = await reportService.getReportById(id);
     res.status(200).json(report);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 
@@ -91,53 +53,33 @@ const updateReport = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const report = await Report.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-      },
-      { new: true }
-    );
-
-    if (!report) {
-      return res.status(404).send("No report with that id");
-    }
-
+    const report = await reportService.updateReport(id, req.body);
     res.status(200).json(report);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 
-const deleteReport = async (req,res) => {
+const deleteReport = async (req, res) => {
   const { id } = req.params;
+
   try {
-    const report = await Report.findByIdAndDelete(id);
-
-    if (!report) {
-      return res.status(404).send("No report with that id");
-    }
-
-    res.status(200).json({ message: "Report deleted successfully" });
+    const result = await reportService.deleteReport(id);
+    res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
+
 const getUserReports = async (req, res) => {
-  const id  = req.user._id;
-  console.log("user id",id);
+  const userId = req.user._id;
 
   try {
-    const reports = await Report.find({ patientId: id });
-
-    if (!reports || reports.length === 0) {
-      return res.status(404).send("No reports found for this patient ID");
-    }
-
+    const reports = await reportService.getUserReports(userId);
     res.status(200).json(reports);
   } catch (error) {
-    res.status(500).json({ message: error.message});
-}
+    res.status(404).json({ message: error.message });
+  }
 };
 
 module.exports = {
@@ -147,5 +89,5 @@ module.exports = {
   updateReport,
   deleteReport,
   getReportsByHospital,
-  getUserReports
+  getUserReports,
 };
