@@ -18,7 +18,7 @@
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
     "dayjs": "^1.11.13",
-    "firebase": "^10.14.0",
+    "firebase": "^11.0.0",
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.10.2",
     "jspdf": "^2.5.2",
